@@ -1,17 +1,131 @@
 \documentclass{article}
 
 \usepackage{amsmath}
-\usepackage[a4paper, margin={1in,1in}]{geometry}
+\usepackage[a5paper, margin={.5in,1in}]{geometry}
 \begin{document}
 
 \newcommand{\tr}{\operatorname{tr}}
 \newcommand{\rank}{\operatorname{rank}}
+\newcommand{\diag}{\operatorname{diag}}
 
-\title{Trick to get eigenvalue of Matrix 3x3 which can decompose to rank 1 matrix}
+\title{Trick to get eigenvalue of Matrix 3x3}
 \author{}
 \maketitle
 
-\section{Introduction}
+\section{Trick to expand the determinant}
+
+Calculating the eigenvalues of a 3x3 matrix \( \boldsymbol A \) directly by
+expanding the determinant of \( \lambda \boldsymbol I - \boldsymbol A \) can 
+be quite tedious. But we can write characteristic polynomial in a more manageable
+form using the properties of determinants and traces.
+
+The characteristic polynomial of a 3x3 matrix \( \boldsymbol A \) is given by:
+\[
+	|\lambda \boldsymbol I - \boldsymbol A| = 
+	\lambda^3 - \tr(\boldsymbol A) \lambda^2 + \tr(\boldsymbol{A}^{*}) \lambda - \det(\boldsymbol A)
+\]
+
+The quadratic term coefficient and the constant term can be derived from considering
+how to pick elements from the matrix $\lambda\boldsymbol{I}-\boldsymbol{A}$. For
+the linear term coefficient, comes from the property that the eigenvalues of $\boldsymbol{A}^{*}$ 
+are $|\boldsymbol{A}|/\lambda_i$ where $\lambda_i$ are the eigenvalues of $\boldsymbol{A}$.
+which gives:
+
+\[
+	\tr(\boldsymbol{A}^{*}) = \sum_{i=1}^{3} \frac{\det(\boldsymbol A)}{\lambda_i} 
+	= \sum_{i \neq j} \lambda_i \lambda_j
+\]
+
+To calculate \( \tr(\boldsymbol{A}^{*}) \) we can just calculate the cofactors 
+of the diagonal elements and sum them up. But we can also express it directly 
+from the elements of \( \boldsymbol A\) as follows:
+\[
+	\tr(\boldsymbol{A}^{*}) =
+	a_{11}a_{22} + a_{11}a_{33} + a_{22}a_{33} - a_{12}a_{21} - a_{13}a_{31} - a_{23}a_{32}
+\]
+Tips to remember this formula:
+\begin{itemize}
+		\item add Cross multiply along the main diagonal
+		\item sub Multiply the symmetric elements except the main diagonal
+\end{itemize}
+
+\[
+\begin{bmatrix}
+	 & * & \times \\
+	* &  & \Delta \\
+	\times & \Delta &  \\
+\end{bmatrix}
+\] 
+This method still reuqire to solve a cubic equation, but there are some tricks
+to find roots of cubic equations, and when $|\boldsymbol{A}|=0$ we can reduce
+to a quadratic equation, which is much easier to solve, and that's where this
+method become most useful.
+
+\subsection{Example}
+
+\subsubsection{Regular example:} Find the eigenvalues of the matrix:
+\[
+	\boldsymbol A = \begin{bmatrix}
+		2 & -2 & 0 \\
+		-2 & 1 & -2\\
+		0 & -2 & 0\\
+	\end{bmatrix}
+\]
+We have
+
+\[
+|\boldsymbol{A}|=-8, \quad \tr(\boldsymbol A)=3, \quad
+\tr(\boldsymbol{A}^{*})=-6
+\] 
+
+So the characteristic polynomial is:
+\[
+	\lambda^3 - 3\lambda^2 - 6\lambda + 8 = 0
+\]
+
+A simple trick is to try integer factors of the constant term \( 8 \):
+\( \pm 1, \pm 2, \pm 4, \pm 8 \). Testing these values, we find that \( \lambda = 1 \)
+is a root. We can then factor the polynomial as:
+\[
+	(\lambda - 1)(\lambda^2+b\lambda-8) = 0
+\]
+
+To find \( b \), we can inspect the quadratic term: $-1+b=-3$, so $b=-2$. or
+inspect the linear term: $-8-b= -6$, also gives $b=-2$. Thus, the characteristic
+polynomial becomes:
+\[
+	(\lambda - 1)(\lambda^2 - 2\lambda - 8) = 0
+\]
+
+Factoring the quadratic term further, we get:
+\[
+	(\lambda - 1)(\lambda - 4)(\lambda + 2) = 0
+\]
+
+Giving the eigenvalues: $\lambda_1 = 1$, \( \lambda_2 = 4 \), and \( \lambda_3 = -2 \).
+
+\subsubsection{Special example:} Find the eigenvalues of the matrix:
+\[
+	\boldsymbol A = \begin{bmatrix}
+		8&-2&-2\\
+		-2&5&-4\\
+		-2&-4&5\\
+	\end{bmatrix}
+	\quad |\boldsymbol A|=0
+\]
+We have
+\[
+	\tr(\boldsymbol A)=18, \quad
+	\tr(\boldsymbol{A}^{*})=105-24=81
+\]
+So the characteristic polynomial is:
+\[
+	\lambda(\lambda^2 - 18\lambda + 81) = \lambda(\lambda - 9)^2 = 0
+\]
+
+\section{When can decompose to rank 1 matrix}}
+
+\subsection{Introduction}
 
 If a 3x3 matrix can be decomposed into a rank 1 matrix, it means that the matrix can be expressed as the outer product of two vectors. Such a matrix has some interesting properties, particularly regarding its eigenvalues.
 
@@ -21,7 +135,7 @@ when a 3x3 matrix \( \boldsymbol A \) can be written as:
 \] 
 where \( \boldsymbol\alpha \) and \( \boldsymbol\beta \) are 3-dimensional vectors, and \( \boldsymbol I_3 \) is the 3x3 identity matrix. We can easily find the eigenvalues of \( \boldsymbol A \) by using the properties of rank 1 matrices.
 
-\section{Eigenvalues of Rank 1 Matrices}
+\subsection{Eigenvalues of Rank 1 Matrices}
 A rank 1 matrix \( \boldsymbol R = \boldsymbol\alpha \boldsymbol\beta^{T} \) has the following properties regarding its eigenvalues:
 \begin{itemize}
 		\item It has one non-zero eigenvalue, which is given by \( \lambda_1 = 
@@ -37,7 +151,7 @@ A rank 1 matrix \( \boldsymbol R = \boldsymbol\alpha \boldsymbol\beta^{T} \) has
 			corresponding to the eigenvalue 0.
 \end{itemize}
 
-\section{Eigenvalues of the Matrix \( \boldsymbol A \)}
+\subsection{Eigenvalues of the Matrix \( \boldsymbol A \)}
 Now, let's consider the matrix \( \boldsymbol A = \boldsymbol R + k\boldsymbol I_3 \).
 The eigenvalues of \( \boldsymbol A \) can be determined by adding \( k \) to each of the eigenvalues of \( \boldsymbol R \):
 \begin{itemize}
@@ -55,7 +169,7 @@ The eigenvalues of \( \boldsymbol A \) can be determined by adding \( k \) to ea
 			\]
 \end{itemize}
 
-\section{Trick to find k}
+\subsection{Trick to find k}
 
 The value of \( k \) is not always easy to find directly by inspection.
 But here is a trick to find \( k \) when the matrix \( \boldsymbol A \) is 3x3.
@@ -98,7 +212,7 @@ we need to verify if the resulted \( \boldsymbol R = \boldsymbol A - k
 \boldsymbol I_3 \) is indeed rank 1 matrix. And when the denominator is zero,
 we need to try other pairs of rows.
 
-\section{Calculation Example}
+\subsection{Calculation Example}
 
 Find the eigenvalues and eigenvectors of the matrix:
 \[
@@ -155,7 +269,7 @@ Find the eigenvectors:
 			\]
 \end{itemize}
 
-\section{Formal answer format example}
+\subsection{Formal answer format example}
 Find the eigenvalues and eigenvectors of the matrix:
 \[
 \boldsymbol A = \begin{bmatrix}
@@ -214,7 +328,17 @@ When \( \lambda_{2,3} = 2 \), solve \( (\boldsymbol A - 2\boldsymbol I) \boldsym
 \end{bmatrix}
 \]
 
-\section{Not applicable cases}
+\subsection{Special case: center element is next to zero}
+
+When the element next to the center element is zero(i.e.
+\( a_{12} = 0 \), \( a_{21} = 0 \), \( a_{23} = 0 \), or \( a_{32} = 0 \)),
+in a other words, the secondary diagonal of the corresponding 2x2 sub-matrix
+will contain a zero, so the above trick to find \( k \) will give $k$ as the
+center element directly.
+
+
+
+\subsection{Not applicable cases}
 
 Not all 3x3 matrices can be decomposed into a rank 1 matrix plus a scalar multiple of the identity matrix. But when $k$ can be found by the above trick, the $\boldsymbol R$ probably has 2 rows linearly dependent, which means $k$ is an eigenvalue of $\boldsymbol A$. But notice that's not always true.
 
@@ -247,7 +371,7 @@ Substituting back to check \( \boldsymbol R \):
 
 here one $k$ give appropriate eigenvalue, but $\boldsymbol R$ is not rank 1 matrix. and other $k$ failed, which neither give an eigenvalue nor rank 1 matrix.
 
-\section{Conclusion}
+\subsection{Conclusion}
 
 In fact, this trick is a derivation from the trick to extract eigenvalue from 
 $3\times3$ matrix which use method similar we find $k$ here to find $\lambda$:
