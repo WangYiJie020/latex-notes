@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage{amsmath}
+% \usepackage[a4paper, margin={1in,1in}]{geometry}
 \usepackage[a5paper, margin={.5in,1in}]{geometry}
 \begin{document}
 
@@ -8,18 +9,31 @@
 \newcommand{\rank}{\operatorname{rank}}
 \newcommand{\diag}{\operatorname{diag}}
 
-\title{Trick to get eigenvalue of Matrix 3x3}
+\title{Trick to get eigenvalue of Matrix 3$\times$3}
 \author{}
 \maketitle
 
+\section{Basic Trick}
+
+\subsection{Obvious eigenvalue}
+
+If a 3$\times$3 matrix \( \boldsymbol A \) has linearly dependent rows or columns,
+then it has an eigenvalue of 0.
+
+If the sum of the elements in any row or column of \( \boldsymbol A \) is
+equal to a constant \( k \), then \( k \) is an eigenvalue of \( \boldsymbol A \).
+This is because the vector of all ones \( \boldsymbol v = (1, 1, 1)^T \)
+is an eigenvector corresponding to the eigenvalue \( k \)
+
+
 \section{Trick to expand the determinant}
 
-Calculating the eigenvalues of a 3x3 matrix \( \boldsymbol A \) directly by
+Calculating the eigenvalues of a 3$\times$3 matrix \( \boldsymbol A \) directly by
 expanding the determinant of \( \lambda \boldsymbol I - \boldsymbol A \) can 
 be quite tedious. But we can write characteristic polynomial in a more manageable
 form using the properties of determinants and traces.
 
-The characteristic polynomial of a 3x3 matrix \( \boldsymbol A \) is given by:
+The characteristic polynomial of a 3$\times$3 matrix \( \boldsymbol A \) is given by:
 \[
 	|\lambda \boldsymbol I - \boldsymbol A| = 
 	\lambda^3 - \tr(\boldsymbol A) \lambda^2 + \tr(\boldsymbol{A}^{*}) \lambda - \det(\boldsymbol A)
@@ -123,17 +137,17 @@ So the characteristic polynomial is:
 	\lambda(\lambda^2 - 18\lambda + 81) = \lambda(\lambda - 9)^2 = 0
 \]
 
-\section{When can decompose to rank 1 matrix}}
+\section{When can decompose to rank 1 matrix}
 
 \subsection{Introduction}
 
-If a 3x3 matrix can be decomposed into a rank 1 matrix, it means that the matrix can be expressed as the outer product of two vectors. Such a matrix has some interesting properties, particularly regarding its eigenvalues.
+If a 3$\times$3 matrix can be decomposed into a rank 1 matrix, it means that the matrix can be expressed as the outer product of two vectors. Such a matrix has some interesting properties, particularly regarding its eigenvalues.
 
-when a 3x3 matrix \( \boldsymbol A \) can be written as:
+when a 3$\times$3 matrix \( \boldsymbol A \) can be written as:
 \[
 \boldsymbol A = \boldsymbol R +\boldsymbol I_3 = \boldsymbol\alpha \boldsymbol\beta^{T} + k\boldsymbol I_3
 \] 
-where \( \boldsymbol\alpha \) and \( \boldsymbol\beta \) are 3-dimensional vectors, and \( \boldsymbol I_3 \) is the 3x3 identity matrix. We can easily find the eigenvalues of \( \boldsymbol A \) by using the properties of rank 1 matrices.
+where \( \boldsymbol\alpha \) and \( \boldsymbol\beta \) are 3-dimensional vectors, and \( \boldsymbol I_3 \) is the 3$\times$3 identity matrix. We can easily find the eigenvalues of \( \boldsymbol A \) by using the properties of rank 1 matrices.
 
 \subsection{Eigenvalues of Rank 1 Matrices}
 A rank 1 matrix \( \boldsymbol R = \boldsymbol\alpha \boldsymbol\beta^{T} \) has the following properties regarding its eigenvalues:
@@ -172,7 +186,7 @@ The eigenvalues of \( \boldsymbol A \) can be determined by adding \( k \) to ea
 \subsection{Trick to find k}
 
 The value of \( k \) is not always easy to find directly by inspection.
-But here is a trick to find \( k \) when the matrix \( \boldsymbol A \) is 3x3.
+But here is a trick to find \( k \) when the matrix \( \boldsymbol A \) is 3$\times$3.
 
 Since $\rank\boldsymbol R=1$, we have $\det(\boldsymbol A-k\boldsymbol I_3)=0$
 that is:
@@ -340,7 +354,7 @@ center element directly.
 
 \subsection{Not applicable cases}
 
-Not all 3x3 matrices can be decomposed into a rank 1 matrix plus a scalar multiple of the identity matrix. But when $k$ can be found by the above trick, the $\boldsymbol R$ probably has 2 rows linearly dependent, which means $k$ is an eigenvalue of $\boldsymbol A$. But notice that's not always true.
+Not all 3$\times$3 matrices can be decomposed into a rank 1 matrix plus a scalar multiple of the identity matrix. But when $k$ can be found by the above trick, the $\boldsymbol R$ probably has 2 rows linearly dependent, which means $k$ is an eigenvalue of $\boldsymbol A$. But notice that's not always true.
 
 \textbf{Example:} 
 

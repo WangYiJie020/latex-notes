@@ -9,11 +9,11 @@ $(shell mkdir -p $(OUT_DIR) $(AUX_DIR))
 LATEXMK=latexmk -pdf -output-directory=$(OUT_DIR) -aux-directory=$(AUX_DIR) -silent
 
 TEX_FILES=$(shell find . -name '*.tex')
-PDF_FILES=$(patsubst ./%, $(BUILD_DIR)/%, $(TEX_FILES:.tex=.pdf))
+PDF_FILES=$(patsubst ./%, $(OUT_DIR)/%, $(TEX_FILES:.tex=.pdf))
 
 all: $(PDF_FILES)
 
-$(BUILD_DIR)/%.pdf: %.tex
+$(OUT_DIR)/%.pdf: %.tex
 	$(LATEXMK) $<
 
 clean:
