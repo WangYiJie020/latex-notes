@@ -1,8 +1,8 @@
 \documentclass{article}
 
 \usepackage{amsmath}
-% \usepackage[a4paper, margin={1in,1in}]{geometry}
-\usepackage[a5paper, margin={.5in,1in}]{geometry}
+\usepackage[a4paper, margin={.5in,1in}]{geometry}
+% \usepackage[a5paper, margin={.5in,1in}]{geometry}
 \begin{document}
 
 \newcommand{\tr}{\operatorname{tr}}
@@ -348,9 +348,51 @@ When the element next to the center element is zero(i.e.
 \( a_{12} = 0 \), \( a_{21} = 0 \), \( a_{23} = 0 \), or \( a_{32} = 0 \)),
 in a other words, the secondary diagonal of the corresponding 2x2 sub-matrix
 will contain a zero, so the above trick to find \( k \) will give $k$ as the
-center element directly.
-
-
+center element directly, but on this situation, $\boldsymbol R$ normally will not
+be rank 1 matrix. But if $\boldsymbol{R}$ has 2 rows linearly dependent, which
+means $k$ is an eigenvalue of $\boldsymbol{A}$, then we can use this information
+to find other eigenvalues by solving the reduced quadratic equation:
+\[
+	\lambda^2 - (\tr(\boldsymbol A) - k)\lambda + |\boldsymbol A|/k = 0
+\]
+that is:
+\[
+\begin{align}
+	m &= \frac{\lambda_2+\lambda_3}{2} = \frac{\tr(\boldsymbol A) - k}{2}\\
+	p &= \lambda_2 \lambda_3 = \frac{|\boldsymbol A|}{k}\\
+	\lambda_{2,3} &= m \pm \sqrt{m^2 - p}\\
+\end{align}
+\] 
+\[
+	\boldsymbol{A}=
+\begin{vmatrix}
+	3 & 1 & 3 \\
+	1 & 5 & 0 \\
+	3 & 0 & 5 \\
+\end{vmatrix}
+\] 
+gives \( k = 5 \), and
+\[
+\boldsymbol{R}=
+\begin{vmatrix}
+	-2 & 1 & 3 \\
+	1 & 0 & 0 \\
+	3 & 0 & 0 \\
+\end{vmatrix}
+\] 
+has 2 rows linearly dependent, so $k=5$ is indeed an eigenvalue.
+Then we can write
+\[
+	\begin{align}
+		|\boldsymbol{A}|&=25 \\
+		m &= \frac{3+5+5-5}{2} = 4\\
+		p &= \frac{25}{5} = 5\\
+	\end{align}
+\] 
+gives:
+\[
+	\lambda_{2,3} = 4 \pm \sqrt{16 - 5} = 4 \pm \sqrt{11}
+\] 
 
 \subsection{Not applicable cases}
 
