@@ -1,12 +1,16 @@
 \documentclass{article}
 
-\usepackage[paperwidth=190mm,paperheight=330mm, margin={.5in,.6in}]{geometry}
-% \usepackage[a4paper, margin={.5in,1in}]{geometry}
+% \usepackage[paperwidth=190mm,paperheight=330mm, margin={.5in,.6in}]{geometry}
+\usepackage[a4paper, margin={.5in,1in}]{geometry}
 \usepackage{amsmath}
 \usepackage{mathdots}
+\usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{arrows,matrix,positioning}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{arrows.meta}
 \usetikzlibrary{fit}
+\usepackage{amsfonts}
 
 \newcommand{\tr}{\operatorname{tr}}
 \newcommand{\rank}{\operatorname{rank}}
@@ -20,7 +24,12 @@
 \newcommand{\B}{\boldsymbol{B}}
 \newcommand{\I}{\boldsymbol{I}}
 
+\title{Linear Algebra Overview}
+\author{Pi Han}
+
 \begin{document}
+
+\maketitle
 
 \section{Trick}
 
@@ -53,7 +62,7 @@ $\lambda$ such that  \[
 then the whole determinant is zero, thus we find one eigenvalue. And this 2 order
 determinant equation is easy to solve. We can get:
 \[
-	\begin{align}
+	\begin{aligned}
 	\lambda_{\text{test1}} = \frac{ac-bg}{-b} = \frac{
 		\begin{vmatrix}
 			a & b \\
@@ -66,7 +75,7 @@ determinant equation is easy to solve. We can get:
 			e & f \\
 		\end{vmatrix}
 	}{-e} \\
-	\end{align}
+	\end{aligned}
 \] 
 And when one of $g$ surround elements($a,c,f,d$) is zero, the test eigenvalue is
 directly  $g$
@@ -75,7 +84,7 @@ directly  $g$
 \section{Determinant}
 
 \[
-	\begin{align}
+	\begin{aligned}
 		\begin{vmatrix}
 			a_{11} & a_{12} & \dots & a_{1n} \\
 			a_{21} & a_{22} & \dots & a_{2n} \\
@@ -84,14 +93,14 @@ directly  $g$
 		\end{vmatrix}
 		&= \sum_{\sigma \in S_n} \text{sgn}(\sigma) \prod_{i=1}^n a_{i, \sigma(i)} \\
 		&= \sum_{j_1j_2\cdots j_n} (-1)^{\tau(j_1j_2\cdots j_n)} a_{1j_1} a_{2j_2} \cdots a_{nj_n}
-	\end{align}
+	\end{aligned}
 \] 
 
 \[
-	\begin{align}
+	\begin{aligned}
 	|kA| = k^n |A| \\
 	|A^{*}| = |A|^{n-1} \\
-	\end{align}
+	\end{aligned}
 \] 
 
 Row or column elements times their cofactors sum to the determinant, 
@@ -141,7 +150,6 @@ use definition their only has two non-zero chooses, or use cofactor expansion di
 		8 &   &   & 4 \\
 	\end{vmatrix}
 	= (-1)^{\tau_1} 1\times2\times3\times4 + (-1)^{\tau_2} 5\times6\times7\times8
-
 \] 
 
 \subsubsection{$|\overline\backslash$ shape}
@@ -263,7 +271,7 @@ then use this row/column to eliminate other rows/columns
 \] 
 when all elements are a,b we have
 \[
-	\begin{align}
+	\begin{aligned}
 &\quad\begin{vmatrix}
 	a & b & \cdots & b \\
 	b & a & \cdots & b \\
@@ -286,7 +294,7 @@ when all elements are a,b we have
 \end{vmatrix}\\
 &=
 [a+(n-1)b](a-b)^{n-1}
-\end{align}
+\end{aligned}
 \] 
 or write in another form
 \[
@@ -474,12 +482,12 @@ D_n=\Delta_n(1,\alpha+\beta,\alpha\beta)=
 \] 
 where both satisfy
 \[
-	\begin{align}
+	\begin{aligned}
 		D_1&=\alpha+\beta, \\
 			 &=\frac{\alpha^2 - \beta^2}{\alpha - \beta} (\alpha \ne \beta)\\ 
 		D_2&=(\alpha+\beta)^2 - \alpha\beta = \alpha^2 + \alpha\beta + \beta^2 \\
 			 &=\frac{\alpha^3 - \beta^3}{\alpha - \beta} (\alpha \ne \beta)\\
-	\end{align}
+	\end{aligned}
 \] 
 and $\alpha$ and $\beta$ acting as roots of the characteristic equation, so we 
 can determine the cofficients of $D_n$ as follows:
@@ -527,7 +535,7 @@ Example:
 \textbf{Q2.} Find the sum of the minors of fourth row.
 
 \[
-	\begin{align}
+	\begin{aligned}
 		 &M_{41}+M_{42}+M_{43}+M_{44} \\
 		=&(-1)^{4+1}C_{41}+(-1)^{4+2}C_{42}+(-1)^{4+3}C_{43}+(-1)^{4+4}C_{44} \\
 		=&-C_{41}+C_{42}-C_{43}+C_{44} \\
@@ -537,13 +545,13 @@ Example:
 				0  & -7 & 0  & 0 \\
 				-1 & 1  & -1 & 1 \\
 			\end{vmatrix}
-	\end{align}
+	\end{aligned}
 \] 
 
 \textbf{Q3.} Find $C_{41}-2C_{42}+C_{44}$
 
 \[
-	\begin{align}
+	\begin{aligned}
 		\text{ans}=& C_{41}+(-2)C_{42}+0C_{43}+C_{44} \\
 		=&\begin{vmatrix}
 				3  & 0  & 4  & 0 \\
@@ -551,7 +559,7 @@ Example:
 				0  & -7 & 0  & 0 \\
 				1  & -2 & 0  & 1 \\
 			\end{vmatrix}
-	\end{align}
+	\end{aligned}
 \] 
 
 \subsubsection{Cofactor sum when row sums equal constant}
@@ -622,31 +630,142 @@ matrix and an anti-symmetric matrix:
 \] 
 \subsection{Rank}
 
+In this note, we let $r(\A)$ denote the rank of $\A$.
+
 The rank of a matrix $\A$ can represent 
 \begin{itemize}
-	\item the maximum number of linearly independent rows or columns of $\A$
+	\item the maximum number of linearly independent rows or columns of $\A$. \\
+	we have:
+		\[
+			\dim\text{Col}(\A, \B) =
+			\dim\text{Col}(\A) + \dim\text{Col}(\B)
+			- \dim(\text{Col}(\A) \cap \text{Col}(\B))
+		\] 
+	\item a measure of how strictly linear equations represented by $\A$ constrain the variables,\\
+		we have:
+		\[
+			r(\A) = n - \dim \text{Nul}(\A)
+		\]
+		and tells us two matrices have the same rank if they have the same solution space.
+
 \end{itemize}
 
-\subsubsection{Properties of rank}
 
-Assume $\A$ is $m\times n$ matrix, and let $r(\A)$ denote the rank of $\A$.
+\subsubsection{Obvious properties of rank}
+
+Assume $\A$ is $m\times n$ matrix, then
+
 \begin{itemize}
 	\item $r(\A) = \dim \text{Col}(\A) = \dim \text{Row}(\A)$
-	\item $r(\A) = r(\A^T) = r(\A\A^T) = r(\A^T\A)$
+	\item $r(\A) = r(\A^T)$
 	\item $r(\A) \leq \min(m,n)$
-	\item $r(\A\pm\B) \leq r(\A) + r(\B)$
 	\item $r(\A\B) \leq \min(r(\A), r(\B))$
+	\item $r(\A)=r(k\A)\quad(k\ne 0)$
+\end{itemize}
+
+\subsubsection{More complex properties of rank}
+
+\begin{itemize}
+	\item The Sylvester inequality:
+		\[
+\begin{tikzpicture}[
+    % scale=0.8,
+    labelStyle/.style={font=\small\bfseries},
+		arrowStyle/.style={-, decoration={ markings,
+					mark=at position 0.5 with {\arrow{stealth}}
+			}, postaction={decorate}, 
+		},
+		earrowStyle/.style={-, decoration={ markings,
+					mark=at position 1 with {\arrow{stealth}}
+			}, postaction={decorate}, 
+		},
+]
+    
+		\begin{scope}[xshift=-4cm]
+			\node at (-.8, 3.8) {$\mathbb{R}^s$};
+			\draw[fill=blue!10, draw=blue!70, thick, rotate=45] (0,0) rectangle (1.8,3);
+			\draw[fill=brown!10, draw=brown!70, dashed, rotate=45] (0.9,1.0) ellipse (.5 and .8);
+			\node[labelStyle, rotate=-45] at (-1,1) {Row B};
+			\node[labelStyle] at (-1,2.3) {$\boldsymbol{\Xi}$};
+			\node[labelStyle] at (-.1,1.4) {$\boldsymbol{\Phi}$};
+			\draw[fill=gray!15, draw=gray!70, thick, rotate=-45] (0, 0) rectangle (1.8,-3);
+			\node[labelStyle] at (-.5,-1.7) {$\boldsymbol{\Psi}$};
+			\node[labelStyle, rotate=45] at (-1, -1) {Nul B};
+		\end{scope}
+
+		\begin{scope}[xshift=0cm]
+			\node at (-.8, 3.8) {$\mathbb{R}^n$};
+			\draw[draw=red!70, thick, rotate=45] (0,0) rectangle (1.8,3);
+			\draw[fill=red!10, draw=red!70, dashed, rotate=60] (1.4,1.6) ellipse (.6 and .5);
+			\node[labelStyle, rotate=-45] at (-1,1) {Row A};
+
+			% Nul A
+			\draw[draw=gray!70, thick, rotate=-45] (0, 0) rectangle (1.8,-3);
+			\draw[fill=gray!10, draw=gray!70, dashed, rotate=45] (-1.5,-0.85) ellipse (.5 and .5);
+			\node[labelStyle, rotate=45] at (-1, -1) {Nul A};
+		\end{scope}
+
+		% Row B to Row A
+    \draw[earrowStyle,  bend left=20] (-5, 2.3) to (-.8, 2.1);
+		% Part of Row B to Nul A
+    \draw[earrowStyle,  bend left=20] (-4, 1.4) to (-.5, -1.7);
+		% Nul B to 0
+    \draw[arrowStyle, dashed, bend left=20] (-4.5, -1.7) to (0, 0);
+		% Nul A to 0
+    \draw[arrowStyle,	dashed, bend left=20] (-.5, -1.7) to (3, 0);
+		% A 0 to AB 0
+    \draw[arrowStyle, dashed] (0, 0) to (3, 0);
+
+		\begin{scope}[xshift=3cm]
+			\node at (.9, 3.8) {$\mathbb{R}^m$};
+			\draw[fill=orange!25, draw=orange!90, thick, rotate=-45] (0,0) rectangle (-1.8,3);
+			\node[labelStyle, rotate=45] at (1,1) {Col AB};
+
+			\draw[fill=gray!15, draw=gray!70, thick, rotate=45] (0, 0) rectangle (-1.8,-3);
+		\node[labelStyle, rotate=-45] at (1, -1) {Nul $(\A\B)^{T}$};
+		\end{scope}
+
+		% Row A to Col AB
+    \draw[earrowStyle,  bend left=20] (-.5, 2) to (3.5, 1.7);
+\end{tikzpicture}
+\]
+\[
+		r(\A\B)= \dim \boldsymbol{\Xi} = r(\B) - \dim\boldsymbol{\Phi}
+					 \geq r(\B) - \dim \text{Nul}\A
+\] 
+	gives
+	\begin{equation}
+		r(\A\B) \geq r(\A) + r(\B) - n
+	\end{equation}
+	 also gives a direct inference
+	 \begin{equation}
+	 		\A\B=\boldsymbol{O} \Rightarrow r(\A)+r(\B) \leq n
+			\label{eq:ABeqORK}
+	 \end{equation}
+	\item Since (here "+" means subspace sum : $U+V=\{u+v|u\in U, v\in V\}$)
+		\[
+			\text{Col}(\A\pm\B) \subseteq \text{Col}(\A) + \text{Col}(\B)
+		\] 
+		and
+		\[
+			\dim(U+V) = \dim U + \dim V - \dim(U \cap V)
+			\leq \dim U + \dim V
+		\] 
+		we have
+		\[
+			\dim \text{Col}(\A\pm\B) \leq
+			\dim \text{Col}(\A) + \dim \text{Col}(\B)
+		\] 
+		that is
+		\begin{equation}
+		r(\A\pm\B) \leq r(\A) + r(\B)
+		\label{eq:rkOfSumLeqSumOfRk}
+		\end{equation}
+	\item $r(\A) = r(\A\A^T) = r(\A^T\A)$
 	\item $\max(r(\A), r(\B)) \leq
 		r(\A | \B) \leq 
 		r(\A) + r(\B)$
-	\item $r(\A)=r(k\A)\quad(k\ne 0)$
-	\item If $\boldsymbol{P},\boldsymbol{Q}$ are invertible matrices, then $
-			r(\boldsymbol{A})=r(\boldsymbol{P}\A) = r(\A\boldsymbol{Q})
-			= r(\boldsymbol{P}\A\boldsymbol{Q})
-			$
-	\item If $\A\B=\boldsymbol{0}$ then $r(\A)+r(\B) \leq n$
 \end{itemize}
-
 \subsubsection{Block matrix rank}
 
 In general, we can use general row/column operations to simplify the block matrix
@@ -658,17 +777,33 @@ near to a zero block, then eliminate will not effect other blocks)
 Here are some special cases:
 
 For \textbf{row} block matrix:
-\[(\A)=r(\A \vdots \A) = r(\A \vdots \A\B)\]
+\[r(\A)=r(\A , \A) = r(\A , \A\B)\]
 \[
-	\left.\begin{align}
+	\left.\begin{aligned}
 			r(\A+\B)\\ r(\A) \\ r(\B)
-	\end{align}\right\} 
-	\leq r(\A \vdots \B) \leq r(\A)+r(\B)
+	\end{aligned}\right\} 
+	\leq r(\A , \B) \leq r(\A)+r(\B)
 \] 
+the left equality holds when one of $\A$ and $\B$ can be linearly represented by the other,
+\begin{equation}
+	r(\A , \B) = r(\A) \iff \text{Col}\B \subseteq \text{Col}\A
+	\label{eq:sameRkSubCol}
+\end{equation}
 
-and when $\A$ is invertible or row full rank,
+when $\A\boldsymbol{X}=\B$ has solution, then the left equality holds,
+that is (here $n$ is number of columns of $\A$):
 \[
-	r(\A \vdots \B) = r(\A)
+\begin{aligned}
+	\A\boldsymbol{X}=\B \text{ has no solution} &\iff r(\A)< r(\A , \B) \\
+	\A\boldsymbol{X}=\B \text{ has unique solution} &\iff r(\A)= r(\A , \B)=n \\
+	\A\boldsymbol{X}=\B \text{ has infinite solutions} &\iff r(\A)= r(\A , \B)<n \\
+\end{aligned}
+\] 
+which is easily proved using row reduction.
+
+a useful inference is that when $\A$ is invertible or row full rank,
+\[
+	r(\A , \B) = r(\A)
 \]
 
 For \textbf{column} block matrix:
@@ -676,16 +811,55 @@ For \textbf{column} block matrix:
 	r(\A)= r\begin{pmatrix} \A \\ \A \end{pmatrix}= r\begin{pmatrix} \A \\ \B\A \end{pmatrix}
 \]
 \[
-		\left.\begin{align}
+		\left.\begin{aligned}
 				r(\A+\B)\\ r(\A) \\ r(\B)
-		\end{align}\right\} 
+		\end{aligned}\right\} 
 		\leq r\begin{pmatrix} \A \\ \B \end{pmatrix} \leq r(\A)+r(\B)
 		\]
-
-and when $\A$ is invertible or column full rank, 
+the left equality holds when $\A$ is invertible or column full rank
 \[
 	r\begin{pmatrix} \A \\ \B \end{pmatrix} = r(\A)
 \]
+or more generally
+\begin{equation}
+	r\begin{pmatrix} \A \\ \B\end{pmatrix} = r(\A)
+	\iff
+	\text{Nul}\A \subseteq \text{Nul}\B
+	\label{eq:sameRkSameNul}
+\end{equation}
+since 
+\[
+	\text{Nul}\begin{pmatrix}\A \\ \B\end{pmatrix}
+	= \text{Nul}\A \cap \text{Nul}\B
+	= \text{Nul}\A
+	\iff \text{the above condition holds}
+\] 
+and this holds similarly for non-homogeneous case.
+For two non-homogeneous linear equations $\A\boldsymbol{x}=\boldsymbol{\alpha}$
+and $\B\boldsymbol{x}=\boldsymbol{\beta}$, let $\overline\A$ and $\overline\B$ be the augmented matrices,
+then
+\begin{equation}
+	r\begin{pmatrix} \overline\A \\ \overline\B \end{pmatrix}
+	= r(\overline\A)
+	\iff
+	\text{all solutions of } \A\boldsymbol{x}=\boldsymbol{\alpha}
+	\text{ are solutions of } \B\boldsymbol{x}=\boldsymbol{\beta}
+	\label{eq:sameRkSameSolNonhomo}
+\end{equation}
+
+You may notice that for row block the condition for left equality is
+"column space inclusion", while for column block it is "null space inclusion",
+seemingly werid when trying to find a connection between them.
+\[
+	\begin{aligned}
+		\text{Nul}\A \subseteq \text{Nul}\B
+		&\iff r\begin{pmatrix} \A \\ \B \end{pmatrix} = r(\A) \\
+		&\iff r(\A^T , \B^T) = r(\A^T) \\
+		&\iff \text{Col}\B^T \subseteq \text{Col}\A^T \\
+		&\iff \text{Row}\B \subseteq \text{Row}\A
+	\end{aligned}
+\] 
+but there is no coincidence, since row space and null space are orthogonal complements.
 
 For \textbf{diag blocks} matrix:
 \[
@@ -717,7 +891,7 @@ For \textbf{mixed blocks} matrix:
 
 when $\boldsymbol{C}$ or $\boldsymbol{D}$ are listed below, we have:
 \[
-\begin{align}
+\begin{aligned}
 	r\begin{pmatrix} \A & \A\boldsymbol{C} \\
 			O & \B \\ \end{pmatrix}
 	= r(\A)+r(\B) \\
@@ -729,9 +903,53 @@ when $\boldsymbol{C}$ or $\boldsymbol{D}$ are listed below, we have:
 	= r\begin{pmatrix} \A & \B \\
 				O & \B \\ \end{pmatrix}
 	= r(\A)+r(\B) \\
-\end{align}
+\end{aligned}
 \] 
 
+Using above properties we can prove $r(\A\B) \geq r(\A)+r(\B)-n$ again:
+\[
+r\begin{pmatrix}
+	\A\B & O    \\
+	O    & \I_n \\
+\end{pmatrix}
+=
+r\begin{pmatrix}
+	\A\B & \A \\
+	O & \I_n \\
+\end{pmatrix}
+=
+r\begin{pmatrix}
+	O & \A \\
+	-\B & \I_n \\
+\end{pmatrix}
+\]
+\[\Rightarrow
+r(\A\B)+n
+\geq r(\A)+r(\B)
+\]
+
+\subsubsection{Full rank transformation}
+
+It is obvious that if $\boldsymbol{P},\boldsymbol{Q}$ are invertible matrices, then $
+			r(\boldsymbol{A})=r(\boldsymbol{P}\A) = r(\A\boldsymbol{Q})
+			= r(\boldsymbol{P}\A\boldsymbol{Q}) $
+
+But we have more generally version , The rank of matrix $\A$ does not change when it is 
+\begin{itemize}
+	\item left multiplied by an column full rank matrix
+	\item right multiplied by an row full rank matrix
+\end{itemize}
+
+That comes from (here n is the number of rows of $\A$ and columns of $\boldsymbol{P}$)
+\[
+	\begin{aligned}
+	r(\boldsymbol{P}\A) \leq \min(r(\boldsymbol{P}), r(\A)) = r(\A) \\
+	r(\boldsymbol{P}\A) \geq r(\boldsymbol{P}) + r(\A) - n = r(\A) \\
+	\end{aligned}
+	\Rightarrow r(\boldsymbol{P}\A) = r(\A)
+\] 
+
+and similarly for right multiplication.
 
 \subsubsection{Rank 1 matrix}
 
@@ -771,6 +989,7 @@ $\A$ is diagonalizable, so we have
 	\A \text{ is diagonalizable} \iff \tr(\A) \ne 0
 	\quad(\text{when } \rank(\A)=1)
 \]
+o
 
 It is also easy to calculate powers of rank 1 matrix:
 \[
@@ -836,7 +1055,7 @@ Eigenvalues are 13,0,0; eigenvectors are
 
 Here $\A$ is m by m, $\B$ is n by n invertible matrix.
 \[
-\begin{align}
+\begin{aligned}
 	&
 	\begin{pmatrix} A & C \\
 		O & B \\ \end{pmatrix}^{*}
@@ -867,10 +1086,10 @@ Here $\A$ is m by m, $\B$ is n by n invertible matrix.
 		|B|A^{*} & O \\
 		-B^{*}C A^{*} & |A|B^{*} \\
 	\end{pmatrix}
-\end{align}
+\end{aligned}
 \] 
 \[
-\begin{align}
+\begin{aligned}
 	&
 		\begin{pmatrix} C & A \\
 		B & O \\ \end{pmatrix}^{*}
@@ -899,7 +1118,7 @@ Here $\A$ is m by m, $\B$ is n by n invertible matrix.
 	=(-1)^{mn}
 	\begin{pmatrix} -B^{*}C A^{*} & |A|B^{*} \\
 		|B|A^{*} & O \\ \end{pmatrix}
-\end{align}
+\end{aligned}
 \] 
 
 Tips to remember:
@@ -1072,10 +1291,10 @@ let $\boldsymbol{R}=\boldsymbol{\alpha} \boldsymbol{\beta}^T$, then
 \] 
 substitute $\boldsymbol{R}=\A-k\I$ and rearrange we have
 \[
-	\begin{align}
+	\begin{aligned}
 	\A^2 - (2k+\tr(\boldsymbol{R}))\A + (k^2 + k\ \tr(\boldsymbol{R}))\I = \boldsymbol{O} \\
 	\A(\A - (2k+\tr(\boldsymbol{R}))\I) = -(k^2 + k\ \tr(\boldsymbol{R}))\I \\
-	\end{align}
+	\end{aligned}
 \] 
 \[
 	\A^{-1} = \frac{
@@ -1115,7 +1334,7 @@ In total, this method costs
 	\boxed{
 		13 \text{ multiplications and } 5 \text{ subtractions.}
 	}
-
+\]
 
 \section{Power of matrix}
 
@@ -1177,7 +1396,7 @@ In matrix form:
 			&   & 1 \\
 \end{bmatrix}
 \] 
-Although the derivation is assume n is a positive integer, the final result
+Although the derivation assuming n is a positive integer, the final result
 holds for any integer n, and we have an inverse formula:
 \[
 	\begin{bmatrix}
@@ -1232,11 +1451,346 @@ thus we have the following properties:
 \text{ is a solution of } \A \boldsymbol{x}=\boldsymbol{b} \iff \sum_{i=1}^{s} k_i = 1
 \label{eq:nohomo_sols_s1}
 \end{equation}
+Property \eqref{eq:nohomo_sols_s0} tells us if we can obtain $m$ linear independent
+solutions of the $\A \boldsymbol{x}=0$ by $\boldsymbol{\Psi}$ as shown below:
+\[
+	(\boldsymbol{v}_1, \boldsymbol{v}_2, \dots, \boldsymbol{v}_m) =
+	\boldsymbol{\Psi}\boldsymbol{\Gamma}
+\] 
+where $\boldsymbol{\Gamma}$ is a $s\times m$ matrix with rank $m$ (columns in
+$\boldsymbol{\Gamma}$ are linearly independent) and satisfying every column sums to zero.
+
+A common choice of $\boldsymbol{\Gamma}$ is to subtract one same solution from other solutions,
+\[
+	\boldsymbol{\Gamma} =
+	\begin{array}{lc}
+		& s-1 \text{ columns} \vspace{3pt} \\
+		\rotatebox{90}{\hspace{-10pt}$s$ rows}\hspace{-10pt}
+ &\!\begin{bmatrix}
+	 \I_{\xi-1} & \\
+	 -\boldsymbol{1}_{1\times (\xi-1)} & -\boldsymbol{1}_{1\times (s-\xi)} \\
+	 & \I_{s-\xi} \\
+ \end{bmatrix}
+ \vspace{5pt}
+	\end{array}
+	\begin{array}{c}
+		\boldsymbol{v}_1 = \boldsymbol{\psi}_2 - \boldsymbol{\psi}_\xi \\
+		\boldsymbol{v}_2 = \boldsymbol{\psi}_3 - \boldsymbol{\psi}_\xi \\
+		\vdots \\
+		\boldsymbol{v}_{s-1} = \boldsymbol{\psi}_{s} - \boldsymbol{\psi}_\xi \\
+	\end{array}
+\]
+
+or simply subtract the next or previous solution from current solution,
+\[
+\boldsymbol{\Gamma}
+=\pm \left( \begin{bmatrix} \I_{s-1} \\ O \\ \end{bmatrix}
+-
+\begin{bmatrix} O \\ \I_{s-1} \\ \end{bmatrix} \right)
+=\pm\begin{bmatrix}
+	1 & 0 & 0 & \cdots & 0 \\
+	-1 & 1 & 0 & \cdots & 0\\
+	0 & -1 & 1 & \cdots & 0\\
+	\vdots & \vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & 0 & \cdots & 1 \\
+	0 & 0 & 0 & \cdots & -1 \\
+\end{bmatrix}
+\] 
+\[
+	\begin{array}{ccc}
+		\begin{array}{c}
+			\boldsymbol{v}_1 = \boldsymbol{\psi}_1 - \boldsymbol{\psi}_2 \\
+			\boldsymbol{v}_2 = \boldsymbol{\psi}_2 - \boldsymbol{\psi}_3 \\
+			\vdots \\
+			\boldsymbol{v}_{s-1} = \boldsymbol{\psi}_{s-1} - \boldsymbol{\psi}_{s} \\
+		\end{array} & \text{or} &
+		\begin{array}{c}
+			\boldsymbol{v}_1 = \boldsymbol{\psi}_2 - \boldsymbol{\psi}_1 \\
+			\boldsymbol{v}_2 = \boldsymbol{\psi}_3 - \boldsymbol{\psi}_2 \\
+			\vdots \\
+			\boldsymbol{v}_{s-1} = \boldsymbol{\psi}_{s} - \boldsymbol{\psi}_{s-1} \\
+		\end{array} \\
+	\end{array}
+\] 
+
 Example: If $\boldsymbol{\psi}_1, \boldsymbol{\psi}_2$ are two solutions
 of $\A \boldsymbol{x}=\boldsymbol{b}$, then
 \begin{itemize}
 	\item $(\boldsymbol{\psi}_1 - \boldsymbol{\psi}_2)/2$ is a solution of $\A \boldsymbol{x}=0$
 	\item $(\boldsymbol{\psi}_1 + \boldsymbol{\psi}_2)/2$ is a solution of $\A \boldsymbol{x}=\boldsymbol{b}$
 \end{itemize}
+
+\subsection{Same solution space of different systems}
+
+If $\A$ is an m by n matrix, $\B$ is an p by n matrix, and the linear
+systems $\A \boldsymbol{x}=\boldsymbol{0}$ and $\B \boldsymbol{x}=\boldsymbol{0}$
+have the same solution space
+ \[
+	 \begin{array}{l}
+	\iff r(\A) = r(\B) = r\begin{pmatrix} \A \\ \B \\ \end{pmatrix} \\
+	\iff \text{Row}\ \A = \text{Row}\ \B
+	 \end{array}
+\] 
+which can easily be proved using rank properties \eqref{eq:sameRkSameNul}. For non-homogeneous
+systems, the linear systems $\A \boldsymbol{x}=\boldsymbol{b}$ and $\B \boldsymbol{x}=\boldsymbol{c}$
+have the same solution space using property \eqref{eq:sameRkSameSolNonhomo}:
+ \[
+	 \iff r(\overline{\A}) = r(\overline{\B}) 
+	 = r\begin{pmatrix} \overline{\A} \\ \overline{\B} \\ \end{pmatrix}
+ \]
+ here $\overline{\boldsymbol{M}}$ denotes the augmented matrix of matrix $\boldsymbol{M}$,
+that is $\overline{\A} = (\A | \boldsymbol{b})$ and $\overline{\B} = (\B | \boldsymbol{c})$.
+
+If all the solutions of $\A \boldsymbol{x}=\boldsymbol{0}$ are also solutions of
+$\B \boldsymbol{x}=\boldsymbol{0}$, in other words,
+\[
+	\text{Nul}\ \A \subseteq \text{Nul}\ \B
+\]
+
+then we have
+\[
+	r(\A) \ge r(\B) \\
+\] 
+
+In distinct, the subset relation implies that $\A$ has more constraints on $\boldsymbol{x}$
+than $\B$, thus $\A$ has higher rank than $\B$.
+
+\subsubsection{Direct inference}
+
+
+If $\A$ is an m by n matrix,  $\B$ is an n by s matrix, and  $r(\A)=n$ (full column rank),
+then the linear system
+$\A\B\boldsymbol{x}=\boldsymbol{0}$ has the same solution space as the linear system $\B\boldsymbol{x}=\boldsymbol{0}$
+since
+\[
+	r(\A\B) = r(\B) = r\begin{pmatrix} \A\B \\ \B \end{pmatrix}
+\] 
+
+The linear system $\A^{T}\A\boldsymbol{x}=\boldsymbol{0}$ has the same solution space as
+the linear system $\A\boldsymbol{x}=\boldsymbol{0}$ since
+\[
+	r(\A^{T}\A) = r(\A) = r\begin{pmatrix} \A^{T}\A \\ \A \end{pmatrix}
+\]
+
+\subsection{Easy confused concepts}
+
+\subsubsection{The number of linear independent solutions of non-homogeneous system}
+
+For non-homogeneous system $\A \boldsymbol{x}=\boldsymbol{b}$, where $\A$ is
+m by n matrix, if its rank is r, then the number of vectors in the basic solution set
+is $n-r+1$, notice the plus one here, this comes from the particular solution, 
+which counts when asking the number of solution vectors.
+
+\section{Linear representation}
+
+We say vector $\boldsymbol{\beta}$ can be linearly represented by vectors 
+$\boldsymbol{\alpha}_1, \boldsymbol{\alpha}_2, \dots, \boldsymbol{\alpha}_s$
+if there exist scalars $k_1, k_2, \dots, k_s$ such that
+\[
+	\boldsymbol{\beta} = \sum_{i=1}^{s} k_i \boldsymbol{\alpha}_i
+\]
+which is equivalent to
+\[
+	 r(\boldsymbol{\alpha}_1, \boldsymbol{\alpha}_2, \dots, \boldsymbol{\alpha}_s)
+	= r(\boldsymbol{\alpha}_1, \boldsymbol{\alpha}_2, \dots, \boldsymbol{\alpha}_s, \boldsymbol{\beta})
+\]
+
+If vector group $\boldsymbol{B}$ can be linearly represented by vector group $\boldsymbol{A}$,
+then we have
+\[
+	r(\boldsymbol{B}) \leq r(\boldsymbol{A}) \\
+\]
+notice the inverse is not necessarily true.
+
+We say two vector groups $\boldsymbol{A}$ and $\boldsymbol{B}$ are equivalent if 
+they can linearly represent each other, which is equivalent to
+\[
+	r(\boldsymbol{A}) = r(\boldsymbol{B}) = r(\boldsymbol{A}, \boldsymbol{B})
+\]
+
+\subsection{Common forms of linear representation}
+
+\section{Matrix similarity}
+
+
+If $\A$ and $\B$ are n by n matrices, and there exists an invertible
+n by n matrix $\boldsymbol{P}$ such that
+\[
+	\B = \boldsymbol{P}^{-1}\A \boldsymbol{P}
+\]
+then we say $\A$ is similar to $\B$, and $\B$ is similar to $\A$.
+
+properties of similarity:
+\begin{itemize}
+	\item Two similar matrices have the same determinant, \underline{\textbf{trace}},
+		\underline{rank}, characteristic polynomial, eigenvalues
+	\item $\A\sim\B$ implies $\A ^{-1} \sim \B^{-1}, \A^{T} \sim \B^{T}, \A^{*} \sim \B^{*}$\\
+		Here we define $\texttt{f} (\A)$ denotes any linear accumulation of the
+		matrix $\A,\A^{T},\A^{*}$ and their integer powers(including negative powers
+		when applicable), that is
+		\[
+			\texttt{f} (\A) = \sum P_k \A^{k} + \sum T_k (\A^{T})^k + \sum S_k (\A^{*})^k
+			\quad (k \in \mathbb{Z})
+		\] 
+		then we have $\A \sim \B \Rightarrow \texttt{f} (\A) \sim \texttt{f} (\B)$
+	\item when $|\A|\ne 0$, $\A\sim\B \Rightarrow \A\B \sim \B\A$
+\end{itemize}
+
+Tips: On small questions, we can use $\A=\B$ as a special case of similarity to
+simplify the process.
+
+
+\subsection{Method to judge similarity}
+
+first calculate the eigenvalues of $\A$ and $\B$, if they are different,
+then $\A$ and $\B$ are \underline{not similar}. If they are the same, then
+\begin{itemize}
+	\item when $\A$ and $\B$ are both diagonalizable, then \underline{Yes} they are similar
+	\item when one of them is diagonalizable while the other is not, then \underline{No} they are not similar
+	\item when both of them are not diagonalizable, need further investigation
+		\begin{itemize}
+			\item If $r(\A-\lambda_i \I) \neq r(\B-\lambda_i \I)$ for any eigenvalue $\lambda_i$,
+				then \underline{No} they are not similar.
+			\item If all $r(\A-\lambda_i \I) = r(\B-\lambda_i \I)$, need further investigation
+		\end{itemize}
+\end{itemize}
+
+\section{Eigenvalue and eigenvector}
+
+if $\A$ is an n by n matrix, with eigenvalue $\lambda$ and corresponding eigenvector $\boldsymbol{v}$,
+and $\B$ is similar to $\A$, that is $\B = \boldsymbol{P}^{-1}\A \boldsymbol{P}$,
+then $\B$ has the same eigenvalue $\lambda$ and corresponding eigenvector
+$\boldsymbol{P}^{-1}\boldsymbol{v}$.
+
+\begin{itemize}
+	\item The eigenvalues of $\A^{T}$ are the same as those of $\A$. But note that 
+		\underline{the eigenvectors are different in general}.
+	\item The eigenvalues of $\A^{-1}$ are $1/\lambda_i$, where $\lambda_i$ are
+		the eigenvalues of $\A$.
+	\item The eigenvalues of $\A^{*}$ are $|A|/\lambda_i$, where $\lambda_i$ are
+		the eigenvalues of $\A$. When one of the eigenvalues of $\A$ is zero,
+		that corresponding eigenvalue of $\A^{*}$ is other eigenvalues' product.
+\end{itemize}
+reuse the notation $\mathtt{f} (\A)$ defined in the similarity section, then
+the eigenvalues of $\mathtt{f}(\A)$ are $\mathtt{f} (\lambda_i)$, where $\lambda_i$
+are the eigenvalues of $\A$.
+
+If $\lambda_i$ is an eigenvalue of $\A$ with multiplicity $k$, the number of
+corresponding linear independent eigenvectors is between 1 and k, that is
+\[
+	1\leq \dim\text{Nul}\ (\A-\lambda_i \I) \leq k
+\] 
+or equivalently
+\[
+1\leq n-r(\A-\lambda_i \I) \leq k
+\] 
+and $\A$ is diagonalizable iff for every eigenvalue $\lambda_i$,
+ \[
+	n - r(\A-\lambda_i \I) = k
+\] 
+or the sum
+\[
+	\sum_{i} \left( n - r(\A-\lambda_i \I) \right) = n
+\] 
+
+\subsection{General method to find eigenvalue for 3 order matrix}
+
+\subsection{Diagonalization}
+
+For upper or lower triangular matrix, when all diagonal elements are same, 
+and the matrix is not a scalar matrix, then it can not be diagonalized, since 
+diagonalizable requires
+\[
+	n-r(\A - \lambda\I) = n
+\] 
+which requires $r(\A - \lambda\I) = 0$ but for triangular matrix,
+\[
+r(\A - \lambda\I)=\begin{bmatrix}
+	0 & * & * & \cdots & * \\
+	0 & 0 & * & \cdots & * \\
+	0 & 0 & 0 & \cdots & * \\
+	\vdots & \vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & 0 & \cdots & 0 \\
+\end{bmatrix}
+\] 
+all rows first non-zero element becomes pivot, thus $r(\A - \lambda\I) = 0$ only when
+all elements are zero, that is $\A = \lambda \I$, which contradicts the assumption that
+$\A$ is not a scalar matrix.
+
+And here is also another graceful method to prove that, since the only eigenvalue
+is $\lambda$, if $\A$ is diagonalizable, then the diagonal matrix can only be
+$\lambda \I$, which results in $\A = \boldsymbol{P} \lambda \I \boldsymbol{P}^{-1} = \lambda \I$, contradicts the assumption.
+
+\subsection{Quadratic matrix equation}
+
+If $\A$ is an n by n matrix satisfying the matrix equation
+\[
+	\A^{2} + p\A + q\I = \boldsymbol{O}
+\] 
+then for any eigenvalue $\lambda$ of $\A$, we have
+\[
+	\lambda^{2} + p\lambda + q = 0
+\]
+thus $\A$ has at most two distinct eigenvalues. We mainly care about the case
+when they are distinct, denoted as $\lambda_1$ and $\lambda_2$.
+\[
+p=-(\lambda_1 + \lambda_2) \quad  \quad q=\lambda_1 \lambda_2
+\] 
+then rewrite the matrix equation as
+\[
+	(\A - \lambda_1 \I)(\A - \lambda_2 \I) = \boldsymbol{O}
+\]
+using \eqref{eq:ABeqORK} we have
+\[
+	r(\A - \lambda_1 \I) + r(\A - \lambda_2 \I) \leq n
+\] 
+at the same time \eqref{eq:rkOfSumLeqSumOfRk} tells us
+\[
+	r(\A - \lambda_1 \I)+r(\lambda_2 \I - \A) \geq 
+	r(\A - \lambda_1\I + \lambda_2 \I - \A) = r(\I) = n
+\] 
+thus
+\begin{equation}
+	r(\A - \lambda_1 \I) + r(\A - \lambda_2 \I) = n
+\end{equation}
+given that the total dimension of the eigenvectors
+\[
+ 	n-r(\A - \lambda_1 \I) + n - r(\A - \lambda_2 \I) = n
+\] 
+which means the eigenvectors corresponding to $\lambda_1$ and $\lambda_2$
+form a basis of $R^{n}$, thus \underline{$\A$ is diagonalizable}.
+
+Example: If 4 by 4 matrix $\A$ satisfies
+\[
+	\A^{2} - 4\A + 3\I = \boldsymbol{O}
+\] 
+then $\A$ is diagonalizable, $r(\A - \I)$ and $r(\A - 3\I)$ sum to 4.
+
+\section{Real symmetric matrix}
+
+If $\A$ is a real symmetric matrix, with eigenvalues $\lambda_1, \lambda_2, \dots, \lambda_n$
+and corresponding eigenvectors $\boldsymbol{v}_1, \boldsymbol{v}_2, \dots, \boldsymbol{v}_n$,
+then we have
+\[
+	\begin{aligned}
+		\A&=\boldsymbol{Q}\boldsymbol{\Lambda}\boldsymbol{Q}^{T} \\
+			&=(\boldsymbol{v}_1, \boldsymbol{v}_2, \dots, \boldsymbol{v}_n)
+			\begin{pmatrix}
+				\lambda_1 & &  \\
+				& \lambda_2 & \\
+				 & & \ddots & \\
+				& & & \lambda_n \\
+			\end{pmatrix}\!\!
+			\begin{pmatrix}
+				\boldsymbol{v}_1^{T} \\
+				\boldsymbol{v}_2^{T} \\
+				\vdots \\
+				\boldsymbol{v}_n^{T} \\
+			\end{pmatrix} \\
+			&=\sum_{i=1}^{n} \lambda_i \boldsymbol{v}_i \boldsymbol{v}_i^{T} \\
+	\end{aligned}
+\] 
+which is called the spectral decomposition of $\A$. And especially, for $r(\A)=1$,
+\[	\A = \lambda \boldsymbol{v} \boldsymbol{v}^{T} \]
 
 \end{document}
