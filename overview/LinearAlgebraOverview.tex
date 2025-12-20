@@ -1,7 +1,7 @@
 \documentclass{article}
 
-% \usepackage[paperwidth=190mm,paperheight=330mm, margin={.5in,.6in}]{geometry}
-\usepackage[a4paper, margin={.5in,1in}]{geometry}
+\usepackage[paperwidth=190mm,paperheight=330mm, margin={.5in,.6in}]{geometry}
+% \usepackage[a4paper, margin={.5in,1in}]{geometry}
 \usepackage{amsmath}
 \usepackage{mathdots}
 \usepackage{graphicx}
@@ -11,11 +11,16 @@
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{fit}
 \usepackage{amsfonts}
+\usepackage{amsthm}
 
 \newcommand{\tr}{\operatorname{tr}}
 \newcommand{\rank}{\operatorname{rank}}
 \newcommand{\diag}{\operatorname{diag}}
 
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+\theoremstyle{definition}
+\newtheorem*{answer}{Answer}
 
 % :syntax match texMathSymbol "\\A" conceal cchar=A
 % :syntax match texMathSymbol "\\B" conceal cchar=B
@@ -111,6 +116,53 @@ times otherwise zero:
 \[
 	\sum_{k=1}^{n} a_{ki} A_{kj} = |A| \delta_{ij}
 \] 
+
+\subsection{View as linear function}
+
+If define
+\[
+	D(\boldsymbol{x}) =
+	\det(\boldsymbol{\alpha_1}, \boldsymbol{\alpha_2}, \dots, \boldsymbol{x}, \dots, \boldsymbol{\alpha_n})
+\] 
+then $D(\boldsymbol{x})$ is a linear function of $\boldsymbol{x}$, and
+\[
+	D(\boldsymbol{u}+\boldsymbol{v}) = D(\boldsymbol{u}) + D(\boldsymbol{v})
+\] 
+\begin{example}
+	\[
+	\begin{vmatrix}
+		\A & \boldsymbol{\alpha} \\
+		\boldsymbol{\beta}^{T} & b \\
+	\end{vmatrix}=x
+	\quad
+	\begin{vmatrix}
+		\A & \boldsymbol{\alpha} \\
+		\boldsymbol{\beta}^{T} & c \\
+	\end{vmatrix}
+	=y
+	\quad (b \ne c)
+	\] 
+	Try to find $|\A|$
+	 \begin{answer}
+		 \[
+		 x=\begin{vmatrix}
+			 \A & \boldsymbol{\alpha}+0 \\
+			 \boldsymbol{\beta}^{T} & c+b-c \\
+		 \end{vmatrix}
+		 =\begin{vmatrix}
+			 \A & \boldsymbol{\alpha} \\
+			 \boldsymbol{\beta}^{T} & c \\
+		 \end{vmatrix}
+		 +\begin{vmatrix}
+			 \A & 0 \\
+			 \boldsymbol{\beta}^{T} & b-c \\
+	 \end{vmatrix}
+	 = y + (b-c)|A|
+		 \] 
+		 thus $|A|=\frac{x-y}{b-c}$
+	\end{answer}
+\end{example}
+
 \subsection{Important determinants}
 
 upper/lower triangular:
@@ -403,6 +455,28 @@ block of determinant. E.g.,
 \end{array}
 =(1\times 5-2\times9)(2\times4-3\times4)(3)
 \] 
+We should especially note the 3 order X shape, which not obviously like bigger
+ones, but when you recognize it, it will be very easy to calculate.
+
+\[
+\begin{vmatrix}
+	a & 0 & b \\
+	0 & c & 0 \\
+	d & 0 & e \\
+\end{vmatrix}=c(ae - bd)
+\] 
+and its eigenvalue equation
+\[
+	(c-\lambda)[(a-\lambda)(e-\lambda)-bd]=0
+\]
+which directly gives one eigenvalue $\lambda_1=c$, and the other two eigenvalues
+satisfy
+\[
+	\begin{aligned}
+		\lambda_1+\lambda_2 = a+e \\
+		\lambda_1\lambda_2 = ae - bd \\
+	\end{aligned}	
+\] 
 
 \subsubsection{Laplace}
 
@@ -498,6 +572,153 @@ can determine the cofficients of $D_n$ as follows:
 		n\alpha^{n-1} , & \alpha = \beta
 	\end{cases}
 \]
+
+\subsection{4 order determinant shortcut}
+
+When calculating 4 order determinant, we can use the following shortcut:
+\[
+	\newcommand{\nline}{\\ \\ \hline \\}
+	\begin{array}{c}
+\begin{vmatrix}
+	a_{11} & a_{12} & a_{13} & a_{14} \\
+	a_{21} & a_{22} & a_{23} & a_{24} \\
+	a_{31} & a_{32} & a_{33} & a_{34} \\
+	a_{41} & a_{42} & a_{43} & a_{44} \\
+\end{vmatrix}\\
+=
+	\begin{array}{cc|c|c}
+		\text{sign} & \text{term} & \text{pattern} & \text{shape} \\ 
+		\hline \\
+		+
+&
+\begin{vmatrix}
+	a_{11} & a_{12} \\
+	a_{21} & a_{22} \\
+\end{vmatrix}
+\begin{vmatrix}
+	a_{33} & a_{34} \\
+	a_{43} & a_{44} \\
+\end{vmatrix}
+&
+\begin{matrix}
+	a_{11} & a_{12} \\
+	a_{21} & a_{22} \\
+         &         & a_{33} & a_{34} \\
+         &         & a_{43} & a_{44} \\
+\end{matrix}
+& \text{main diagonal}
+
+\nline
+		+&
+		\begin{vmatrix}
+			a_{13} & a_{14} \\
+			a_{23} & a_{24} \\
+		\end{vmatrix}
+		\begin{vmatrix}
+			a_{31} & a_{32} \\
+			a_{41} & a_{42} \\
+		\end{vmatrix}
+		 &
+\begin{matrix}
+         &         & a_{13} & a_{14} \\
+         &         & a_{23} & a_{24} \\
+	a_{31} & a_{32} \\
+	a_{41} & a_{42} \\
+\end{matrix}
+& \text{secondary diagonal}
+\nline
+		+&
+		\begin{vmatrix}
+			a_{12} & a_{13} \\
+			a_{22} & a_{23} \\
+		\end{vmatrix}
+		\begin{vmatrix}
+			a_{31} & a_{34} \\
+			a_{41} & a_{44} \\
+		\end{vmatrix}
+		 &
+\begin{matrix}
+         & a_{12} & a_{13} \\
+         & a_{22} & a_{23} \\
+	a_{31} &        &         & a_{34} \\
+	a_{41} &        &         & a_{44} \\
+\end{matrix}
+& \text{concave down}
+\nline
+		+&
+		\begin{vmatrix}
+			a_{11} & a_{14} \\
+			a_{21} & a_{24} \\
+		\end{vmatrix}
+		\begin{vmatrix}
+			a_{32} & a_{33} \\
+			a_{42} & a_{43} \\
+		\end{vmatrix}
+		 &
+\begin{matrix}
+	a_{11} &        &         & a_{14} \\
+	a_{21} &        &         & a_{24} \\
+         & a_{32} & a_{33} \\
+         & a_{42} & a_{43} \\
+\end{matrix}
+		 & \text{concave up}
+\nline
+		-&
+		\begin{vmatrix}
+			a_{11} & a_{13} \\
+			a_{21} & a_{23} \\
+		\end{vmatrix}
+		\begin{vmatrix}
+			a_{32} & a_{34} \\
+			a_{42} & a_{44} \\
+		\end{vmatrix}
+		 &
+\begin{matrix}
+	a_{11} &        & a_{13} &        \\
+	a_{21} &        & a_{23} &        \\
+         & a_{32} &        & a_{34} \\
+         & a_{42} &        & a_{44} \\
+\end{matrix}
+		 & \text{main cross}
+		\nline
+		-&
+		\begin{vmatrix}
+			a_{12} & a_{14} \\
+			a_{22} & a_{24} \\
+		\end{vmatrix}
+		\begin{vmatrix}
+			a_{31} & a_{33} \\
+			a_{41} & a_{43} \\
+		\end{vmatrix}
+		 &
+\begin{matrix}
+         & a_{12} &        & a_{14} \\
+         & a_{22} &        & a_{24} \\
+	a_{31} &        & a_{33} &        \\
+	a_{41} &        & a_{43} &        \\
+\end{matrix}
+		 & \text{secondary cross}
+	\end{array}
+	\end{array}
+\] 
+
+\begin{example}
+Calculate the following determinant:
+\[
+\begin{vmatrix}
+	a & 0 & -1 & 1 \\
+	0 & a & 1 & -1 \\
+	-1 & 1 & a & 0 \\
+	1 & -1 & 0 & a \\
+\end{vmatrix}
+\] 
+\begin{answer}
+	\[
+	\det = a^2a^2+0+a(-a)+-a(a)-a^2--a(-a)=a^{4}-2a^2
+	\] 
+\end{answer}
+\end{example}
+
 \subsection{Cofactor/Minor sum questions}
 
 If $\A$ is a square matrix, then the minor of the entry in the i-th
@@ -508,7 +729,7 @@ $(-1)^{i+j}$.
 
 \subsubsection{Use determinant to find cofactor/minor sum}
 
-Example:
+\begin{example}
 \[
 	|A|=
 	\begin{vmatrix}
@@ -561,6 +782,7 @@ Example:
 			\end{vmatrix}
 	\end{aligned}
 \] 
+\end{example}
 
 \subsubsection{Cofactor sum when row sums equal constant}
 
@@ -601,17 +823,31 @@ we have
 \] 
 which says every column has the same sum of cofactors equal to $|A|/k$.
 
-\textbf{Example:} 
+\begin{example}
 Given 3 order matrix $\A$ satisfies $|A|=3$ and all
 row sums equal 2, find the sum of the cofactors of the second column.
-
-\textbf{Answer:} 3/2
+\begin{answer}
+ 3/2
+\end{answer}
+\end{example}
 
 \subsubsection{Sum of cofactors of diagonal elements}
 
 \[
 	\sum_{i=1}^{n} C_{ii} =\tr(\A^{*}) =
 	\sum_{i=1}^n\frac{|A|}{\lambda_i}
+\] 
+\subsection{Trick to insert Identity matrix in determinant}
+
+\[
+	\begin{aligned}
+		&\A+\B^{-1} \\
+		=&\A\B\B^{-1}+\A\A^{-1}\B^{-1}\\
+		=&\A(\B+\A^{-1})\B^{-1} \\
+	\end{aligned}
+\] 
+\[
+	|\A+\B^{-1}| = |\A||\B+\A^{-1}||\B|^{-1}
 \] 
 
 \section{Matrix}
@@ -628,6 +864,7 @@ matrix and an anti-symmetric matrix:
 	\A = \frac{1}{2}(\A+\A^T) 
 	+ \frac{1}{2}(\A-\A^T)
 \] 
+
 \subsection{Rank}
 
 In this note, we let $r(\A)$ denote the rank of $\A$.
@@ -801,7 +1038,53 @@ that is (here $n$ is number of columns of $\A$):
 \] 
 which is easily proved using row reduction.
 
-a useful inference is that when $\A$ is invertible or row full rank,
+Moreover, when $\B$ is a single column $\boldsymbol{b}$, it gives a equivalent
+condition for  $\A\boldsymbol{x}=\boldsymbol{b}$ having solution:
+\begin{equation}
+	r(\A , \boldsymbol{b}) = r(\A)
+\end{equation}
+
+\begin{example}
+if the linear systems 
+$ \begin{cases}
+	ax_1+x_3=1\\
+	x_1+ax_2+x_3=0\\
+	x_1+2x_2+ax_3=0\\
+	ax_1+bx_2=2
+\end{cases} $
+has solution and $ \begin{vmatrix}
+	a & 0 & 1 \\
+	1 & a & 1 \\
+	1 & 2 & a \\
+\end{vmatrix} =4 $,please find the determinant
+$
+\begin{vmatrix}
+	1 & a & 1 \\
+	1 & 2 & a \\
+	a & b & 0 \\
+\end{vmatrix}
+$
+\begin{answer}
+Let $\A$ denote the coefficient matrix, and $\overline{\A}$
+denote the augmented matrix. The solution existence condition gives
+\[
+	r(\A) = r(\overline{\A}) \leq 3 < 4
+\]
+however, $\overline{\A}$ is a 4 by 4 matrix, so it means $|\overline{\A}|=0$, that is
+\[
+	\begin{vmatrix}
+		a & 0 & 1 & 1 \\
+		1 & a & 1 & 0 \\
+		1 & 2 & a & 0 \\
+		a & b & 0 & 2 \\
+	\end{vmatrix} = 
+	-1\cdot \text{(desired determinant)} + 2\cdot 4 = 0
+\] 
+thus the desired determinant equals 8.
+\end{answer}
+\end{example}
+
+a direct inference is that when $\A$ is invertible or row full rank,
 \[
 	r(\A , \B) = r(\A)
 \]
@@ -989,9 +1272,7 @@ $\A$ is diagonalizable, so we have
 	\A \text{ is diagonalizable} \iff \tr(\A) \ne 0
 	\quad(\text{when } \rank(\A)=1)
 \]
-o
-
-It is also easy to calculate powers of rank 1 matrix:
+And it is also easy to calculate powers of rank 1 matrix:
 \[
 	\A^n = (\boldsymbol\alpha \boldsymbol\beta^T)^n
 	= \boldsymbol{\alpha}\boldsymbol{\beta}^T\boldsymbol{\alpha}\boldsymbol{\beta}^T \cdots
@@ -1000,7 +1281,7 @@ It is also easy to calculate powers of rank 1 matrix:
 	= \tr(\A)^{n-1}\A
 \]
 
-\textbf{Example:}
+\begin{example}
 \[
 	\A=
 \begin{bmatrix}
@@ -1020,6 +1301,7 @@ Eigenvalues are 13,0,0; eigenvectors are
 \begin{bmatrix} -2\\ 1\\ 0\\ \end{bmatrix},
 \begin{bmatrix} -3\\ 0\\ 1\\ \end{bmatrix}
 \]
+\end{example}
 
 
 \subsection{Adjugate}
@@ -1036,10 +1318,11 @@ Eigenvalues are 13,0,0; eigenvectors are
 	\item $(k\A)^{*} = k^{n-1}\A^{*}$
 		\quad (derived directly from last property)
 	\item $(\A^T)^{*} = (\A^{*})^T$
+	\item $(\A^{-1})^{*}=(\A^{*})^{-1}=\dfrac{ \A}{|A|}$ \\
+		above two equalities told us that \underline{adjugate, inverse and transpose
+		operations are \textbf{commutative}}.
 	\item $(\A\B)^{*} = \B^{*}\A^{*}$
 	\item $|\A^{*}| = |A|^{n-1}$
-	\item $(\A^{-1})^{*}=(\A^{*})^{-1}=\dfrac{
-		\A}{|A|}$
 	\item $(\A^{*})^{*} = |A|^{n-2}\A$
 	\item $\rank(\A^{*})=
 		\begin{cases}
@@ -1050,6 +1333,30 @@ Eigenvalues are 13,0,0; eigenvectors are
 
 		
 \end{itemize}
+
+\begin{example}
+	Given an invertible n by n matrix $\A$, satisfying $(\A^{*})^{-1}=(\A^{T})^{*}$ and
+	$|\A|<0$, find the determinant of $\A$.
+	\begin{answer}[Method 1]
+		calculate the determinants of both sides:
+		\[
+			\begin{aligned}
+				|(\A^{*})^{-1}| &= |(\A^{T})^{*}| \\
+				\frac{1}{|\A^{*}|} &= |A|^{n-1} \\
+				\frac{1}{|A|^{n-1}} &= |A|^{n-1} \\
+				|A|^{2(n-1)} &= 1 \\
+			\end{aligned}
+		\]
+		since $|\A|<0$, we have $|A|=-1$.
+	\end{answer}
+	\begin{answer}[Method 2]
+		since $(\A^{*})^{-1}=(\A^{-1})^{*}$, we have
+		\[
+			\A^{-1} = \A^{T}
+		\] 
+		which means $\A$ is orthogonal, thus $|A|=-1$ because $|A|<0$.
+	\end{answer}
+\end{example}
 
 \subsubsection{Block matrix adjugate}
 
@@ -1336,6 +1643,42 @@ In total, this method costs
 	}
 \]
 
+\subsubsection{Factorization to find inverse}
+
+If gives
+\[
+	\A^2+b\A+c\I=\boldsymbol{O}
+\] 
+and asking for $(\A+m\I)^{-1}$, we can assume the equation can be factorized as
+\[
+  (\A+m\I)(\A+p\I)=q\I
+\] 
+by comparing coefficients we have
+\[
+	p=b - m, \quad q=-c+mp
+\] 
+
+A classic example is to find inverse of a matrix $\I-\A$ where $\A$ satisfying $\A^{k}=0$.
+\begin{answer}
+	since $\I=\I-\A^{k}$
+and we have
+\[
+	(\I-\A)(\I+\A+\A^{2}+\cdots+\A^{k-1})=\I-\A^{k}=\I
+\]
+thus
+\[
+	(\I-\A)^{-1}=\I+\A+\A^{2}+\cdots+\A^{k-1}
+\]
+\end{answer}
+
+In addition, we have
+\[
+	(\I+\A)^{-1}=\I-\A+\A^{2}-\A^{3}+\cdots+(-1)^{k-1}\A^{k-1}
+\] 
+notice that there is no requirement for k to be even or odd, since here 
+$A^{k}=(-A)^{k}=0$ make the k odd/even doesn't matter.
+
+
 \section{Power of matrix}
 
 In general, to calculate $\A^{n}$ we can use diagonalization method:
@@ -1513,12 +1856,14 @@ or simply subtract the next or previous solution from current solution,
 	\end{array}
 \] 
 
-Example: If $\boldsymbol{\psi}_1, \boldsymbol{\psi}_2$ are two solutions
+\begin{example}
+If $\boldsymbol{\psi}_1, \boldsymbol{\psi}_2$ are two solutions
 of $\A \boldsymbol{x}=\boldsymbol{b}$, then
 \begin{itemize}
 	\item $(\boldsymbol{\psi}_1 - \boldsymbol{\psi}_2)/2$ is a solution of $\A \boldsymbol{x}=0$
 	\item $(\boldsymbol{\psi}_1 + \boldsymbol{\psi}_2)/2$ is a solution of $\A \boldsymbol{x}=\boldsymbol{b}$
 \end{itemize}
+\end{example}
 
 \subsection{Same solution space of different systems}
 
@@ -1537,9 +1882,10 @@ have the same solution space using property \eqref{eq:sameRkSameSolNonhomo}:
  \[
 	 \iff r(\overline{\A}) = r(\overline{\B}) 
 	 = r\begin{pmatrix} \overline{\A} \\ \overline{\B} \\ \end{pmatrix}
- \]
+\]
  here $\overline{\boldsymbol{M}}$ denotes the augmented matrix of matrix $\boldsymbol{M}$,
 that is $\overline{\A} = (\A | \boldsymbol{b})$ and $\overline{\B} = (\B | \boldsymbol{c})$.
+
 
 If all the solutions of $\A \boldsymbol{x}=\boldsymbol{0}$ are also solutions of
 $\B \boldsymbol{x}=\boldsymbol{0}$, in other words,
@@ -1626,18 +1972,53 @@ properties of similarity:
 		\underline{rank}, characteristic polynomial, eigenvalues
 	\item $\A\sim\B$ implies $\A ^{-1} \sim \B^{-1}, \A^{T} \sim \B^{T}, \A^{*} \sim \B^{*}$\\
 		Here we define $\texttt{f} (\A)$ denotes any linear accumulation of the
-		matrix $\A,\A^{T},\A^{*}$ and their integer powers(including negative powers
+		matrix $\A,\A^{T},\A^{*},\I$ and their integer powers(including negative powers
 		when applicable), that is
 		\[
-			\texttt{f} (\A) = \sum P_k \A^{k} + \sum T_k (\A^{T})^k + \sum S_k (\A^{*})^k
+			\texttt{f} (\A) = \sum P_k \A^{k} + \sum T_k (\A^{T})^k + \sum S_k (\A^{*})^k 
+			+ c\I
 			\quad (k \in \mathbb{Z})
 		\] 
-		then we have $\A \sim \B \Rightarrow \texttt{f} (\A) \sim \texttt{f} (\B)$
+		then we have $\A \sim \B \Rightarrow \texttt{f} (\A) \sim \texttt{f} (\B)$ \\
+		An useful case is $\A \sim \B \Rightarrow \A + k\I \sim \B + k\I$ and so
+		$|\A+k\I| = |\B + k\I|$ \\
+		\begin{example}
+		If $\A$ is an 3 by 3 matrix, $\boldsymbol{\alpha}$ is a three dimensional vector,
+		$\boldsymbol{P}=(\boldsymbol{\alpha}, \A\boldsymbol{\alpha}, \A^{2}\boldsymbol{\alpha})$ is invertible,
+		$\B = \boldsymbol{P}^{-1}\A \boldsymbol{P}$, and $\A^{3}\boldsymbol{\alpha} + 2\A^{2} \boldsymbol{\alpha}
+		= 3\A \boldsymbol{\alpha} $ try to find $|\A+\I|$
+		\begin{answer}
+		we have
+		\[
+		\A\boldsymbol{P}=
+		(\A\boldsymbol{\alpha}, \A^{2}\boldsymbol{\alpha}, \A^{3}\boldsymbol{\alpha}) =
+		(\A\boldsymbol{\alpha}, \A^2\boldsymbol{\alpha}, 3\A \boldsymbol{\alpha} - 2\A^{2} \boldsymbol{\alpha}) = 
+		\boldsymbol{P}
+		\begin{bmatrix}
+			0 & 0 & 0 \\
+			1 & 0 & 3 \\
+			0 & 1 & -2 \\
+		\end{bmatrix}
+		= \boldsymbol{P}\B
+		\] 
+		thus 
+		\[
+			|\A + \I| = |\B + \I| = 
+		 \begin{vmatrix}
+			 1 & 0 & 0 \\
+			 1 & 1 & 3 \\
+			 0 & 1 & -1 \\
+		\end{vmatrix}=-4
+	\]
+		\end{answer}
+		\end{example}
+
 	\item when $|\A|\ne 0$, $\A\sim\B \Rightarrow \A\B \sim \B\A$
 \end{itemize}
 
 Tips: On small questions, we can use $\A=\B$ as a special case of similarity to
 simplify the process.
+
 
 
 \subsection{Method to judge similarity}
@@ -1673,7 +2054,16 @@ $\boldsymbol{P}^{-1}\boldsymbol{v}$.
 \end{itemize}
 reuse the notation $\mathtt{f} (\A)$ defined in the similarity section, then
 the eigenvalues of $\mathtt{f}(\A)$ are $\mathtt{f} (\lambda_i)$, where $\lambda_i$
-are the eigenvalues of $\A$.
+are the eigenvalues of $\A$. Especially, when given $\mathtt{f} (\A)=\boldsymbol{O}$,
+then equating $\mathtt{f} (\lambda)=0$ gives us \textbf{\underline{possible}} eigenvalues of $\A$.
+\[
+	\begin{aligned}
+		\lambda \text{ is eigenvalue of } \A \Rightarrow \mathtt{f} (\lambda) = 0 \\
+		\mathtt{f} (\lambda) = 0 \not\Rightarrow \lambda \text{ is eigenvalue of } \A \\
+	\end{aligned}
+\] 
+since some roots may not be eigenvalues of $\A$, (e.g. when $\A$ is real
+symmetric matrix, the complex roots are not eigenvalues of $\A$.)
 
 If $\lambda_i$ is an eigenvalue of $\A$ with multiplicity $k$, the number of
 corresponding linear independent eigenvectors is between 1 and k, that is
@@ -1681,22 +2071,59 @@ corresponding linear independent eigenvectors is between 1 and k, that is
 	1\leq \dim\text{Nul}\ (\A-\lambda_i \I) \leq k
 \] 
 or equivalently
-\[
+\begin{equation}
 1\leq n-r(\A-\lambda_i \I) \leq k
-\] 
-and $\A$ is diagonalizable iff for every eigenvalue $\lambda_i$,
+\label{eq:hasEigenCondAboutAlgoGeoMulti}
+\end{equation}
+and $\A$ is diagonalizable iff for every eigenvalue $\lambda_i$ the right side of
+equation hold as equality, that is also called geometric
+multiplicity equals algebraic multiplicity.
  \[
 	n - r(\A-\lambda_i \I) = k
 \] 
-or the sum
+it has another equivalent form about sum of geometric multiplicities
 \[
 	\sum_{i} \left( n - r(\A-\lambda_i \I) \right) = n
 \] 
+Also notice that if
+\[
+ r(\A-k\I) \leq n - 1
+\] 
+then $k$ is an eigenvalue of $\A$. This can be derived from \eqref{eq:hasEigenCondAboutAlgoGeoMulti},
+or directly from the fact that $r(\A-k\I) \leq n - 1 \Rightarrow |\A - k\I| = 0$.
 
 \subsection{General method to find eigenvalue for 3 order matrix}
 
 \subsection{Diagonalization}
 
+If $\A$ is diagonalizable, then there exists an invertible matrix $\boldsymbol{P}$
+such that $\A=\boldsymbol{P}\boldsymbol{\Lambda}\boldsymbol{P}^{-1}$,
+where $\boldsymbol{\Lambda}$ is a diagonal matrix with diagonal elements
+being the eigenvalues of $\A$. Since it is clear that
+\[
+	r(\A) = r(\boldsymbol{\Lambda})
+\] 
+we have
+\[
+	\text{The number of non-zero eigenvalues of } \A = r(\A)
+\] 
+that's usful when determining eigenvalues multiplicity, especially when only
+one eigenvalue is non-zero, then its multiplicity is $r(\A)$.
+
+\begin{example}
+An real symmetric matrix $\A$ satisfies $\A^{4}+2\A^{3}+\A^{2}+2\A=\boldsymbol{O}$,
+and $r(\A)=r$, then find $|\A+3\I|$.
+\begin{answer}
+the equation gives $\lambda(\lambda ^2+1)(\lambda +2)=0$, since
+$\A$ is real symmetric, the eigenvalues are real, thus the eigenvalues of $\A$ are
+$0$ and $-2$. Since $r(\A)=r$, there are $r$ non-zero eigenvalues, thus
+the eigenvalue $-2$ has multiplicity $r$, and eigenvalue $0$ has multiplicity $n-r$
+, thus
+\[	|\A+3\I| = (0+3)^{n-r}(-2+3)^{r} =  3^{n-r} \]
+\end{answer}
+\end{example}
+
+\subsubsection{ Triangular matrix with all diagonal elements same}
 For upper or lower triangular matrix, when all diagonal elements are same, 
 and the matrix is not a scalar matrix, then it can not be diagonalized, since 
 diagonalizable requires
@@ -1760,11 +2187,26 @@ given that the total dimension of the eigenvectors
 which means the eigenvectors corresponding to $\lambda_1$ and $\lambda_2$
 form a basis of $R^{n}$, thus \underline{$\A$ is diagonalizable}.
 
-Example: If 4 by 4 matrix $\A$ satisfies
+\begin{example}
+If 4 by 4 matrix $\A$ satisfies
 \[
 	\A^{2} - 4\A + 3\I = \boldsymbol{O}
 \] 
 then $\A$ is diagonalizable, $r(\A - \I)$ and $r(\A - 3\I)$ sum to 4.
+\end{example}
+
+\subsection{Eigen for orthogonal matrix}
+
+If $\boldsymbol{Q}$ is an orthogonal matrix, then its eigenvalues have absolute value 1,
+that is, they are either 1, -1, or complex numbers on the unit circle since
+\[
+	\|\boldsymbol{Q}\boldsymbol{v}\|^{2} = (\boldsymbol{Q}\boldsymbol{v})^{T}(\boldsymbol{Q}\boldsymbol{v})
+	= \boldsymbol{v}^{T}\boldsymbol{Q}^{T}\boldsymbol{Q}\boldsymbol{v}
+	= \boldsymbol{v}^{T}\boldsymbol{v} = \|\boldsymbol{v}\|^{2}
+	= \|\lambda\boldsymbol{v}\|^{2}
+\] 
+gives $|\lambda|=1$.
+
 
 \section{Real symmetric matrix}
 
