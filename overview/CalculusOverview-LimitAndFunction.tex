@@ -115,6 +115,13 @@ approximation.
 		\end{aligned}
 	\]
 \end{example}
+\begin{example}
+For $\ln(1-x^2)$ the error of composite function is not an issue since the inner
+function's lowest order term is $x^2$
+\[
+	\ln(1+x)+\ln(1-x) = \ln(1-x^2) = - x^2 - \dfrac{x^4}{2} - \dfrac{x^6}{3} + O(x^8)
+\] 
+\end{example}
 
 \subsection{Indeterminate Forms}
 \subsubsection{1-$\prod 1$ Forms}
@@ -188,6 +195,7 @@ Another classic series is
 {{24}} + O( {x^{3} } )} \right) 
 \end{aligned}
 \] 
+
 
 \subsubsection{Taylor approximation for Trigonometric Functions}
 
@@ -271,6 +279,98 @@ But we should notice that we don't need the "variable" strictly in form of $\fra
 	
 \end{example}
 
+\subsection{Useful Limits}
+
+\begin{itemize}
+	\item If $ a_1, a_2, \ldots, a_m > 0$, then
+		\[
+			\lim_{n \to \infty} \sqrt[n]{a_1^n + a_2^n + \ldots + a_m^n} = \max\{a_1, a_2, \ldots, a_m\}
+		\]
+		\begin{example}
+			Find the limit
+			\[
+				\lim_{n \to \infty} \sqrt[n]{a^{-n} + b^{-n}}
+			\]
+			where $a>b>0$.
+			\begin{answer}
+				Since
+				\[
+					\sqrt[n]{a^{-n} + b^{-n}} = \sqrt[n]{\frac{1}{a^n} + \frac{1}{b^n}}
+				\] 
+				and $a^{-1} < b^{-1}$, we have
+				\[
+					\lim_{n \to \infty} \sqrt[n]{a^{-n} + b^{-n}} = b^{-1}
+				\]
+			\end{answer}
+		\end{example}
+		\begin{example}
+			\[
+				I=\lim_{n \to \infty} \sqrt[n]{1+|x|^{3n}}, \quad x \in \mathbb{R}
+			\] 
+			we have
+			\[
+				I = \begin{cases}
+					1 & |x| \leq 1 \\
+					|x|^3 & |x| > 1
+				\end{cases}
+			\]
+		\end{example}
+	\item If $ a_1, a_2, \ldots, a_m > 0$, then
+		\[
+			\lim_{n \to \infty} \left(\dfrac{a_1^{\frac{1}{n}} + a_2^{\frac{1}{n}} + \ldots + a_m^{\frac{1}{n}}}{m}\right)^n 
+			=\sqrt[m]{a_1 a_2 \ldots a_m}
+		\]
+	\item when $n\to\infty$ we have Stirling's approximation:
+		\[
+			n! \sim \sqrt{2 \pi n} \left(\dfrac{n}{e}\right)^n
+		\]
+\end{itemize}
+
+\subsection{Stolz Theorem}
+If two sequences $\{x_n\}$ and $\{y_n\}$ satisfy:
+\begin{itemize}
+	\item $y_n$ and $x_n$ are both {strictly monotone increasing} and {unbounded},
+		or both {strictly monotone decreasing} and tends to $0$;
+	\item the limit $\lim_{n \to \infty} \dfrac{x_n - x_{n-1}}{y_n - y_{n-1}}$ exists or
+		is equal to $\infty$ or $-\infty$;
+\end{itemize}
+then
+\[
+	\lim_{n \to \infty} \dfrac{x_n}{y_n} = \lim_{n \to \infty} \dfrac{x_n - x_{n-1}}{y_n - y_{n-1}}
+\] 
+especially, when $y_n = n$, we have
+\[
+	\lim_{n \to \infty} \dfrac{x_n}{n} = \lim_{n \to \infty} (x_n - x_{n-1})
+\] 
+\subsubsection{Dalembert-Cauchy}
+\[
+	\lim_{n \to \infty} \sqrt[n]{x_n} = \lim_{n \to \infty} \dfrac{x_n}{x_{n-1}}
+\] 
+since we can rewrite
+\[
+	\sqrt[n]{x_n} = \exp\left(\dfrac{\ln x_n}{n}\right) \to 
+	\exp\left(\ln x_n - \ln x_{n-1}\right) = \dfrac{x_n}{x_{n-1}} = \dfrac{x_{n+1}}{x_n}
+\]
+In fact, this theorem is a indpendent result, not just a special case of Stolz Theorem.
+But we do not claim it here.
+
+\begin{example}
+	Find the limit
+	\[
+		\lim_{n \to \infty} \frac{\sqrt[n]{n!}}{n}
+	\] 
+	\begin{answer}
+		we have
+		\[
+			\lim_{n \to \infty} \sqrt[n]{\frac{n!}{n^{n}}}
+		= \lim_{n \to \infty} \dfrac{(n+1)! / (n+1)^{n+1}}{n! / n^{n}}
+		= \lim_{n \to \infty} \left(\dfrac{n}{n+1}\right)^{n}
+		= e^{-1}
+		\]
+	\end{answer}
+}
+	
+\end{example}
 
 \section{Function}
 
@@ -312,6 +412,29 @@ Inverse trigonometric functions satisfy the following identities:
 		while $\arccot x$ takes values in $(0, \pi)$.
 	\item $\arcsin x + \arccos x = \dfrac{\pi}{2}$
 	\item $\arctan x + \arccot x = \dfrac{\pi}{2}$
+	\item $\arctan\dfrac{a+b}{1-ab} = \arctan a + \arctan b$, \underline{\textbf{when $ab<1$}}.
+		\[
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines=middle,
+				xtick={1},ytick=\empty,
+				ymin=-2, ymax=3,
+				domain=-5:5,
+				samples=100,
+				width=10cm,
+				height=5cm,
+			]
+			\addplot [dashed, domain=1:5] {rad(atan(x))+pi / 4} node [pos=.5,above] {$\arctan x + \arctan 1$};
+			\addplot [red, domain=-5:1] {rad(atan((1+x)/(1-x)))} node [pos=.6, below] {$\arctan \frac{1+x}{1-x}$};
+			\addplot [red, domain=1.01:5] {rad(atan((1+x)/(1-x))} node [pos=.5, above] {$\arctan \frac{1+x}{1-x}$};
+			\addplot [dashed] {pi / 2} node [pos=.52,above] {$\frac{\pi}{2}$};
+			\addplot [dashed] {-pi / 2} node [pos=.54,above] {$-\frac{\pi}{2}$};
+			
+			% \addplot [only marks, mark=-] coordinates {(0,pi/ 2)} node[right] {$\pi/2$};
+
+			\end{axis}
+		\end{tikzpicture}
+		\] 
 \end{itemize}
 
 When dealing with sine function, we have
@@ -396,6 +519,27 @@ When dealing with sine function, we have
 				\end{tikzpicture}
 			\end{aligned}
 		\] 
+		\begin{example}
+			Given $\{x_n\},\{y_n\}$ satisfy $x_1=y_1=\frac{1}{2}$, and $x_{n+1}=\sin x_n, 
+			y_{n+1}=y_n^2 $ try to compare their order of infinitesimal.
+			\begin{answer}
+				Since $0<x_n<\frac{\pi}{2}$ we have
+				\[
+					x_{n+1}=\sin x_n > \dfrac{2}{\pi} x_n > \cdots > \left(\dfrac{2}{\pi}\right)^{n-1} x_1
+				\] 
+				while $0<y_n\leq \frac{1}{2}$ so
+				\[
+					y_{n+1} = y_n\cdot y_n \leq \dfrac{1}{2} y_n \leq \cdots \leq \left(\dfrac{1}{2}\right)^{n-1} y_1
+				\]
+				thus
+				\[
+					0\leq\lim_{n \to \infty} \dfrac{y_n}{x_n} \leq \lim_{n \to \infty} \dfrac{\left(\frac{1}{2}\right)^{n-1} y_1}
+					{\left(\frac{2}{\pi}\right)^{n-1} x_1} = 0
+				\]
+				that is, $y_n$ is a higher order infinitesimal than $x_n$.
+			\end{answer}
+			
+		\end{example}
 	\item For $x>-1$, we have
 		\[
 			\dfrac{x}{1+x} < \ln(1+x) < x \quad
@@ -418,6 +562,30 @@ When dealing with sine function, we have
 			\end{aligned}
 		\] 
 \end{itemize}
+
+for ceiling function and floor function, we have
+\[x-1 < \lfloor x \rfloor \leq x \leq \lceil x \rceil < x+1\]
+\begin{example}
+	Find the limit
+	\[
+		\lim_{x \to 0} x \left\lfloor \dfrac{2}{x} \right\rfloor
+	\] 
+	\begin{answer}
+		Since
+		\[
+			\dfrac{2}{x} - 1 < \left\lfloor \dfrac{2}{x} \right\rfloor \leq \dfrac{2}{x}
+		\] 
+		when $x>0$, we have
+		 \[
+			2 - x < x \left\lfloor \dfrac{2}{x} \right\rfloor \leq 2
+		\] 
+		telling us that
+		\[
+			\lim_{x \to 0^+} x \left\lfloor \dfrac{2}{x} \right\rfloor = 2
+		\]
+		when $x<0$, in a similar way we can get the limit is $2$
+	\end{answer}
+\end{example}
 
 \subsection{Periodic Function}
 A antiderivative of a periodic function is a periodic function plus a linear function.
