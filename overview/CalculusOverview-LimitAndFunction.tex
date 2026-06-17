@@ -46,9 +46,6 @@
 
 \subsection{Rules for O-notation}
 
-\begin{itemize}
-\end{itemize}
-
 Some product is easy to know the coefficient of $x^{\alpha}$ term without collecting
 all the terms, for example:
 \[
@@ -246,7 +243,7 @@ For hyperbolic functions, just change the sign of every second term(cubic term)
 in the Taylor series of the corresponding trigonometric functions. Which comes from
 the fact that
 \[
-	\sh x = -i \sin(ix), \quad \ch x = \cos(ix), \quad \th x = -i \tan(ix)
+	\sh x = -i \sin(ix), \quad \ch x = \cos(ix), \quad \tanh x = -i \tan(ix)
 \] 
 \subsection{Use the definition of integral to find limits}
 
@@ -368,8 +365,7 @@ But we do not claim it here.
 		= e^{-1}
 		\]
 	\end{answer}
-}
-	
+		
 \end{example}
 
 \section{Function}
@@ -426,7 +422,7 @@ Inverse trigonometric functions satisfy the following identities:
 			]
 			\addplot [dashed, domain=1:5] {rad(atan(x))+pi / 4} node [pos=.5,above] {$\arctan x + \arctan 1$};
 			\addplot [red, domain=-5:1] {rad(atan((1+x)/(1-x)))} node [pos=.6, below] {$\arctan \frac{1+x}{1-x}$};
-			\addplot [red, domain=1.01:5] {rad(atan((1+x)/(1-x))} node [pos=.5, above] {$\arctan \frac{1+x}{1-x}$};
+			\addplot [red, domain=1.01:5] {rad(atan((1+x)/(1-x)))} node [pos=.5, above] {$\arctan \frac{1+x}{1-x}$};
 			\addplot [dashed] {pi / 2} node [pos=.52,above] {$\frac{\pi}{2}$};
 			\addplot [dashed] {-pi / 2} node [pos=.54,above] {$-\frac{\pi}{2}$};
 			
@@ -731,7 +727,7 @@ If $f(x)$ is continuous on $[a, b]$, then there exists some $\xi \in [a, b]$ suc
 \]
 Be careful on limit case,we can not say $\xi\sim$ $a$ or $\xi\sim b$ or other expressions
 even if $a$ or $b$ tends to same limit, that is, when $a \to A$ and $b \to A$, 
-we only have $\xi \to A$， but we can not determine how $\xi$ approaches $A$.
+we only have $\xi \to A$, but we can not determine how $\xi$ approaches $A$.
 \begin{example}
 	Find the limit when $f (x)\sim x$ near $0$
 	\[
