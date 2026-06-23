@@ -6,15 +6,16 @@ $(shell mkdir -p $(OUT_DIR) $(AUX_DIR))
 
 # use latexmk to compile .tex files to .pdf
 
-LATEXMK=latexmk -xelatex -output-directory=$(OUT_DIR) -aux-directory=$(AUX_DIR) -silent
+LATEXMK=latexmk -xelatex -silent
 
 TEX_FILES=$(shell find . -name '*.tex')
-PDF_FILES=$(patsubst ./%, $(OUT_DIR)/%, $(TEX_FILES:.tex=.pdf))
+PDF_FILES=$(patsubst ./%.tex,$(OUT_DIR)/%.pdf,$(TEX_FILES))
 
 all: $(PDF_FILES)
 
 $(OUT_DIR)/%.pdf: %.tex
-	$(LATEXMK) $<
+	@mkdir -p $(dir $@) $(AUX_DIR)/$(dir $*)
+	$(LATEXMK) -output-directory=$(dir $@) -aux-directory=$(AUX_DIR)/$(dir $*) $<
 
 clean:
 	rm -rf $(BUILD_DIR)/*
