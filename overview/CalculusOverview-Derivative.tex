@@ -1,0 +1,600 @@
+\documentclass{article}
+
+\usepackage[paperwidth=190mm,paperheight=330mm, margin={.5in,.6in}]{geometry}
+% \usepackage[paperwidth=300mm,paperheight=195mm, margin={.5in,.6in}]{geometry}
+% \usepackage[a4paper, margin={.5in,1in}]{geometry}
+\usepackage{amsmath}
+\usepackage{mathdots}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,matrix,positioning}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{fit}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{extarrows}
+
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+\theoremstyle{remark}
+\newtheorem*{answer}{Answer}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+
+\theoremstyle{lemma}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\sh}{\sinh}
+\newcommand{\ch}{\cosh}
+
+\newcommand{\ash}{\operatorname{arcsinh}}
+\newcommand{\ach}{\operatorname{arccosh}}
+\newcommand{\ath}{\operatorname{arctanh}}
+
+\newcommand{\arccot}{\operatorname{arccot}}
+\newcommand{\arccoth}{\operatorname{arccoth}}
+
+\newcommand{\dd}{\mathrm{d}}
+\title{Calculus Overview - Derivative}
+\author{Pi Han}
+
+\begin{document}
+\maketitle
+
+\section{Existence of Derivative}
+
+\subsection{Inferences}
+
+\begin{theorem} \label{thm:diff_mult_cont}
+If $f(x)$ is differentiable at $x =  x_0$ and $g(x)$ is continuous at $x = x_0$
+but not differentiable at $x = x_0$, then the following functions
+ \[
+	h(x) = f(x)g(x)
+\] 
+are differentiable at $x = x_0$ if and only if $f(x_0) = 0$.
+\end{theorem}
+\begin{theorem}[Direct inference of Theorem \ref{thm:diff_mult_cont}]
+	
+	if $g(x)$ is continuous at $x = x_0$ then
+	\[
+		f(x) = |x-x_0|g(x)
+	\] 
+	is differentiable at $x = x_0$ if and only if $g(x_0) = 0$.
+
+	Moreover, the function $f(x) = (x-x_0)^{n}|x-x_0|$ is differentiable to order
+	$n$ at $x = x_0$ but not differentiable to order $n+1$ at $x = x_0$.
+\end{theorem}
+
+\begin{theorem}
+	When $\alpha > 0$ and $\beta > 0$, the function
+	\[
+	f(x) = \begin{cases}
+		x^{\alpha}\sin\dfrac{1}{x^{\beta}}, & x >0\\
+		0, & x = 0 \\
+		g(x), & x < 0
+	\end{cases}
+	\quad \text{or} \quad
+	f(x) = \begin{cases}
+		x^{\alpha}\cos\dfrac{1}{x^{\beta}}, & x >0\\
+		0, & x = 0 \\
+		g(x), & x < 0
+	\end{cases}
+	\] 
+	where $g(x)$ satisfies $g(0^-) = 0, g'_-(0)=0$ and $g'(0^{-})=0$
+	Then $f(x)$ at $x = 0$
+	\begin{itemize}
+		\item continuous if and only if $\alpha > 0$;
+		\item differentiable if and only if $\alpha > 1$;
+		\item has a derivative that is continuous if and only if
+			$\alpha - \beta > 1$;
+	\end{itemize}
+	\begin{proof}
+		The proof is direct from the definitions.
+		\begin{itemize}
+			\item continuity
+				\[
+					\lim_{x \to 0^{+}} f(x) = \lim_{x \to 0^{+}} x^{\alpha}
+					\sin\frac{1}{x^{\beta}} = 0 = f(0) \iff \alpha > 0
+				\] 
+			\item differentiatility
+				\[
+					f'_+(0) = \lim_{x \to 0^{+}} \frac{f(x) - f(0)}{x - 0} =
+					\lim_{x \to 0^{+}} x^{\alpha - 1} \sin\frac{1}{x^{\beta}}
+					= 0 = f'_-(0) = g'_-(0) \iff \alpha > 1
+				\] 
+			\item continuity of derivative
+				for $x > 0$,
+				\[
+					f'(x) = \alpha x^{\alpha - 1} \sin\frac{1}{x^{\beta}} -
+					\beta x^{\alpha - \beta - 1} \cos\frac{1}{x^{\beta}}
+				\] 
+				therefore,
+				\[
+					\lim_{x \to 0^{+}} f'(x) = 0 = f'(0) \iff \alpha - \beta > 1
+				\]
+		\end{itemize}
+		As for the case with cosine function, the proof is similar.
+	\end{proof}
+	\begin{remark}
+		In fact, the $x^{\alpha}$ term can be replaced by $|x|^{\alpha}$ without
+		affecting the conclusions. But we don't give the proof here.
+	\end{remark}
+\end{theorem}
+
+\begin{theorem}
+	When $f'_+(x_0)$ and $f'_-(x_0)$ both exist but are not equal, then
+	$f(x)$ is not differentiable at $x = x_0$ but continuous at $x = x_0$.
+	\begin{proof}
+		\[
+			f'_+(x_0) = \lim_{h \to 0^{+}} \frac{f(x_0 + h) - f(x_0)}{h} \text{ exists }
+			\Rightarrow \lim_{h \to 0^{+}} f(x_0 + h) = f(x_0)
+		\] 
+		gives the right hand continuity at $x = x_0$, and similarly for the left hand side.
+	\end{proof}
+\end{theorem}
+
+\begin{theorem}
+	When $g(x)$ is n times differentiable at $x = x_0$ and $g(x_0) \neq 0$,
+	then the function
+	\[
+		f(x) = (x-x_0)^{n}g(x)
+	\] 
+	has the following properties at $x = x_0$:
+	\[
+		f^{(k)}(x_0) = 0, \quad k = 0,1,2,\ldots,n-1
+	\] 
+\end{theorem}
+\begin{theorem}
+	\[
+	f(x) = (x-x_1)^2 (x-x_2)^2 \cdots (x-x_n)^2
+	\] 
+	has $2n-1$ extreme points and  $2n-2$ inflection points.
+\end{theorem}
+
+\subsection{Common mistakes}
+
+\begin{itemize}
+	\item The left(or right) hand derivative not always equal to the left(or right) 
+		hand limit of the derivative function. 
+
+		\begin{example}
+			Consider the function
+			\[
+				f(x) = \begin{cases}
+					x^2\sin\frac{1}{x}, & x \neq 0 \\
+					0, & x = 0
+				\end{cases}
+			\]
+			We have
+			\[
+				f'(0) = \lim_{h \to 0} \frac{f(h) - f(0)}{h} = \lim_{h \to 0} h \sin\frac{1}{h} = 0
+			\]
+			but
+			\[
+				\lim_{x \to 0} f'(x) = \lim_{x \to 0} \left( 2x\sin\frac{1}{x} - \cos\frac{1}{x} \right)
+			\]
+			does not exist.
+		\begin{remark}
+		This mistake usually caused by assuming that the derivative function is
+		continuous at that point, in which case the two limits are equal indeed.
+		\end{remark}
+		\end{example}
+	\item Taking the limit before resolving the variable dependent part of a piecewise
+		function.
+		\begin{example}
+			Try to determine whether the following function is differentiable at
+			$x = 0$
+			\[
+				f(x) = \begin{cases}
+					x, & x \leq 0 \\
+					\frac{1}{n}, & \frac{1}{n+1} < x \leq \frac{1}{n}, n = 1,2,3,\ldots \\
+				\end{cases}
+			\]
+			No doubt the left hand derivative at $x = 0$ is $1$. However,
+			a common mistake is to think that the right hand derivative is $0$ since
+			the graph is a horizontal line when approaching from the right side.
+			But in fact, we have
+			\[
+				f'_{+}(0) = \lim_{x \to 0^{+}} \frac{f(x) - f(0)}{x} =
+				\lim_{n \to \infty} \frac{\frac{1}{n}}{x}
+			\] 
+			where $1 / (n+1) < x \leq 1/n$ tells us that
+			\[
+				1= \frac{1 / n}{1 / n} \leq \frac{1 / n}{x} < \frac{1 / n}{1 / (n+1)}
+				\to 1
+			\] 
+			as $n \to \infty$. Therefore, $f'_{+}(0) = 1$ and $f'(0) = 1$.
+			
+			The problem is that we cannot take the limit $x \to 0^{+}$ to get
+			the function behavior near $0$ directly since the function is piecewise defined
+			with variable dependent intervals.
+			\begin{remark}
+			This kind of mistake usually happens when the piecewise function has infinitely
+			many pieces.
+			\end{remark}
+		\end{example}
+	\item Has tangent line does not imply differentiability.
+		\begin{example}
+			Consider the function
+			\[
+				f(x) = \sqrt{x}
+			\]
+			at $x = 0$. The graph has a tangent line $x = 0$ at this point, but
+			$f'(0)$ does not exist.
+		\end{example}
+	\item 0 is not necessarily a extreme point of even functions.
+		Consider constant functions.
+\end{itemize}
+
+\section{Techniques of Derivative}
+\subsection{Derivative of Products}
+
+When only required to find the derivative at a certain point, it is not necessary
+to actually find the derivative function.
+
+One useful method is to factor the function such that one factor becomes zero at that point.
+Then use the product rule to find the derivative at that point.
+\begin{example}
+	Consider the function
+	\[
+		f(x) = \frac{(x-1)(x-2)(x-3)\cdots(x-n)}{(x+1)(x+2)(x+3)\cdots(x+n)}
+	\] 
+	Find $f'(1)$.
+	\begin{answer}
+		Let $f(x) = (x-1)g(x)$, where
+		\[
+			g(x) = \frac{(x-2)(x-3)\cdots(x-n)}{(x+1)(x+2)(x+3)\cdots(x+n)}
+		\]
+		since
+		\[
+			f'(x) = (x-1)g'(x) + g(x)
+		\] 
+		we have $f'(1) = g(1)$. Therefore,
+		\[
+			f'(1) = \frac{(1-2)(1-3)\cdots(1-n)}{(1+1)(1+2)(1+3)\cdots(1+n)} =
+			\frac{(-1)^{n-1}(n-1)!}{(n+1)!} = \frac{(-1)^{n-1}}{n(n+1)}
+		\]
+	\end{answer}
+\end{example}
+
+Another useful method is to use the definition of derivative directly to
+find the derivative at that point.
+\begin{example}
+	Consider the function
+	\[
+		f(x) = (e^{x}-1)(e^{2x}-2)(e^{3x}-3)\cdots(e^{nx}-n)
+	\]
+	Find $f'(0)$.
+	\begin{answer}
+		Using the definition of derivative, we have
+		\[
+		\begin{aligned}
+			f'(0) &= \lim_{h \to 0} \frac{f(h) - f(0)}{h} =
+			\lim_{h \to 0} \frac{(e^{h}-1)(e^{2h}-2)(e^{3h}-3)\cdots(e^{nh}-n)}{h} \\
+						&= \lim_{h \to 0} \frac{e^{h}-1}{h}\cdot (e^{2h}-2)(e^{3h}-3)\cdots(e^{nh}-n) \\
+						&= 1 \cdot (-2)(-3)\cdots(-n) = (-1)^{n-1} n!
+		\end{aligned}
+	\]
+	\end{answer}
+\end{example}
+
+\begin{example}
+	Consider the function
+	\[
+		f(x) = \frac{\ln|x|}{2x^2-\ln|x|}
+	\]
+	Find $f'(-1)$.
+	\begin{answer}
+		Using the definition of derivative, we have
+		\[
+		\begin{aligned}
+			f'(-1) &= \lim_{x \to -1} \frac{\ln|x|}{(x+1)(2x^2 - \ln|x|)} \\
+					&= \lim_{x \to -1} \frac{-x-1}{(x+1)(2x^2 - \ln|x|)} \\
+					&= -\frac{1}{2}
+		\end{aligned}
+		\]
+	\end{answer}
+\end{example}
+
+Another method is to use logarithmic differentiation.
+\begin{example}
+	Consider the function
+	\[
+		\varphi(x) = \frac{\exp(x)\exp(f_1(x)f_2(x))}{f_1(x)f_2(x)}
+	\]
+	where $f_1(x)$ and $f_2(x)$ are differentiable functions and positive in 
+	their domains. Also satisfy $f_1'(0)=f_2'(0)=0$.
+	Try to prove that $\varphi'(0) > 1$
+	\begin{answer}
+		\[
+		\begin{aligned}
+			\ln \varphi(x) &= x + f_1(x)f_2(x) - \ln f_1(x) - \ln f_2(x) \\
+			\Rightarrow \quad \varphi'(x) &= \varphi(x) \left[ 1 +
+			f_1'(x)f_2(x) + f_1(x)f_2'(x) - \frac{f_1'(x)}{f_1(x)} -
+			\frac{f_2'(x)}{f_2(x)} \right]
+		\end{aligned}
+		\] 
+		therefore
+		\[
+			\varphi'(0) = \varphi(0) = \frac{\exp(f_1(0)f_2(0))}{f_1(0)f_2(0)} > 1
+		\]
+	\end{answer}
+\end{example}
+
+\subsection{Derivative of Implicit Functions}
+
+\begin{theorem}
+	Given a function $x=f^{-1}(y)$ which is the inverse of $y=f(x)$. If $f(x)$ is
+	2th order differentiable and $f'(x) \neq 0$, then the second order derivative of
+	the inverse function is given by
+	\[
+		\frac{\dd^2 x}{\dd y^2} = -\frac{f''(x)}{[f'(x)]^3}
+	\] 
+	\begin{proof}
+		\[
+			\frac{\dd^2 x}{\dd y^2} = \frac{\dd \frac{\dd x}{\dd y} / \dd x}{\dd y / \dd x} =
+			\frac{\dd \frac{1}{f'(x)}}{\dd x} \cdot \frac{1}{f'(x)} =
+			-\frac{f''(x)}{[f'(x)]^3}
+		\] 
+	\end{proof}
+\end{theorem}
+\begin{theorem}
+	Given a function $y=f(x)$ which is defined implicitly by the parametric equations
+	$\begin{cases} x = x(t)\\ y = y(t)\end{cases}\!\!\!\!\!\!$,then 
+	\[
+		\frac{\dd^2 y}{\dd x^2} = \frac{x'(t)y''(t) - y'(t)x''(t)}{[x'(t)]^3}
+	\] 
+	\begin{remark}
+		We don't need to remember this formula, just remember how to derive it.
+	\end{remark}
+\end{theorem}
+
+\subsection{Trick to remember Derivative of $f(x)^{g(x)}$ }
+We have an formula but hard to remember:
+\[
+	\frac{\dd}{\dd x} \left[ f(x)^{g(x)} \right] =
+	f(x)^{g(x)} \left[ g'(x) \ln f(x) + g(x) \frac{f'(x)}{f(x)} \right]
+\] 
+A simple trick is to rewrite it as
+\[
+	\frac{\dd}{\dd x} \left[ f(x)^{g(x)} \right] =
+	f(x)^{g(x)} \frac{\dd}{\dd x} \left[ g(x) \ln f(x) \right]
+\] 
+or more simply,
+\[
+	(u^{v})' = u^{v} (\ln(u^{v}))'
+\] 
+\begin{example}
+	Find the derivative of $y = x^{x^x}$.
+	\begin{answer}
+		we have
+		\[
+		\begin{aligned}
+			y' &= x^{x^x} \frac{\dd}{\dd x} \left[ x^x \ln x \right] \\
+				 &= x^{x^x} \left[ x^x (x\ln x)'\ln x + x^{x-1} \right] \\
+				 &= x^{x^x} \left[ x^x (\ln x + 1) \ln x + x^{x-1} \right]
+		\end{aligned}
+		\]
+	\end{answer}
+\end{example}
+
+\section{Higher Order Derivatives}
+
+here are some higher order derivative of common functions:
+
+\begin{itemize}
+	\item $(e^{ax+b})^{(n)} = a^{n} e^{ax+b}$
+	\item $(a ^{x})^{(n)} = (\ln a)^{n} a^{x}$
+	\item If $m$ is a positive integer,
+		 \[
+			 (x^m)^{(n)} = \begin{cases}
+				 m(m-1)(m-2)\cdots(m-n+1)x^{m-n}, & m > n\\
+				 n! , & m = n \\
+				 0, & m < n
+			 \end{cases}
+		\] 
+	\item If $\alpha$ is any real number, in general,
+		 \[
+			 [(ax + b)^{\alpha}]^{(n)} = \alpha(\alpha - 1)(\alpha - 2)\cdots
+			 (\alpha - n + 1)(ax + b)^{\alpha - n}a^{n}
+		\]
+		Especially, when $\alpha = -1$,
+		 \[
+			 \left( \frac{1}{x} \right)^{(n)} =
+			 \frac{(-1)^{n} n!}{x^{n+1}}
+		\] 
+	\item For logarithmic functions, is similar to the power functions
+		\[
+		[\ln(x)]^{(n)} = \dfrac{(-1)^{n-1}(n-1)!}{x^{n}}$
+		\] 
+	\item For trigonometric functions,
+		\[
+		(\sin x)^{(n)} = \sin\left( x + \frac{n\pi}{2} \right), \quad
+		(\cos x)^{(n)} = \cos\left( x + \frac{n\pi}{2} \right)
+		\]
+\end{itemize}
+
+\begin{example}
+	Find the $n$th derivative of $y = \dfrac{1-x}{1+x}$.
+	\begin{answer}
+		Rewrite $y$ as
+		\[
+			y = \frac{2}{1+x} - 1
+		\]
+		therefore,
+		\[
+			y^{(n)} = 2 \cdot \frac{(-1)^{n} n!}{(1+x)^{n+1}}
+		\]
+	\end{answer}
+\end{example}
+
+The Leibniz formula for the $n$th derivative of a product of two functions
+\[
+	(uv)^{(n)} = \sum_{k=0}^{n} C_n^k u^{(k)} v^{(n-k)}
+\] 
+Especially, we have
+\[
+	(xe^{x})^{(n)} = (x+n)e^{x}
+\] 
+And when $u = v$, we have
+\[
+	(u^2)^{(n)} = \sum_{k=0}^{n} C_n^k u^{(k)} u^{(n-k)}
+\]
+
+Taylor series expansion can also be used to find higher order derivatives
+at a certain point.
+\[
+	f^{(n)}(x_0) = n!a_n
+\] 
+where $a_n$ is the coefficient of $(x - x_0)^{n}$ in the Taylor series expansion
+of $f(x)$ at $x = x_0$.
+
+\subsection{Recursive method to find Higher Order Derivatives}
+First, calculate the first few order derivatives, and try to find a relation
+between the lower order and original function. Then evaluate nth order derivative
+using the relation.
+\begin{example}
+	Find the $n$th derivative at $x=0$ of $y = \arcsin x$.
+	\begin{answer}
+		First, we have
+		\[
+			(\arcsin x)' = \frac{1}{\sqrt{1-x^2}}
+		\]
+		gives
+		\[
+			(1-x^2)(y')^2 = 1
+		\]
+		to get rid of the square term. Then differentiate both sides,
+		\[
+		\begin{aligned}
+			-2x(y')^2 + 2(1-x^2)y'y'' &= 0
+			\Rightarrow (1-x^2)y''- xy' = 0
+		\end{aligned}
+		\]
+		take nth derivative on both sides again,
+		\[
+			(1-x^2)y^{(n+2)} - 2n x y^{(n+1)} - n(n-1) y^{(n)} - x y^{(n+1)} - n y^{(n)} = 0
+		\]
+		evaluate at $x = 0$ gives
+		\[
+			y^{(n+2)}(0) = n^2 y^{(n)}(0)
+		\]
+		Using the initial values $y^{(1)}(0) = 1, y^{(2)}(0) = 0$, we have
+		\[
+			y^{(n)}(0) = \begin{cases}
+				[(n-2)!!]^2, & n \text{ is odd} \\
+				0, & n \text{ is even}
+			\end{cases}
+		\]
+	\end{answer}
+\end{example}
+
+\section{Rolle's Theorem on $f'+gf=0$}
+
+Here we focus on a class of problems can be converted to proof the existence
+of roots of the equation $f'(x) + g(x) f(x) = 0$. More specifically, like proving
+that there exists at least one point $c$ such that $f'(c)=-f(c) / c$ or $f'(c)+\lambda f(c)=0$
+
+To prove the existence of such point, we want to construct a function $F(x)$ such that
+\[
+	F'(x) = 0 \iff f'(x) + g(x) f(x) = 0 \quad \text{and} \quad F(a) = F(b)
+\] 
+Then we can use Rolle's theorem to prove the existence of such point.
+
+A simple idea is to let $F(x)$ be the integration of $f'(x) + g(x) f(x)$ directly.
+However, it is not easy to find the result. Instead, we use a method called
+``integrating factor'' in differential equations to construct $F(x)$.
+
+we want to find a function $\mu(x)$ such that when we let
+\[
+	F(x) = \mu(x) f(x)
+\]
+then $F'(x)$ can be expressed as
+\[
+	F'(x) = \mu(x) [f'(x) + g(x) f(x)]
+\]
+To do this, we need to have
+\[
+	F'(x) = \mu'(x) f(x) + \mu(x) f'(x) = \mu(x) [f'(x) + g(x) f(x)]
+\]
+which gives
+\[
+	\mu'(x) = g(x) \mu(x)
+\]
+that is
+\[
+	\mu(x) = e^{\int g(x) \dd x}
+\]
+then test whether $F(a) = F(b)$ holds, if so, then by Rolle's theorem we can
+conclude what we want.
+
+In fact, this method also works with below form:
+\begin{theorem}
+	\[
+		e^{\int g(x) \dd x} [f'(x)+g(x)f(x)+p(x)] = \left[f(x)
+		e^{\int g(x) \dd x} + \int p(x) e^{\int g(x) \dd x} \dd x \right]'
+	\] 
+\end{theorem}
+\begin{example}
+	Prove that there exists at least one point $c \in (a,b)$ such that
+	\[
+		f'(c) + \frac{f(c)}{c} = 0
+	\] 
+	where $f(x)$ is differentiable on $[a,b]$ and $f(a) = f(b) = 0$,
+	$0 < a < b$.
+	\begin{answer}
+		Let
+		\[
+			F(x) = f(x) e^{\int \frac{1}{x} \dd x} = x f(x)
+		\] 
+		then
+		\[
+			F'(x) = e^{\int \frac{1}{x} \dd x} [f'(x) + \frac{f(x)}{x}] =
+			x [f'(x) + \frac{f(x)}{x}]
+		\] 
+		since $F(a) = a f(a) = 0$ and $F(b) = b f(b) = 0$, by Rolle's theorem,
+		there exists at least one point $c \in (a,b)$ such that $F'(c) = 0$,
+		that is
+		\[
+			f'(c) + \frac{f(c)}{c} = 0
+		\]
+	\end{answer}
+\end{example}
+
+\section{Asymptotes}
+
+When $\lim_{x \to +\infty}\frac{ f(x)}{x}$ exists it does not necessarily mean that
+there is an oblique asymptote. For example, consider the function
+\[
+	f(x) = x + \sin x
+\]
+we have
+\[
+	\lim_{x \to +\infty} \frac{f(x)}{x} = 1
+\]
+but there is no oblique asymptote since 
+\[
+	\lim_{x \to +\infty} [f(x) - x] = \lim_{x \to +\infty} \sin x
+\]
+does not exist.
+
+\section{Curvature}
+
+The curvature of a curve at a certain point is defined as
+\[
+	\kappa = \left| \frac{\dd \alpha}{\dd s} \right| = 
+	\frac{|y''|}{[1 + (y')^2]^{3/2}}
+\]
+and the radius of curvature is defined as
+\[
+	\rho = \frac{1}{\kappa} = \frac{[1 + (y')^2]^{3/2}}{|y''|}
+\]
+
+
+\end{document}
