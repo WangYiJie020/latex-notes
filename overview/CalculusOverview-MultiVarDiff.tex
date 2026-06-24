@@ -484,8 +484,236 @@ and hence
 = \frac12-z_{uu} = 0
 \]
 	
+\end{answer}
+\end{example}
+
+\subsection{Simplifying partial differential equations by a change of variables}
+
+\begin{theorem}
+	\label{thm:order2_Hessian_matrix}
+	Second-order Hessian matrix satisfies
+	\[
+		\boldsymbol{H}_{xy} = \boldsymbol{J} \boldsymbol{H}_{\xi\eta} \boldsymbol{J}^{T}
+		+ u_{\xi} \boldsymbol{H}_{xy}(\xi) + u_{\eta} \boldsymbol{H}_{xy}(\eta)
+	\] 
+	where
+	\[
+		\boldsymbol{H}_{xy} = \boldsymbol{H}_{xy}(u) = \begin{bmatrix} u_{xx} & u_{xy}\\ u_{yx} & u_{yy} \end{bmatrix},\quad
+	\]
+	and the Jacobian matrix
+	\[
+		\boldsymbol{J} = \begin{bmatrix} \xi_x & \xi_y\\ \eta_x & \eta_y \end{bmatrix}
+	\] 
+	
+\end{theorem}
+\begin{proof}
+	Using the chain rule and the Jacobian matrix, we have
+	\begin{equation} \label{eq:first_order_HSM_chain_rule}
+		\begin{bmatrix} u_x\\ u_y \end{bmatrix}
+		=
+		\boldsymbol{J}
+		\begin{bmatrix} u_{\xi}\\ u_{\eta} \end{bmatrix}
+	\end{equation}
+	again by the chain rule
+	\[
+		\begin{bmatrix} u_{\xi x} \\ u_{\xi y} \end{bmatrix}
+		= 
+		\boldsymbol{J}
+		\begin{bmatrix} u_{\xi\xi}\\ u_{\xi\eta} \end{bmatrix}
+	\] 
+	\[
+		\begin{bmatrix} u_{\eta x} \\ u_{\eta y} \end{bmatrix}
+		= 
+		\boldsymbol{J}
+		\begin{bmatrix} u_{\eta\xi}\\ u_{\eta\eta} \end{bmatrix}
+	\] 
+	transpose above two equations and combine them gives
+	\begin{equation} \label{eq:second_order_HSM_chain_rule}
+		\begin{bmatrix} u_{\xi x} & u_{\xi y} \\ u_{\eta x} & u_{\eta y} \end{bmatrix}
+		=
+		\begin{bmatrix}
+			u_{\xi\xi} & u_{\xi\eta}\\
+			u_{\eta\xi} & u_{\eta\eta}
+		\end{bmatrix}
+		\boldsymbol{J}^T
+	\end{equation}
+	take derivative of \eqref{eq:first_order_HSM_chain_rule} with respect to $x$ and $y$ gives
+	\[
+		\begin{bmatrix} u_{xx} & u_{xy}\\ u_{yx} & u_{yy} \end{bmatrix}
+		=
+		\begin{bmatrix}
+		\boldsymbol{J}_x
+		\begin{bmatrix} u_{\xi}\\ u_{\eta} \end{bmatrix}
+		&
+		\boldsymbol{J}_y
+		\begin{bmatrix} u_{\xi}\\ u_{\eta} \end{bmatrix}
+		\end{bmatrix}
+		+
+		\boldsymbol{J}
+		\begin{bmatrix} u_{\xi x} & u_{\xi y}\\ u_{\eta x} & u_{\eta y} \end{bmatrix}
+	\] 
+	where \[
+		\boldsymbol{J}_x = \begin{bmatrix} \xi_{xx} & \eta_{xx}\\ \xi_{yx} & \eta_{yx} \end{bmatrix}
+		\quad
+		\boldsymbol{J}_y = \begin{bmatrix} \xi_{xy} & \eta_{xy}\\ \xi_{yy} & \eta_{yy} \end{bmatrix}
+	\] 
+	opening the matrix multiplication gives
+	\[
+	\boldsymbol{J}_x
+	\begin{bmatrix}
+	u_\xi\\
+	u_\eta
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	u_\xi \xi_{xx} + u_\eta \eta_{xx}\\
+	u_\xi \xi_{yx} + u_\eta \eta_{yx}
+	\end{bmatrix},
+	\]
+	and
+	\[
+	\boldsymbol{J}_y
+	\begin{bmatrix}
+	u_\xi\\
+	u_\eta
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	u_\xi \xi_{xy} + u_\eta \eta_{xy}\\
+	u_\xi \xi_{yy} + u_\eta \eta_{yy}
+	\end{bmatrix}
+\]
+gives
+\[
+\begin{aligned}
+\begin{bmatrix}
+\boldsymbol{J}_x \begin{bmatrix} u_\xi\\ u_\eta \end{bmatrix}
+&
+\boldsymbol{J}_y \begin{bmatrix} u_\xi\\ u_\eta \end{bmatrix}
+\end{bmatrix}
+&=
+\begin{bmatrix}
+u_\xi \xi_{xx} + u_\eta \eta_{xx}
+&
+u_\xi \xi_{xy} + u_\eta \eta_{xy}
+\\
+u_\xi \xi_{yx} + u_\eta \eta_{yx}
+&
+u_\xi \xi_{yy} + u_\eta \eta_{yy}
+\end{bmatrix}
+\\
+&=
+u_\xi
+\begin{bmatrix}
+\xi_{xx} & \xi_{xy}\\
+\xi_{yx} & \xi_{yy}
+\end{bmatrix}
++
+u_\eta
+\begin{bmatrix}
+\eta_{xx} & \eta_{xy}\\
+\eta_{yx} & \eta_{yy}
+\end{bmatrix}
+\\
+&=
+u_\xi \boldsymbol{H}_{xy}(\xi)
++
+u_\eta \boldsymbol{H}_{xy}(\eta).
+\end{aligned}
+\]
+for the second term, substituting \eqref{eq:second_order_HSM_chain_rule} gives
+\[
+	\boldsymbol{J}
+	\begin{bmatrix} u_{\xi x} & u_{\xi y}\\ u_{\eta x} & u_{\eta y} \end{bmatrix}
+	=
+	\boldsymbol{J} \boldsymbol{H}_{\xi\eta} \boldsymbol{J}^{T}
+\]
+\end{proof}
+
+\begin{remark}
+	A more convenient way to prove the theorem is to use tensor notation, or 
+	consider the bilinear form associated with the second differential.
+	But those exceeds the scope of this notebook.
+\end{remark}
+
+\begin{theorem}
+For a second-order partial differential equation of the form
+\[
+	p\frac{\partial^2 u}{\partial x^2}
+	+ q\frac{\partial^2 u}{\partial x\partial y}
+	+ r\frac{\partial^2 u}{\partial y^2}
+	=0
+\] 
+Intrduce change of variables
+\[
+\begin{bmatrix} \xi\\ \eta \end{bmatrix}
+= \boldsymbol{A} \begin{bmatrix} x\\ y \end{bmatrix}
+= \begin{bmatrix} a_{11} & a_{12}\\ a_{21} & a_{22} \end{bmatrix}
+\begin{bmatrix} x\\ y \end{bmatrix}
+=
+\begin{bmatrix} \xi_x & \xi_y\\ \eta_x & \eta_y \end{bmatrix}
+\begin{bmatrix} x\\ y \end{bmatrix}
+\] 
+and notation
+\[
+	P = u_{\xi\xi},\quad Q = u_{\xi\eta},\quad R = u_{\eta\eta}
+\] 
+
+	
+\end{theorem}
+
+\begin{proof}
+	This is a special case of \ref{thm:order2_Hessian_matrix} 
+	where $\xi$ and $\eta$ are linear functions of $x$ and $y$, so all second-order
+	derivatives of $\xi$ and $\eta$ are zero. Hence
+	\[
+		\begin{bmatrix} u_{xx} & u_{xy}\\ u_{yx} & u_{yy} \end{bmatrix}
+		=\boldsymbol{J} \begin{bmatrix} u_{\xi\xi} & u_{\xi\eta}\\ u_{\eta\xi} & u_{\eta\eta} \end{bmatrix} \boldsymbol{J}^{T}
+		=
+		\boldsymbol{J} \begin{bmatrix} P & Q\\ Q & R \end{bmatrix} \boldsymbol{J}^{T}
+	\] 
+
+	
+\end{proof}
+
+
+\begin{example}
+Let the function \(u=f(x,y)\) have continuous second-order partial derivatives and satisfy
+\[
+2\frac{\partial^2 u}{\partial x^2}
++3\frac{\partial^2 u}{\partial x\partial y}
++\frac{\partial^2 u}{\partial y^2}=0
+\]
+Determine the values of \(a\) and \(b\) such that, under the transformation $(ab \neq 2)$
+\[
+\xi=x+ay,\qquad \eta=bx+2y
+\]
+the equation is simplified to
+\[
+\frac{\partial^2 u}{\partial \xi \partial \eta}=0
+\]
+
+\begin{answer}
+
+First, we have
+\[
+\xi_x=1,\quad \xi_y=a,\qquad \eta_x=b,\quad \eta_y=2
+\] 
+and introduce the notation
+\[
+	P=u_{\xi\xi},\quad Q=u_{\xi\eta},\quad R=u_{\eta\eta}
+\]
+hence
+\[
+	u_x = u_{\xi}\xi_x + u_{\eta}\eta_x = u_{\xi}+bu_{\eta}
+\] 
+\[
+	u_{xx} = u_{\xi\xi}\xi_x^2 + 2u_{\xi\eta}\xi_x\eta_x + u_{\eta\eta}\eta_x^2
+= P + 2bQ + b^2R
+\] 
 	
 \end{answer}
+
 \end{example}
 
 % Common mistakes:
