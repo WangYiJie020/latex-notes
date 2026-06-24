@@ -487,13 +487,46 @@ and hence
 \end{answer}
 \end{example}
 
+\subsubsection{Multivariable Chain Rule}
+
+\begin{theorem}
+	\label{thm:multivariable_chain_rule}
+	Let $\boldsymbol{x}=(x_1, x_2, \ldots, x_n)^T$ and $\boldsymbol{y}=(y_1, y_2, \ldots, y_m)^T$, then
+	\[
+		\nabla_{\boldsymbol{x}} = \boldsymbol{J}^T \nabla_{\boldsymbol{y}}
+	\] 
+	where $\boldsymbol{J}$ is the Jacobian matrix of the transformation $\boldsymbol{y} = \boldsymbol{y}(\boldsymbol{x})$.
+	\[
+		J_{ij} = \frac{\partial y_i}{\partial x_j}
+	\] 
+	and
+	\[
+		\nabla_{\boldsymbol{x}} = \left(\partial_{x_1}, \partial_{x_2}, \ldots, \partial_{x_n}\right)^T,\quad
+	\] 
+\end{theorem}
+\begin{proof}
+	For a function $u(\boldsymbol{y})$, we have
+	\[
+		\dd u = \sum\frac{\partial u}{\partial y_i} \dd y_i = (\nabla_{\boldsymbol{y}}u)^T \dd \boldsymbol{y}
+		= (\nabla_{\boldsymbol{y}}u)^T \boldsymbol{J} \dd \boldsymbol{x}
+	\] 
+	comparing with
+	\[
+		\dd u = \frac{\partial u}{\partial x^j} \dd x^j = (\nabla_{\boldsymbol{x}}u)^T \dd \boldsymbol{x}
+	\] 
+	gives
+	\[
+		\nabla_{\boldsymbol{x}}u = \boldsymbol{J}^T \nabla_{\boldsymbol{y}}u
+	\]
+\end{proof}
+
 \subsection{Simplifying partial differential equations by a change of variables}
 
 \begin{theorem}
 	\label{thm:order2_Hessian_matrix}
 	Second-order Hessian matrix satisfies
 	\[
-		\boldsymbol{H}_{xy} = \boldsymbol{J} \boldsymbol{H}_{\xi\eta} \boldsymbol{J}^{T}
+		\boldsymbol{H}_{xy} = \boldsymbol{J}^T \boldsymbol{H}_{\xi\eta} \boldsymbol{J}
 		+ u_{\xi} \boldsymbol{H}_{xy}(\xi) + u_{\eta} \boldsymbol{H}_{xy}(\eta)
 	\] 
 	where
@@ -507,27 +540,39 @@ and hence
 	
 \end{theorem}
 \begin{proof}
-	Using the chain rule and the Jacobian matrix, we have
+	by \ref{thm:multivariable_chain_rule}, we have
 	\begin{equation} \label{eq:first_order_HSM_chain_rule}
-		\begin{bmatrix} u_x\\ u_y \end{bmatrix}
-		=
-		\boldsymbol{J}
-		\begin{bmatrix} u_{\xi}\\ u_{\eta} \end{bmatrix}
+		\nabla _{xy}u = \boldsymbol{J}^T \nabla_{\xi\eta}u
 	\end{equation}
-	again by the chain rule
+	using the notation
 	\[
-		\begin{bmatrix} u_{\xi x} \\ u_{\xi y} \end{bmatrix}
-		= 
-		\boldsymbol{J}
-		\begin{bmatrix} u_{\xi\xi}\\ u_{\xi\eta} \end{bmatrix}
+		(D f)_{ij} = \frac{\partial f_i}{\partial x_j}
 	\] 
+	we have
 	\[
-		\begin{bmatrix} u_{\eta x} \\ u_{\eta y} \end{bmatrix}
-		= 
-		\boldsymbol{J}
-		\begin{bmatrix} u_{\eta\xi}\\ u_{\eta\eta} \end{bmatrix}
+		\boldsymbol{H}_{xy} = D(\nabla_{xy} u)
+	\] 
+	that is
+	\[
+		\boldsymbol{H}_{xy}
+		= D(\boldsymbol{J}^T )\nabla_{\xi\eta} u + \boldsymbol{J}^T D(\nabla_{\xi\eta} u)
+	\] 
+	and
+	\[
+		\nabla_{xy} u_{\xi} = \boldsymbol{J}^T \nabla_{\xi\eta} u_{\xi},\quad
+		\nabla_{xy} u_{\eta} = \boldsymbol{J}^T \nabla_{\xi\eta} u_{\eta}
 	\] 
 	transpose above two equations and combine them gives
+	\[
+	\begin{bmatrix}
+		(\nabla_{xy} u_{\xi})^T \\
+		(\nabla_{xy} u_{\eta})^T
+	\end{bmatrix}
+	= \begin{bmatrix}
+		(\nabla_{\xi\eta} u_{\xi})^T \\
+		(\nabla_{\xi\eta} u_{\eta})^T
+	\end{bmatrix} \boldsymbol{J}
+	\]
 	\begin{equation} \label{eq:second_order_HSM_chain_rule}
 		\begin{bmatrix} u_{\xi x} & u_{\xi y} \\ u_{\eta x} & u_{\eta y} \end{bmatrix}
 		=
@@ -535,31 +580,31 @@ and hence
 			u_{\xi\xi} & u_{\xi\eta}\\
 			u_{\eta\xi} & u_{\eta\eta}
 		\end{bmatrix}
-		\boldsymbol{J}^T
+		\boldsymbol{J}
 	\end{equation}
 	take derivative of \eqref{eq:first_order_HSM_chain_rule} with respect to $x$ and $y$ gives
 	\[
 		\begin{bmatrix} u_{xx} & u_{xy}\\ u_{yx} & u_{yy} \end{bmatrix}
 		=
 		\begin{bmatrix}
-		\boldsymbol{J}_x
+		\boldsymbol{J}^T_x
 		\begin{bmatrix} u_{\xi}\\ u_{\eta} \end{bmatrix}
 		&
-		\boldsymbol{J}_y
+		\boldsymbol{J}^T_y
 		\begin{bmatrix} u_{\xi}\\ u_{\eta} \end{bmatrix}
 		\end{bmatrix}
 		+
-		\boldsymbol{J}
+		\boldsymbol{J}^T
 		\begin{bmatrix} u_{\xi x} & u_{\xi y}\\ u_{\eta x} & u_{\eta y} \end{bmatrix}
 	\] 
 	where \[
-		\boldsymbol{J}_x = \begin{bmatrix} \xi_{xx} & \eta_{xx}\\ \xi_{yx} & \eta_{yx} \end{bmatrix}
+		\boldsymbol{J}^T_x = \begin{bmatrix} \xi_{xx} & \eta_{xx}\\ \xi_{yx} & \eta_{yx} \end{bmatrix}
 		\quad
-		\boldsymbol{J}_y = \begin{bmatrix} \xi_{xy} & \eta_{xy}\\ \xi_{yy} & \eta_{yy} \end{bmatrix}
+		\boldsymbol{J}^T_y = \begin{bmatrix} \xi_{xy} & \eta_{xy}\\ \xi_{yy} & \eta_{yy} \end{bmatrix}
 	\] 
 	opening the matrix multiplication gives
 	\[
-	\boldsymbol{J}_x
+	\boldsymbol{J}^T_x
 	\begin{bmatrix}
 	u_\xi\\
 	u_\eta
@@ -572,7 +617,7 @@ and hence
 	\]
 	and
 	\[
-	\boldsymbol{J}_y
+	\boldsymbol{J}^T_y
 	\begin{bmatrix}
 	u_\xi\\
 	u_\eta
@@ -587,9 +632,9 @@ gives
 \[
 \begin{aligned}
 \begin{bmatrix}
-\boldsymbol{J}_x \begin{bmatrix} u_\xi\\ u_\eta \end{bmatrix}
+\boldsymbol{J}^T_x \begin{bmatrix} u_\xi\\ u_\eta \end{bmatrix}
 &
-\boldsymbol{J}_y \begin{bmatrix} u_\xi\\ u_\eta \end{bmatrix}
+\boldsymbol{J}^T_y \begin{bmatrix} u_\xi\\ u_\eta \end{bmatrix}
 \end{bmatrix}
 &=
 \begin{bmatrix}
@@ -623,11 +668,12 @@ u_\eta \boldsymbol{H}_{xy}(\eta).
 \]
 for the second term, substituting \eqref{eq:second_order_HSM_chain_rule} gives
 \[
-	\boldsymbol{J}
+	\boldsymbol{J}^T
 	\begin{bmatrix} u_{\xi x} & u_{\xi y}\\ u_{\eta x} & u_{\eta y} \end{bmatrix}
 	=
-	\boldsymbol{J} \boldsymbol{H}_{\xi\eta} \boldsymbol{J}^{T}
+	\boldsymbol{J}^T \boldsymbol{H}_{\xi\eta} \boldsymbol{J}
 \]
+substituting the above two equations into the previous equation gives the desired result
 \end{proof}
 
 \begin{remark}
