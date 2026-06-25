@@ -21,6 +21,7 @@ jobs:
             texlive-latex-extra \
             texlive-pictures \
             texlive-fonts-recommended \
+            texlive-plain-generic \
             texlive-science
 
       - name: Verify TeX tools
@@ -28,6 +29,8 @@ jobs:
           which xelatex
           xelatex --version
           latexmk --version
+          kpsewhich mathdots.sty
+          kpsewhich cancel.sty
           kpsewhich extarrows.sty
 
       - name: Build PDFs
