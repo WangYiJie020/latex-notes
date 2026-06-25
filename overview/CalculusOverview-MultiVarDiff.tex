@@ -43,6 +43,8 @@
 \newcommand{\lmxyoo}{\lmxy{0}{0}}
 \newcommand{\dd}{\textrm{d}}
 
+\newcommand{\compose}{\circ}
+
 \subsection{Multiple Limits}
 
 Definition:
@@ -522,6 +524,19 @@ and hence
 
 \subsection{Simplifying partial differential equations by a change of variables}
 
+\begin{lemma}[Frechet derivative]
+	\label{lem:Frechet_derivative}
+	\[
+	D_{\boldsymbol{x}} \boldsymbol{f} = \frac{\partial (f_1, f_2, \ldots, f_m)}{\partial (x_1, x_2, \ldots, x_n)}
+		= \frac{\partial f_i}{\partial x_j}
+	\] 
+	satisfies the chain rule
+	\[
+		D_{\boldsymbol{x}} (\boldsymbol{u} \compose \boldsymbol{f}) = 
+		(D_{\boldsymbol{u}} \boldsymbol{f}) D_{\boldsymbol{x}} \boldsymbol{u}
+	\] 
+\end{lemma}
+
 \begin{theorem}
 	\label{thm:order2_Hessian_matrix}
 	Second-order Hessian matrix satisfies
@@ -540,39 +555,24 @@ and hence
 	
 \end{theorem}
 \begin{proof}
-	by \ref{thm:multivariable_chain_rule}, we have
-	\begin{equation} \label{eq:first_order_HSM_chain_rule}
-		\nabla _{xy}u = \boldsymbol{J}^T \nabla_{\xi\eta}u
-	\end{equation}
-	using the notation
-	\[
-		(D f)_{ij} = \frac{\partial f_i}{\partial x_j}
-	\] 
-	we have
-	\[
-		\boldsymbol{H}_{xy} = D(\nabla_{xy} u)
-	\] 
-	that is
-	\[
-		\boldsymbol{H}_{xy}
-		= D(\boldsymbol{J}^T )\nabla_{\xi\eta} u + \boldsymbol{J}^T D(\nabla_{\xi\eta} u)
-	\] 
-	and
-	\[
-		\nabla_{xy} u_{\xi} = \boldsymbol{J}^T \nabla_{\xi\eta} u_{\xi},\quad
-		\nabla_{xy} u_{\eta} = \boldsymbol{J}^T \nabla_{\xi\eta} u_{\eta}
-	\] 
+Using the chain rule and the Jacobian matrix, we have
+\begin{equation} \label{eq:first_order_HSM_chain_rule}
+	\begin{bmatrix} u_x\\ u_y \end{bmatrix}
+	=
+	\boldsymbol{J}^T
+	\begin{bmatrix} u_{\xi}\\ u_{\eta} \end{bmatrix}
+\end{equation}
+again by the chain rule
+\[
+	\begin{bmatrix} u_{\xi x} \\ u_{\xi y} \end{bmatrix}
+	= 
+	\boldsymbol{J}^T \begin{bmatrix} u_{\xi\xi}\\ u_{\xi\eta} \end{bmatrix}
+	, \quad
+	\begin{bmatrix} u_{\eta x} \\ u_{\eta y} \end{bmatrix}
+	= 
+	\boldsymbol{J}^T \begin{bmatrix} u_{\eta\xi}\\ u_{\eta\eta} \end{bmatrix}
+\] 
 	transpose above two equations and combine them gives
-	\[
-	\begin{bmatrix}
-		(\nabla_{xy} u_{\xi})^T \\
-		(\nabla_{xy} u_{\eta})^T
-	\end{bmatrix}
-	= \begin{bmatrix}
-		(\nabla_{\xi\eta} u_{\xi})^T \\
-		(\nabla_{\xi\eta} u_{\eta})^T
-	\end{bmatrix} \boldsymbol{J}
-	\]
 	\begin{equation} \label{eq:second_order_HSM_chain_rule}
 		\begin{bmatrix} u_{\xi x} & u_{\xi y} \\ u_{\eta x} & u_{\eta y} \end{bmatrix}
 		=
@@ -682,6 +682,61 @@ substituting the above two equations into the previous equation gives the desire
 	But those exceeds the scope of this notebook.
 \end{remark}
 
+\begin{proof}
+	By \ref{thm:multivariable_chain_rule},  we provide another fancy method, since
+	\begin{equation}
+		\nabla _{xy}u = \boldsymbol{J}^T \nabla_{\xi\eta}u
+	\end{equation}
+	we have
+	\[
+		\boldsymbol{H}_{xy} = D_{xy}(\nabla_{xy} u)
+	\] 
+	that is
+	\[
+		\boldsymbol{H}_{xy}
+		= D_{xy}(\boldsymbol{J}^T )\nabla_{\xi\eta} u + \boldsymbol{J}^T D_{xy}(\nabla_{\xi\eta} u)
+	\] 
+	for the second term, by \ref{lem:Frechet_derivative},
+	\[
+		D_{xy}(\nabla_{\xi\eta} u) = D_{\xi\eta}(\nabla_{\xi\eta} u) D_{xy}(\xi, \eta)
+		= \boldsymbol{H}_{\xi\eta} \boldsymbol{J}
+	\] 
+	for the first term, we have
+	\[
+		D_{xy}(\boldsymbol{J}^T) = D_{xy} (\nabla_{xy} \xi, \nabla_{xy} \eta)
+		= (\boldsymbol{H}_{xy}(\xi), \boldsymbol{H}_{xy}(\eta))
+	\]
+	multiplying by $\nabla_{\xi\eta} u$ and collecting the terms gives
+	\[
+		\boldsymbol{H}_{xy} = \boldsymbol{J}^T \boldsymbol{H}_{\xi\eta} \boldsymbol{J}
+		+ u_{\xi} \boldsymbol{H}_{xy}(\xi) + u_{\eta} \boldsymbol{H}_{xy}(\eta)
+	\] 
+\end{proof}
+
+\begin{theorem}[Inference of linear transformation]
+	\label{thm:linear_transformation_Hessian_matrix}
+	When $\xi$ and $\eta$ are linear functions of $x$ and $y$
+\[
+\begin{bmatrix} \xi\\ \eta \end{bmatrix}
+= \boldsymbol{A} \begin{bmatrix} x\\ y \end{bmatrix}
+= \begin{bmatrix} a_{11} & a_{12}\\ a_{21} & a_{22} \end{bmatrix}
+\begin{bmatrix} x\\ y \end{bmatrix}
+=
+\begin{bmatrix} \xi_x & \xi_y\\ \eta_x & \eta_y \end{bmatrix}
+\begin{bmatrix} x\\ y \end{bmatrix}
+= \boldsymbol{J} \begin{bmatrix} x\\ y \end{bmatrix}
+\]
+we have
+\[
+	\boldsymbol{H}_{xy} = \boldsymbol{J}^T \boldsymbol{H}_{\xi\eta} \boldsymbol{J}
+	= A^T \boldsymbol{H}_{\xi\eta} A
+\] 
+\end{theorem}
+\begin{proof}
+	Since $\xi$ and $\eta$ are linear functions of $x$ and $y$, all second-order
+	derivatives are zero, apply \ref{thm:order2_Hessian_matrix} gives the result.
+\end{proof}
+
 \begin{theorem}
 For a second-order partial differential equation of the form
 \[
@@ -694,34 +749,36 @@ Intrduce change of variables
 \[
 \begin{bmatrix} \xi\\ \eta \end{bmatrix}
 = \boldsymbol{A} \begin{bmatrix} x\\ y \end{bmatrix}
-= \begin{bmatrix} a_{11} & a_{12}\\ a_{21} & a_{22} \end{bmatrix}
-\begin{bmatrix} x\\ y \end{bmatrix}
-=
-\begin{bmatrix} \xi_x & \xi_y\\ \eta_x & \eta_y \end{bmatrix}
+= \begin{bmatrix} a & b\\ c & d \end{bmatrix}
 \begin{bmatrix} x\\ y \end{bmatrix}
 \] 
 and notation
 \[
 	P = u_{\xi\xi},\quad Q = u_{\xi\eta},\quad R = u_{\eta\eta}
 \] 
+then
+\[
+	u_{xx} = a^2 P + 2ab Q + b^2 R
+\] 
+\[
+	u_{xy} = ac P + (ad+bc) Q + bd R
+\] 
+\[
+	u_{yy} = c^2 P + 2cd Q + d^2 R
+\]
 
-	
 \end{theorem}
 
 \begin{proof}
-	This is a special case of \ref{thm:order2_Hessian_matrix} 
-	where $\xi$ and $\eta$ are linear functions of $x$ and $y$, so all second-order
-	derivatives of $\xi$ and $\eta$ are zero. Hence
+	By \ref{thm:linear_transformation_Hessian_matrix}, we have
 	\[
 		\begin{bmatrix} u_{xx} & u_{xy}\\ u_{yx} & u_{yy} \end{bmatrix}
-		=\boldsymbol{J} \begin{bmatrix} u_{\xi\xi} & u_{\xi\eta}\\ u_{\eta\xi} & u_{\eta\eta} \end{bmatrix} \boldsymbol{J}^{T}
-		=
-		\boldsymbol{J} \begin{bmatrix} P & Q\\ Q & R \end{bmatrix} \boldsymbol{J}^{T}
+		= \boldsymbol{A}^T
+		\begin{bmatrix} P & Q\\ Q & R \end{bmatrix}
+		\boldsymbol{A}
 	\] 
-
 	
 \end{proof}
-
 
 \begin{example}
 Let the function \(u=f(x,y)\) have continuous second-order partial derivatives and satisfy
@@ -757,10 +814,181 @@ hence
 	u_{xx} = u_{\xi\xi}\xi_x^2 + 2u_{\xi\eta}\xi_x\eta_x + u_{\eta\eta}\eta_x^2
 = P + 2bQ + b^2R
 \] 
+
+%TODO
 	
 \end{answer}
 
 \end{example}
+
+\subsection{Implicit Differentiation Formula}
+
+Suppose that
+\[
+F(x,y,z)=0
+\]
+defines \(z\) implicitly as a function of \(x\) and \(y\), say
+\[
+z=z(x,y).
+\]
+If \(F\) is sufficiently smooth, then differentiating with respect to \(x\), while keeping \(y\) fixed, gives
+\[
+F_x+F_z z_x=0.
+\]
+Hence
+\[
+z_x=\frac{\partial z}{\partial x}
+=
+-\frac{F_x}{F_z}.
+\]
+
+A standard sufficient condition is the following. Let
+\[
+F(x_0,y_0,z_0)=0.
+\]
+If \(F\in C^1\) in a neighborhood of \((x_0,y_0,z_0)\) ($F$ has continuous first-order partial derivatives), and
+\[
+F_z(x_0,y_0,z_0)\neq 0,
+\]
+then, near \((x_0,y_0,z_0)\), the equation
+\[
+F(x,y,z)=0
+\]
+uniquely defines \(z\) as a \(C^1\) function of \(x\) and \(y\). Moreover,
+\[
+\left.\frac{\partial z}{\partial x}\right|_y
+=
+-\frac{F_x}{F_z}.
+\]
+
+The condition \(F_z\neq 0\) alone is not enough if \(F\) is not sufficiently differentiable.
+
+\begin{example}[A Counterexample]	
+
+It is enough to consider the two-variable case
+\[
+F(x,z)=0,
+\]
+which corresponds to the three-variable case where \(F\) is independent of \(y\).
+\[
+F(x,z)=
+\begin{cases}
+(z-x)\left(\dfrac{z^2}{x^2+z^2}+x^2\right),
+& (x,z)\neq (0,0),\\[1em]
+0,
+& (x,z)=(0,0).
+\end{cases}
+\]
+
+We examine the point \((0,0)\). First,
+\[
+F_z(0,0)
+=
+\lim_{h\to 0}\frac{F(0,h)-F(0,0)}{h}.
+\]
+since
+\[
+F(0,h)=h,
+\]
+we get
+\[
+F_z(0,0)=1\neq 0.
+\]
+next,
+\[
+F_x(0,0)
+=
+\lim_{h\to 0}\frac{F(h,0)-F(0,0)}{h}.
+\]
+since
+\[
+F(h,0)=(-h)h^2=-h^3,
+\]
+we get
+\[
+F_x(0,0)
+=
+\lim_{h\to 0}(-h^2)=0.
+\]
+
+Therefore, if one formally applies the implicit differentiation formula at the origin, one obtains
+\[
+-\frac{F_x(0,0)}{F_z(0,0)}
+=
+-\frac{0}{1}
+=
+0.
+\]
+
+However, for \((x,z)\neq (0,0)\), the factor
+\[
+\dfrac{z^2}{x^2+z^2}+x^2
+\]
+is strictly positive. Hence
+\[
+F(x,z)=0
+\]
+is equivalent to
+\[
+z-x=0.
+\]
+thus the implicit function is simply
+\[
+z=x.
+\]
+therefore,
+\[
+z_x(0)=1.
+\]
+So the true derivative is
+\[
+z_x(0)=1,
+\]
+while the formula gives
+\[
+-\frac{F_x(0,0)}{F_z(0,0)}=0.
+\]
+
+\end{example}
+
+\begin{remark} The failure occurs because \(F\) is not differentiable
+	at the origin. Although the partial derivatives
+\[
+F_x(0,0),\qquad F_z(0,0)
+\]
+exist and \(F_z(0,0)\neq 0\), the hypotheses of the implicit function theorem are not satisfied.
+In particular, \(F_x\) is not continuous at the origin. Along the line \(z=x\),
+\[
+F_x(x,x)\to -\frac12
+\qquad \text{as } x\to 0,
+\]
+whereas
+\[
+F_x(0,0)=0.
+\]
+
+Thus the existence of partial derivatives at a point is not sufficient. The usual formula
+\[
+z_x=-\frac{F_x}{F_z}
+\]
+relies on the differentiability of \(F\), or more commonly on the stronger assumption \(F\in C^1\),
+so that the chain rule and the implicit function theorem apply.
+\textbf{The chain rule requires differentiability.}
+
+\end{remark}
+
+\begin{remark}
+	When tackling problems involving those forms below
+	\[
+		\frac{x^2}{x^2+y^2},\quad
+		\frac{xz}{x^2+y^2+z^2},\quad
+		|x|,
+		\sqrt{x^2+y^2},
+	\] 
+	or picewise-defined functions, should be careful about the differentiability
+	and don't directly apply the $-F_x/F_z$ formula.
+	
+\end{remark}
 
 % Common mistakes:
 
@@ -797,6 +1025,342 @@ is incorrect because $f$ is not differentiable at $(0,0)$.
 \end{remark}
 	
 \end{example}
+
+\subsubsection{Independent Variables and Dependent Variables}
+
+Given $n$ variables $x_1, x_2, \ldots, x_n$ and $m$ equations,
+will determine $m$ variables as functions of the other $n-m$ variables.
+
+\begin{itemize}
+	\item 1 equation and 3 variables, will determine 1 two-variable function
+	\item 2 equations and 3 variables, will determine 2 one-variable functions
+	\item 2 equations and 4 variables, will determine 2 two-variable functions
+\end{itemize}
+
+\begin{example}
+	Let $y=y(x)$ and $z=z(x)$ be defined by the equations
+	\[
+	z = x f(x+y),\quad F(x,y,z)=0
+	\] 
+	try to find $\dfrac{\dd z}{\dd x}$
+	\begin{answer}
+		take derivative of $x$ on both sides of the first equation gives
+		\[
+			\frac{\dd z}{\dd x} = f(x+y) + x f'(x+y)\left(1+\frac{\dd y}{\dd x}\right)
+		\]
+		take derivative of $x$ on both sides of the second equation gives
+		\[
+			F_x + F_y \frac{\dd y}{\dd x} + F_z \frac{\dd z}{\dd x} = 0
+		\] 
+		solve the above two equations gives
+		\[
+			\frac{\dd z}{\dd x} = \frac{(f(x+y) + x f'(x+y))F'_2 - x f'(x+y) F'_1}
+			{F'_2 + x f'(x+y) F'_3}
+		\] 
+		
+	\end{answer}
+	
+\end{example}
+
+\section{Partial antiderivatives}
+
+\[
+\int f(x,y) \dd x = F(x,y) + C(y)
+\] 
+
+\subsection{Find the potential function}
+Given a total differential
+\[
+\dd z = P(x,y) \dd x + Q(x,y) \dd y
+\] 
+to find the potential function $z(x,y)$, we can first integrate with respect to $x$ 
+\[
+\int P(x,y) \dd x = f(x,y) + C(y)
+\] 
+then differentiate with respect to $y$ and compare with $Q(x,y)$ to find $C(y)$.
+
+\begin{example}
+	Try to find the potential function of the total differential
+	\[
+		\dd f = \frac{x \dd y - y \dd x}{x^2+y^2}
+	\] 
+	\begin{answer}
+		Integrate with respect to $x$ gives
+		\[
+			f(x,y) = \int -\frac{y}{x^2+y^2} \dd x + C(y)
+			= -\arctan\frac{x}{y} + C(y)
+		\] 
+		differentiate with respect to $y$ gives
+		\[
+			f_y(x,y) = \frac{x}{x^2+y^2} + C'(y)
+		\] 
+		comparing with $Q(x,y) = {x}/{(x^2+y^2)}$ gives $C'(y)=0$, hence
+		\[
+			C(y) = C
+		\]
+		therefore the potential function is
+		\[
+			f(x,y) = -\arctan\frac{x}{y} + C
+		\]
+	\end{answer}
+\end{example}
+
+\section{Extreme points of multivariable functions}
+
+\subsection{Unconstrained Extreme}
+
+\begin{lemma}[second-order Taylor expansion]
+	\label{lem:second_order_Taylor_expansion}
+	Let $f(x,y)$ have continuous second-order partial derivatives in a neighborhood of $(x_0,y_0)$, 
+	\[
+		\Delta f = \nabla f \cdot \boldsymbol{d}
+		+ \frac12 \boldsymbol{d}^T \boldsymbol{H} \boldsymbol{d}
+		+ o(\boldsymbol{d}^2)
+	\] 
+	where $\Delta f = f(x_0+h,y_0+k)-f(x_0,y_0)$, $\boldsymbol{d} = (h,k)^T$ and 
+	$\boldsymbol{H}$ is the Hessian matrix.
+	
+\end{lemma}
+
+\begin{theorem}
+
+A necessary condition for a function $f(x,y)$ to have an extreme point at
+ $(x_0,y_0)$ is that the first-order partial derivatives vanish at that point
+\[
+f_x(x_0,y_0) = f_y(x_0,y_0)=0
+\] 
+let
+\[
+	A = f_{xx}(x_0,y_0),\quad
+	B = f_{xy}(x_0,y_0),\quad
+	C = f_{yy}(x_0,y_0)
+\] 
+and
+\[
+	D = AC-B^2
+\] 
+then the sufficient condition for an extreme point is
+\begin{itemize}
+	\item If $D>0$ and $A>0$, then $(x_0,y_0)$ is a local minimum point.
+	\item If $D>0$ and $A<0$, then $(x_0,y_0)$ is a local maximum point.
+	\item If $D<0$, then $(x_0,y_0)$ is not an extreme point.
+	\item If $D=0$, then the test is inconclusive.
+\end{itemize}
+	
+\end{theorem}
+
+\begin{proof}
+	By \ref{lem:second_order_Taylor_expansion}, stationary point requires
+	\[
+	\nabla f = 0
+	\] 
+	determine whether the stationary point is a local maximum, local minimum or
+	saddle point is equivalent to determine whether the quadratic form
+	\[
+	\boldsymbol{d}^T \boldsymbol{H} \boldsymbol{d}
+	\]
+	is positive definite, negative definite or indefinite. By the Sylvester's criterion
+	here we have
+	\[
+		D_1 = A,\quad D_2 = |\boldsymbol{H}| = AC-B^2
+	\] 
+	\begin{itemize}
+		\item positive definite (local minimum) requires $D_1>0$ and $D_2>0$
+		\item negative definite (local maximum) requires $D_1<0$ and $D_2>0$
+		\item indefinite (saddle point) when $D_2<0$
+		\item inconclusive when $D_2=0$
+	\end{itemize}
+\end{proof}
+
+When we meet inconclusive case, we usually consider 2 aspects
+\begin{itemize}
+	\item Try to proof it is extreme point by using the sign-preserving property
+	\item Try to find a counterexample by taking a specific path from different directions
+\end{itemize}
+\begin{example}
+	Try to find the extreme points of the function
+	\[
+	f(x,y) = x^4+y^4 - (x+y)^2
+	\]
+	\begin{answer}
+		It's easy to find the stationary points are $(0,0)$ , $(1,1)$ and $(-1,-1)$
+		and
+		\[
+		A = 12x^2-2,\quad B=-2,\quad C=12y^2-2
+		\] 
+		shows $f(1,1)=f(-1,-1)=-2$ are local maximum points, and $f(0,0)=0$ is inconclusive.
+		To determine whether $(0,0)$ is an extreme point, we can consider the path $y=0$ and $y=-x$,
+		for sufficiently small $x$, we have
+		\[
+		f(x,0) = x^4-x^2<0,\quad f(x,-x) = 2x^4>0
+		\] 
+		hence $(0,0)$ is not an extreme point.
+	\end{answer}
+\end{example}
+\subsection{Constrained Extreme}
+
+If constraints are simple, we can try to eliminate some variables and reduce the
+problem to less constrained variables or even unconstrained extreme problem. 
+A common example is use $\theta$ parameter to reduce constraints like ellipse.
+Those simple case we don't discuss here.
+
+\subsubsection{Lagrange Multiplier Method}
+
+To find the extreme points of a function $f(x,y)$ subject to a constraint $g(x,y)=0$, 
+we can use the Lagrange multiplier method. The necessary condition for an extreme
+point is that there exists a scalar $\lambda$ such that
+\[
+\nabla f = \lambda \nabla g
+\] 
+and satisfying the constraint $g(x,y)=0$. Or written in explicit form and change the 
+sign of $\lambda$ 
+\[
+	\begin{cases}
+		L_x = f_x + \lambda g_x = 0\\
+		L_y = f_y + \lambda g_y = 0\\
+		g(x,y) = 0
+	\end{cases}
+\] 
+
+When $f$ is complicated, it is not easy to solve or even write down the equations.
+A trick is to consider another function $F$ has equvalent extreme points with $f$
+such as
+\begin{itemize}
+	\item $\sqrt{u}\rightarrow u$
+	\item $e^u\rightarrow u$
+	\item $\ln u\rightarrow u$
+	\item $|u|\rightarrow u^2$
+\end{itemize}
+
+\begin{example}
+	Try to find the extreme points of the function
+	\[
+	f(a, b) = (b-a)^3
+\]
+	subject to the constraint
+	\[
+	g(a, b) = a^2 + b^2 - 1 = 0
+	\] 
+	\begin{answer}
+		We can consider the equivalent function
+		\[
+		F(a, b) = b-a
+		\] 
+		by Lagrange multiplier method, we have
+		\[
+		\begin{cases}
+			L_a = -1 + 2\lambda a = 0\\
+			L_b = 1 + 2\lambda b = 0\\
+			g(a, b) = a^2 + b^2 - 1 = 0
+		\end{cases}
+	\]
+	\end{answer}
+\end{example}
+
+\begin{example}
+	To find the maximum of the function
+	\[
+		\frac{|2x+3y-6|}{\sqrt{13}}
+	\] 
+
+\end{example}
+
+\subsubsection{Inequality Method}
+
+\begin{theorem}[Cauchy-Schwarz Inequality]
+	\label{thm:Cauchy-Schwarz_Inequality}
+	For any vectors $\boldsymbol{u}, \boldsymbol{v} \in \mathbb{R}^n$, we have
+	\[
+		|\boldsymbol{u}\cdot \boldsymbol{v}| \leq |\boldsymbol{u}| |\boldsymbol{v}|
+	\] 
+	with equality if and only if $\boldsymbol{u}$ and $\boldsymbol{v}$ are linearly dependent.
+	We usually use the following form
+	\[
+		\left(\sum_{i=1}^n a_i b_i\right)^2 \leq \left(\sum_{i=1}^n a_i^2\right)\left(\sum_{i=1}^n b_i^2\right)
+	\] 
+	with equality if and only if there exists a constant $k$ such that $a_i = k b_i$ for all $i$.
+\end{theorem}
+\begin{theorem}[2D Cauchy-Schwarz Inequality]
+	\label{thm:2D_Cauchy-Schwarz_Inequality}
+	For any real numbers $a, b, x, y$ we have
+	\[
+		(ax+by)^2 \leq (a^2+b^2)(x^2+y^2)
+	\]
+	with equality if and only if there exists a constant $k$ such that $a = k x$ and $b = k y$.
+\end{theorem}
+\begin{example}
+	Try to find the maximum of the function
+	\[
+	2x+3y
+	\] 
+	subject to the constraint
+	\[
+	x^2+4y^2=4
+	\] 
+	\begin{answer}
+		In order to use \ref{thm:2D_Cauchy-Schwarz_Inequality}, we hope
+		\[
+		Y = 2y, \quad bY = 3y
+		\] 
+		which gives $b = 3/2$, hence
+		\[
+			(2x+3y)^2 \leq (2^2+(3/2)^2)(x^2+(2y)^2) = 25
+		\] 
+		so the maximum of $2x+3y$ is $5$, and the equality holds when
+		\[
+			\frac{2}{2} = \frac{3/2}{2y} \implies y = 3/4
+		\] 
+	\end{answer}
+
+	
+\end{example}
+\begin{example}
+	Try to find the minimum of the function
+	\[
+		f(x,y,z) = \pi x^2 +y ^2 + \frac{\sqrt{3}}{4}z^2
+	\] 
+	subject to the constraint
+	\[
+	2\pi x + 4y + 3z  = 2
+	\] 
+	\begin{answer}
+		Let
+		\[
+			X = \sqrt{\pi}x , \quad AX = 2\pi x 
+		\] 
+		\[
+		Z = \sqrt{\sqrt{3}/4}z, \quad CZ = 3z
+		\] 
+		hence
+		\[
+			A = 2\sqrt{\pi}, \quad
+			C = {3 / \sqrt{\sqrt{3}/4}} = 2 \cdot 3^{3 / 4}
+		\] 
+		by \ref{thm:Cauchy-Schwarz_Inequality}, we have
+		\[
+			4 = (2\pi x + 4y + 3z)^2 \leq (A^2+4^2+C^2)(X^2+y^2+Z^2) 
+			= (4\pi + 16 + 12\sqrt{3})f(x,y,z)
+		\] 
+		so the minimum of $f(x,y,z)$ is
+		\[
+			f_{\min} = \frac{1}{\pi + 4 + 3\sqrt{3}}
+		\] 
+	\end{answer}
+	
+\end{example}
+
+\subsection{Closed Region Extreme}
+
+First, find unconstrained extreme points in the interior of the region,
+then find the constrained extreme points on the boundary of the region,
+compare the values of the function at all extreme points to find the maximum and minimum.
+
+\begin{remark}
+	When the boundary is unbounded, some direction can expand to infinity, 
+	we need to consider the limit of the function along that infinite direction.
+	to check whether the function have or not have maximum or minimum.
+	
+\end{remark}
 
 \section{Tricks and Techniques}
 
