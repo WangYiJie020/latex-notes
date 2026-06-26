@@ -50,6 +50,10 @@
 
 \newcommand{\sh}{\sinh}
 \newcommand{\ch}{\cosh}
+\newcommand{\asin}{\arcsin}
+\newcommand{\acos}{\arccos}
+\newcommand{\atan}{\arctan}
+
 \newcommand{\ash}{\operatorname{arcsinh}}
 \newcommand{\ach}{\operatorname{arccosh}}
 \newcommand{\ath}{\operatorname{arctanh}}
