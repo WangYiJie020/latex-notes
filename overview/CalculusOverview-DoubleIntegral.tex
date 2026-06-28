@@ -44,6 +44,37 @@ center of the domain $D$.
 
 \end{theorem}
 
+\begin{example}
+	Region $D$ is bounded by the curves $x=-\sqrt{2y-y^2}$ and $x=-2, y=0, y=2$, 
+	try to calculate the integral
+	 \[
+		I = \iint_D y \dd x \dd y
+	\] 
+	\begin{answer}
+\begin{mathfig}
+	I = \overline{y} A(D) = 4 - \frac{\pi}{2}
+	\tikzfig
+	% axis
+	\draw[->] (-2.5,0) -- (.5,0) node[right] {$x$};
+	\draw[->] (0,-0.3) -- (0,2.5) node[above] {$y$};
+
+	%domain
+	\fill[blue!20, domain=0:2, samples=100,	variable=\y] plot ({-sqrt(2*\y-\y*\y)}, {\y}) -- (-2,2) -- (-2,0) -- cycle;
+	% x=-2
+	\draw[blue] (-2,0) -- (-2,2) node[at start, below] {$-2$};
+	% y=0 ignore
+	% y=2
+	\draw[blue] (-2,2) -- (0,2) node[right] {$2$};
+	% x=-sqrt(2y-y^2)
+	\draw[blue, domain=0:2, samples=100,  variable=\y] plot ({-sqrt(2*\y-\y*\y)}, {\y});
+
+	% symmetry line y=1
+	\draw[red, dashed] (-2.4,1) -- (0.3,1) node[right] {$\overline{y}=1$};
+\end{mathfig}
+	\end{answer}
+	
+\end{example}
+
 \section{Symmetry}
 
 \begin{lemma}
@@ -53,11 +84,9 @@ Then we have
 \[
 	\iint_D f(x, y) \dd \sigma = \iint_{D'} f(y, x) \dd \sigma
 \] 
-	
 \end{lemma}
-
-\begin{theorem}
-
+\begin{theorem}[For all xy symmetric domain]
+	\label{thm:xy-symmetric-domain-exchange}
 When the domain $D$ is symmetric about the $y=x$, or in other words, exchanging
 $x$ and $y$ does not change the domain, $D=D'$, then we have
 \[
@@ -81,17 +110,17 @@ $x$ and $y$ does not change the domain, $D=D'$, then we have
 				% axis
 				\draw[->] (-0.2,0) -- (2.5,0) node[right] {$x$};
 				\draw[->] (0,-0.2) -- (0,2.5) node[above] {$y$};
+				% domain
+				% x 0 to 1
+				\fill[cyan!30] (0,1) -- (0,2) -- (1,1) -- (1,0)  -- cycle;
+				% x 1 to 2
+				\fill[blue!20] (1,0) -- (1,1) -- (2,0) -- cycle;
 				% x=1
 				\draw[dashed] (1,0) -- (1,2.5);% node[right] {$x=1$};
 				% y=2-x
 				\draw[solid] (0,2) -- (2,0) node[above right] {$x+y=2$};
 				% y=1-x
 				\draw[solid] (0,1) -- (1,0) node[below right] {$x+y=1$};
-				% domain
-				% x 0 to 1
-				\fill[cyan!30] (0,1) -- (0,2) -- (1,1) -- (1,0)  -- cycle;
-				% x 1 to 2
-				\fill[blue!20] (1,0) -- (1,1) -- (2,0) -- cycle;
 				% symmetry line y=x
 				\draw[red, dashed] (0,0) -- (2.5,2.5);
 		\end{mathfig}
@@ -105,68 +134,250 @@ $x$ and $y$ does not change the domain, $D=D'$, then we have
 	\end{answer}
 \end{example}
 
-\begin{lemma}
+\begin{theorem}
 
 If the domain $D$ is symmetric about the line $y=x$, then we can divide the domain
 into two parts $D_1$ and $D_2$ symmetrically,
 (its arbitrary to choose which part is $D_1$ or $D_2$)
-
-\begin{center}
-\begin{tikzpicture}[scale=1.8, >=Latex]
-
-% 坐标轴
-\draw[->] (-0.4,0) -- (2.0,0) node[right] {$x$};
-\draw[->] (0,-0.4) -- (0,2.0) node[above] {$y$};
-
-% 对角线 y=x
-\draw[red, thick] (0,0) -- (1.6,1.6) node[above right] {$y=x$};
-
-% ===== 不规则曲线 C: y = f(x) =====
-\draw[blue, thick, smooth]
-plot coordinates {
-    (0,1)
-    (0.15,1.18)
-    (0.35,1.05)
-    (0.55,0.92)
-    (0.75,0.85)
-		(0.8,0.8)
-};
-
-% ===== 对称曲线 C': x = f(y)（即交换坐标）=====
-\draw[blue, thick, smooth]
-plot coordinates {
-    (1,0)
-    (1.18,0.15)
-    (1.05,0.35)
-    (0.92,0.55)
-    (0.85,0.75)
-		(0.8,0.8)
-};
-
-% 端点
-\fill[blue] (0,1) circle (1pt);
-\fill[blue] (1,0) circle (1pt);
-
-% 标注
-\node[red] at (0.7,0.3) {$D_1$};
-\node[red] at (0.3,0.7) {$D_2$};
-
-
-\end{tikzpicture}
-\end{center}
 then we have
-\[
-	\begin{aligned}
+
+\begin{mathfig}
 	\iint_D f(x, y) \dd \sigma
 	&= \iint_{D_1} f(x, y) \dd \sigma + \iint_{D_2} f(x, y) \dd \sigma \\
 	&= \iint_{D_1} f(x, y) \dd \sigma + \iint_{D_1} f(y, x) \dd \sigma \\
 	&= \iint_{D_1} [f(x, y) + f(y, x)] \dd \sigma \\
-	\end{aligned}
-\] 
+	\tikzfig[scale=1.5]
+	% 坐标轴
+	\draw[->] (-0.2,0) -- (1.5,0) node[right] {$x$};
+	\draw[->] (0,-0.2) -- (0,1.5) node[above] {$y$};
+
+	% 对角线 y=x
+	\draw[red] (0,0) -- (1.2,1.2) node[above right] {$y=x$};
+
+	% ===== 不规则曲线 C: y = f(x) =====
+	\draw[blue, smooth]
+	plot coordinates {
+			(0,1)
+			(0.15,1.18)
+			(0.35,1.05)
+			(0.55,0.92)
+			(0.75,0.85)
+			(0.8,0.8)
+	};
+
+	% ===== 对称曲线 C': x = f(y)（即交换坐标）=====
+	\draw[blue, smooth]
+	plot coordinates {
+			(1,0)
+			(1.18,0.15)
+			(1.05,0.35)
+			(0.92,0.55)
+			(0.85,0.75)
+			(0.8,0.8)
+	};
+
+	% 标注
+	\node[red] at (0.7,0.3) {$D_1$};
+	\node[red] at (0.3,0.7) {$D_2$};
+\end{mathfig}
+
 which is more convenient to calculate the integral since we only need to integrate
 over half of the domain, dont need to consider piecewise boundary conditions.
 	
-\end{lemma}
+\end{theorem}
+
+\begin{example}
+	Let $D:\sqrt{1-y^2} \leq x \leq 1, -1 \leq y \leq 1$, try to calculate the integral
+	\[
+		I = \iint_D \frac{x}{\sqrt{x^2 + y^2}} \dd x \dd y
+	\] 
+	\begin{answer}
+		\begin{mathfig}
+			I &= \iint_{D_1} \frac{x}{\sqrt{x^2 + y^2}} \dd x \dd y + 0\\
+				&= \iint_{D_{11}} \frac{x+y}{\sqrt{x^2 + y^2}} \dd x \dd y \\
+				&= \int_0^{\pi/4} \dd \theta \int_1^{1/\cos \theta} 
+				(\cos \theta + \sin \theta) r\dd r \\
+				&= \int_0^{\pi/4} \frac{1}{2} (\cos \theta + \sin \theta)\left(
+					\frac{1}{\cos^2 \theta}-1\right) \dd \theta
+			\tikzfig
+			% axis
+			\draw[->] (-.2,0) -- (1.5,0) node[right] {$x$};
+			\draw[->] (0,-1.5) -- (0,1.5) node[above] {$y$};
+			% fill domain
+			\fill[blue!20] (0,1) arc (90:-90:1) -- (1,-1) -- (1,1) -- cycle;
+			% fill upper half domain as D_1
+			\fill[cyan!20,opacity=.8] (0,1) arc (90:0:1) -- (1,0) -- (1,1) -- cycle;
+			% fill lower half of D_1 as D_11
+			\fill[orange!20,opacity=.8] (1,0) arc (0:45:1) -- (1,1) -- cycle;
+			% circle use arc to avoid endpoint problem
+			\draw[blue] (0,1) arc (90:-90:1);
+			% rectangle
+			\draw[blue] (0,1) -- (1,1) -- (1,-1) -- (0,-1);
+			%y=x dashed line
+			\draw[red, dashed] (-0.2,-0.2) -- (1.2,1.2);
+			% label
+			\node[blue] at (1.1,1.05) {\footnotesize${D_1}$};
+			\draw[->, cyan] (.7,.85) -- (.7,1.2) node[above] {\tiny$D_{12}$};
+			\draw[->, orange] (.85,.7) -- (1.2,.7) node[right] {\tiny$D_{11}$};
+		\end{mathfig}
+		\[
+			I = \frac{1}{2}\int_0^{\pi/4} \frac{1}{\cos\theta} + 
+			\frac{\sin\theta}{\cos^2\theta} - \sin\theta - \cos\theta \dd \theta
+			= \frac{1}{2} \left[ \ln(\sec\theta + \tan\theta)\frac{1}{\cos\theta}
+			- \sin\theta + \cos\theta \right]_0^{\pi/4}
+		\] 
+		\[
+			I = \ln(\sqrt 2 +1)+\sqrt{2}-2
+		\] 
+	\end{answer}
+	\begin{remark}
+		By the way, this problem is more easy to integrate in cartesian coordinates.
+	\end{remark}
+\end{example}
+
+\begin{theorem}
+	If the domain $D$ is symmetric about the line $y=x$, and the integrand function $f(x, y)$
+	can be decomposed into independent two functions
+	 \[
+		f(x, y) = g(x) + h(y)
+	\] 
+	then we have
+	\[
+		\iint_D f \dd \sigma = 
+		\iint_D g(x) + h(x) \dd \sigma = \iint_D g(y) + h(y) \dd \sigma
+	\] 
+\end{theorem}
+\begin{proof}
+	By \ref{thm:xy-symmetric-domain-exchange}, we have
+	\[
+		\iint_D h(y) \dd \sigma = \iint_D h(x) \dd \sigma
+	\] 
+\end{proof}
+
+\begin{example}
+	Let $D: \sqrt{|x|} + \sqrt{|y|} \leq 1$, try to calculate the integral
+	\[
+		I = \iint_D 2\sqrt{|x|} + 3\sqrt{|y|} \dd x \dd y
+	\] 
+	\begin{answer}
+		Let $D_1$ be the part of $D$ in the first quadrant, then we have
+		\[
+			I = 4\iint_{D_1} 2\sqrt{x} + 3\sqrt{y} \dd x \dd y
+		\] 
+		$D_1$ is symmetric about the line $y=x$, so we have
+		\[
+			I = 4\iint_{D_1} 2\sqrt{x} + 3\sqrt{x} \dd x \dd y
+			= 20 \iint_{D_1} \sqrt{x} \dd x \dd y
+		\] 
+		Let $x=u^2, y= v^2$ and new $D'$ is bounded by $u+v=1, u \geq 0, v \geq 0$, then we have
+		 \[
+			I = 20 \iint_{D'} u \cdot 2u \cdot 2v \dd u \dd v 
+			= 40 \int_0^1 u^2(1-u) \dd u = \frac{4}{3}
+		\] 
+	\end{answer}
+	
+\end{example}
+
+% 可以把区域拆成有对称的区域，分开分别计算
+
+Sometimes, when domain itself is not symmetric, but the integrand function has
+some symmetry, we can divide the domain into parts, in some subdomain will have
+the same symmetry as the integrand function, then we can utilize the symmetry.
+
+\begin{example}
+	Let $D$ be a triangle region with vertices $(1, 1), (-1, 1), (-1, -1)$, and 
+	 $D_1$ is the part of $D$ in the first quadrant, try to simplify the integral
+	  \[
+	 		I = \iint_D f(x, y) \dd x\dd y = \iint_D (xy + \cos x \sin y) \dd x \dd y
+	 \] 
+	 \begin{answer}
+	 Note that $f$ is odd about the  $y=0$, and part of  $f$ the $xy$ is 
+	 odd about the $x=0$, and $\cos x \sin y$ is symmetric about the $x=0$
+	 so we have
+
+	 \begin{mathfig}
+		 I &= \iint_{D_2} xy + \cos x \sin y \dd x \dd y +
+		 \iint_{D_3} xy + \cos x \sin y \dd x \dd y \\
+			 &= 0 + \iint_{D_2} \cos x \sin y \dd x \dd y + 0 \\
+			 &= 2 \iint_{D_1} \cos x \sin y \dd x \dd y
+		 \tikzfig
+	% axis
+	\draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};
+	\draw[->] (0,-1.5) -- (0,1.5) node[above] {$y$};
+
+	% domain D
+	\draw[blue] (-1,-1) -- (-1,1) -- (1,1) -- cycle;
+	\fill[blue!20,opacity=.8] (-1,-1) -- (-1,1) -- (1,1) -- cycle;
+	% domain D_1
+	\fill[cyan!20] (0,0) -- (0,1) -- (1,1) -- cycle;
+
+	% y=-x dashed line
+	\draw[red, dashed] (-1.2,1.2) -- (.8,-.8);
+	%label D_1
+	\draw[cyan,->] (.35, .6) -- (.75, .25) node[right] {$D_1$};
+	%label D_2
+	\node[blue] at (0, .6) {$D_2$};
+	\node[blue] at (-0.6, 0) {$D_3$};
+
+	 \end{mathfig}
+	 \end{answer}
+\end{example}
+
+\begin{example}
+	Let $D: -1 \leq x \leq \sin y$ and $|y| \leq \frac{\pi}{2}$ try to calculate
+	\[
+	I = \iint_D x \left( e^{x^2+\cos y}\sin y -1 \right) \dd x \dd y
+	\] 
+
+	\begin{answer}
+		\[
+			I = \iint_{D} x e^{x^2+\cos y}\sin y \dd x \dd y - \iint_{D} x \dd x \dd y
+			= I_a - I_b
+		\] 
+		Divide the domain into two parts by a line $y=-\arcsin x$, 
+		since $D_1$ is symmetric about y axis, and $x e^{x^2+\cos y}\sin y$ is odd
+		about y axis, so we have first integral is zero in $D_1$, and similarly also
+		get 0 in $D_2$, so we have $I_a = 0$.
+		\begin{mathfig}
+			I_a &= \iint_{D_1} \textcolor{red}{x} e^{x^2+\cos y}\sin y \dd x \dd y +
+			\iint_{D_2} x e^{x^2+\cos y}\textcolor{red}{\sin y} \dd x \dd y \\
+					&= 0 + 0 = 0 \\
+			I_b &= \iint_{D_1} \textcolor{red}{x} \dd x \dd y + \iint_{D_2} x \dd x \dd y\\
+					&= 0 + \iint_{D_2} x \dd x \dd y \\
+					&= 2 \iint_{D_3} x \dd x \dd y
+			\tikzfig
+			% axis
+			\draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};
+			\draw[->] (0,-2) -- (0,2) node[above] {$y$};
+			% domain D
+			\fill[blue!20, opacity=.8, domain=-pi/2:pi/2, samples=100, variable=\y]
+				plot ({sin(\y r)}, {\y}) -- (-1, pi/2) -- (-1, -pi/2) -- cycle;
+			% x = sin y
+			\draw[blue, domain=-pi/2:pi/2, samples=100, variable=\y] plot ({sin(\y r)}, {\y});
+			% x=-1, y= pi/2 boundary
+			\draw[blue] (-1, -pi/2) -- (-1, pi/2) -- (1, pi/2);
+			% auxiliary line y = -arcsin x
+			\draw[red, dashed, domain=0:pi/2, samples=100, variable=\y] 
+				plot ({-sin(\y r)},\y);
+			% subdomain D_1
+			\fill[cyan!20, opacity=.8, domain=0:pi/2, samples=100, variable=\y]
+				plot ({-cos(\y r)},pi/2-\y) -- plot ({sin(\y r)}, {\y}) -- cycle;
+			% half of D_2
+			\fill[orange!20, opacity=.8, domain=0:pi/2, samples=100, variable=\y]
+			(-1, 0) -- plot ({-cos(\y r)}, {pi/2-\y}) -- cycle;
+			% label
+			\node[cyan] at (0, .85) {$D_1$};
+			\node[blue] at (-0.6, 0) {$D_2$};
+			\draw[->, orange] (-0.7, 0.4) -- (-1.2, .7) node[left] {$D_3$};
+		\end{mathfig}
+		here we directly give the result of the integral, which is not the focus of this example.
+		\[
+			I = -2\iint_{D_3} x \dd x \dd y = \frac{\pi}{4}
+		\] 
+		
+	\end{answer}
+	
+\end{example}
 
 \section{Polar Coordinates}
 
@@ -177,7 +388,7 @@ over half of the domain, dont need to consider piecewise boundary conditions.
 When $f$ contains $x^2 + y^2$, we can use the polar coordinates to simplify the $\theta$
 since $x^2 + y^2 = r^2$. 
 When $f$ is homogeneous, that 
-we can
+we recommend to use polar coordinates, so that we can eliminate the $r$ and only need to integrate $\theta$.
 
 \subsection{Common Polar Regions}
 
@@ -249,6 +460,216 @@ when we have a circle with polar equation $r = \pm 2a \cos\theta$ or $r = \pm 2a
 	\item  $a$ is the distance from the center to the origin, and also the radius of the circle.
 \end{itemize}
 
+\begin{remark}
+	When given a very ugly expression of integrand function in polar coordinates
+	, we can consider change it back to cartesian coordinates. Especially when
+	the region is a some simple shape in cartesian coordinates, such as $r=a / \cos \theta$
+	is a line  $x=a$, which is much more easier to tackle than in polar coordinates.
+	Or the region is the intersection of serval shapes, and need to piecewise integrate,
+	which maybe easier to integrate in cartesian coordinates.
+
+	Besides, when the integrand function contains many trigonometric functions,
+	and lots of them was multiplied with $r$, its will become simple  $x, y$ in
+	 cartesian coordinates, we recommend to try change it back to cartesian coordinates.
+\end{remark}
+
+\subsubsection{Cardioid}
+
+\begin{center}
+\begin{tikzpicture}[scale=.5]
+	% first kind
+	\draw[->] (-5,0) -- (5,0) node[right] {$x$};
+	\draw[->] (0,-3) -- (0,3) node[above] {$y$};
+	\draw[blue, domain=0:2*pi, samples=200, variable=\t] 
+		plot (\t r:{2*(1-cos(\t r))});
+	\node[blue] at (-4, 0) [above]{$r=2a(1-\cos\theta)$};
+	\draw[cyan, domain=0:2*pi, samples=200, variable=\t] 
+		plot (\t r:{2*(1+cos(\t r))});
+	\node[cyan] at (4,0) [above]{$r=2a(1+\cos\theta)$};
+	% second kind
+	\begin{scope}[shift={(10,0)}]
+		\draw[->] (-3,0) -- (3,0) node[right] {$x$};
+		\draw[->] (0,-4.2) -- (0,4.4) node[above] {$y$};
+		\draw[blue, domain=0:2*pi, samples=200, variable=\t] 
+			plot (\t r:{2*(1-sin(\t r))});
+		\node[blue] at (0, -4) [above right]{$r=2a(1-\sin\theta)$};
+		\draw[cyan, domain=0:2*pi, samples=200, variable=\t] 
+			plot (\t r:{2*(1+sin(\t r))});
+		\node[cyan] at (0, 4) [below right]{$r=2a(1+\sin\theta)$};
+	\end{scope}
+\end{tikzpicture}
+\end{center}
+
+\section{Difficult To Plot Region}
+
+Sometimes, the region is difficult to plot, we do not need to actually correctly
+plot the region, we only need to find some important points, such as the intersection,
+start point, end point and so on, then we only need to draw a rough sketch of the region.
+
+\begin{example}
+	Let $D:|x|\leq y, (x^2+y^2)^3 \leq y^4$, try to calculate the integral
+	\[
+		I = \iint_D \frac{x+y}{\sqrt{x^2+y^2}} \dd x \dd y
+	\] 
+	\begin{answer}
+		Take special points, let $x=0$ then $y=0, 1$, let $y=0$ then $x=0$,
+		let $x=y$ then $y=\pm 1/\sqrt{8}$, and notice
+		that the boundary curve is symmetric about both $x$ and $y$ axis. So we
+		can draw a rough sketch,
+		\begin{mathfig}
+			I &= 2\iint_{D_1} \frac{y}{\sqrt{x^2+y^2}} \dd x \dd y \\
+				&= 2\int_{\pi/4}^{\pi/2} \dd \theta \int_0^{\sin^2\theta} r \sin\theta \dd r \\
+				&= \int_{\pi/4}^{\pi/2} \sin^5\theta \dd \theta 
+				= \frac{43}{120}\sqrt2
+			\tikzfig[scale=2]
+			%axis
+			\draw[->] (-1,0) -- (1,0) node[right] {$x$};
+			\draw[->] (0,-.2) -- (0,1.2) node[above] {$y$};
+			\coordinate (A) at ({1/sqrt(8)},{1/sqrt(8)});
+			\coordinate (B) at (0,1);
+			\coordinate (C) at ({-1/sqrt(8)},{1/sqrt(8)});
+			% fill region
+			\fill[blue!20, opacity=.8] (A)
+				.. controls (0.35,0.55) and (0.28,1) .. (B)
+				.. controls (-0.28,1) and (-0.35,0.55) .. (C) -- (0,0) -- cycle;
+			\draw[blue] (A)
+				.. controls (0.35,0.55) and (0.28,1) .. (B)
+				.. controls (-0.28,1) and (-0.35,0.55) .. (C);
+			% right half subdomain
+			\fill[cyan!20, opacity=.8] (A)
+				.. controls (0.35,0.55) and (0.28,1) .. (B) -- (0,0) -- cycle;
+			% |x|
+			\draw[blue, domain=-1:1] plot (\x, {abs(\x)});
+			% label
+			\node[blue] at (A) [right] {\tiny$(1/\sqrt{8}, 1/\sqrt{8})$};
+			\node[blue] at (B) [above right] {\tiny$(0, 1)$};
+			\node[blue] at (C) [left] {\tiny$(-1/\sqrt{8}, 1/\sqrt{8})$};
+
+			\node[cyan] at (0.18, 0.5) {\tiny$D_1$};
+		\end{mathfig} 
+		\begin{remark}
+			Here we give a accurate plot of the region for reference.
+			\begin{center}
+				\begin{tikzpicture}[scale=2]
+				%axis
+				\draw[->] (-1,0) -- (1,0) node[right] {$x$};
+				\draw[->] (0,-.2) -- (0,1.2) node[above] {$y$};
+				% fill region
+				\fill[blue!20, opacity=.8, domain=pi/4:3*pi/4, samples=100, variable=\t]
+					plot ({sin(\t r)^2*cos(\t r)}, {sin(\t r)^3}) -- (0,0) -- cycle;
+				% |x|
+				\draw[blue, domain=-1:1] plot (\x, {abs(\x)});
+				% boundary curve
+				% x=sin(t)^2cos(t), y=sin(t)^3
+				\draw[blue, domain=pi/4:3*pi/4, samples=100, variable=\t]
+					plot ({sin(\t r)^2*cos(\t r)}, {sin(\t r)^3});
+				\draw[blue, dashed, domain=pi/4:0, samples=100, variable=\t]
+					plot ({sin(\t r)^2*cos(\t r)}, {sin(\t r)^3}) --
+					plot ({-sin(\t r)^2*cos(\t r)}, {sin(\t r)^3});
+				\end{tikzpicture}
+			\end{center}
+		\end{remark}
+	\end{answer}
+	
+\end{example}
+
+\begin{example}
+	Let $D$ be the region bounded by the curves $x^2+y^2-xy=1, x^2+y^2-xy=2, y=\sqrt{3}x$ 
+	and $y=0$ try to calculate the integral
+	 \[
+		I = \iint_D \frac{1}{3x^2+y^2} \dd x \dd y
+	\] 
+	\begin{answer}
+		Notice that the boundary quadratic curves are symmetric about $y=x$ and  $y=-x$
+		since  $f(x,y)=f(y, x)=f(-y, -x)$ while we only care about the first quadrant.
+		Change to polar coordinates, we have
+		\[
+			\sqrt{\frac{1}{1-\sin\theta\cos\theta}} \leq r \leq
+			\sqrt{\frac{2}{1-\sin\theta\cos\theta}}
+			,\quad 0 \leq \theta \leq \frac{\pi}{3}
+		\] 
+		\begin{mathfig}
+			I &= \int_0^{\pi/3} \dd \theta \int_{\sqrt{1/(1-\sin\theta\cos\theta)}}^{\sqrt{2/(1-\sin\theta\cos\theta)}}
+			\frac{r\dd r}{3r^2\cos^2\theta + r^2\sin^2\theta} \\
+				&=\frac{\ln 2}{2}\int_0^{\pi/3} \frac{1}{3\cos^2\theta + \sin^2\theta} \dd \theta\\
+				&=\frac{\ln 2}{2}\int_0^{\pi/3} \frac{\dd(\tan\theta)}{3 + \tan^2\theta}\\
+				&= \frac{\ln 2}{2\sqrt3}\atan{\frac{\tan\theta}{\sqrt3}} \Big|_0^{\pi/3}
+				= \frac{\sqrt{3}\pi\ln 2}{24}
+			\tikzfig
+			% axis
+			\draw[->] (-2,0) -- (2,0) node[right] {$x$};
+			\draw[->] (0,-1.8) -- (0,2) node[above] {$y$};
+			% r = (1 or sqrt2)/sqrt(1-sin(t)cos(t))
+			% fill region
+			% background of full curve
+			\fill[blue!20, opacity=.3, domain=0:2*pi, samples=100, variable=\t,
+				even odd rule]
+				plot (\t r:{sqrt(2/(1-sin(\t r)*cos(\t r)))}) -- cycle
+				plot (\t r:{sqrt(1/(1-sin(\t r)*cos(\t r)))}) -- cycle;
+			% 0 to pi/3
+			\fill[blue!20, opacity=.8, domain=0:pi/3, samples=100, variable=\t,
+				even odd rule]
+				plot (\t r:{sqrt(2/(1-sin(\t r)*cos(\t r)))}) -- (1,0)
+				plot (\t r:{sqrt(1/(1-sin(\t r)*cos(\t r)))}) -- (pi/3 r:{sqrt(8/(4-sqrt(3)))});
+			% y=+-x
+			\draw[red, dashed, opacity=.5]
+				(-1.6,-1.6) -- (1.6,1.6)
+				(-1.2,1.2) -- (1.2,-1.2);
+			% boundary curves
+			%y=sqrt(3)x
+			\draw[blue, domain=0:1.2] plot (\x, {sqrt(3)*\x});
+			%curves
+			\draw[blue, domain=pi/3:0, samples=100, variable=\t]
+				plot (\t r:{sqrt(2/(1-sin(\t r)*cos(\t r)))}) --
+				plot[domain=0:pi/3] (\t r:{sqrt(1/(1-sin(\t r)*cos(\t r)))});
+		\end{mathfig}
+		
+	\end{answer}
+	
+\end{example}
+
+\section{Parameter equation bundary}
+
+When the boundary of the domain is given by a parameter equation, first consider
+boundary as $y=y(x)$ or $x=x(y)$, directly substitute to the limit of the inner integral,
+then substitute the parameter equation.
+\begin{example}
+	Let $D$ be the region bounded by the curve $x=t-\sin t, y=1-\cos t, 0 \leq t \leq 2\pi$, try to calculate the integral
+	\[
+		I = \iint_D x+2y \dd x \dd y
+	\] 
+	\begin{answer}
+		\[
+		\iint_D x \dd x \dd y = \pi \iint_D \dd x \dd y
+		\] 
+		\begin{mathfig}
+			I &= \iint_D (\pi + 2y) \dd x \dd y\\
+				&= \int_0^{2\pi} \dd x \int_0^{y(x)} (\pi + 2y) \dd y \\
+				&= \int_0^{2\pi} \left[ \pi y + y^2 \right]_0^{1-\cos t} \dd x\\
+				&= \int_0^{2\pi} \left[ \pi (1-\cos t) + (1-\cos t)^2 \right] (1-\cos t) \dd t\\
+			\tikzfig
+			% axis
+			\draw[->] (-0.5,0) -- (7,0) node[right] {$x$};
+			\draw[->] (0,-0.5) -- (0,2.5) node[above] {$y$};
+			% domain
+			\fill[blue!20, opacity=.8, domain=0:2*pi, samples=100, variable=\t]
+				plot ({\t - sin(\t r)}, {1 - cos(\t r)}) -- (6.28,0) -- (0,0) -- cycle;
+			% boundary curve
+			\draw[blue, domain=0:2*pi, samples=100, variable=\t] plot ({\t - sin(\t r)}, {1 - cos(\t r)});
+			\node at (2*pi, 0) [below] {$2\pi$};
+			% x=pi
+			\draw[dashed] (pi,0) -- (pi,2) node[at start,below] {$\pi$};
+			% y=2
+			\draw[dashed] (0,2) -- (pi,2) node[at start,left] {$2$};
+		\end{mathfig}
+		Here we directly give the result of the integral,
+		\[
+		I = 3\pi^2 + 5\pi
+		\] 
+	\end{answer}
+	
+\end{example}
+
 \section{Coordinate Transformation}
 
 Let $x = x(u, v)$ and $y = y(u, v)$ be a transformation from $(u, v)$ to $(x, y)$,
@@ -270,6 +691,56 @@ where $J$ is the Jacobian determinant of the transformation, defined as
 	domain $D'$ is the region in the $uv$ plane that corresponds to the original region $D$ in the $xy$ plane
 \end{remark}
 
+\begin{example}
+	Let $D$ be the region bounded by the curves $xy=1, xy=2, y=x, y=4x$ in the first
+	quadrant, try to calculate the integral
+	\[
+	I = \iint_D xy \dd x \dd y
+	\] 
+	\begin{answer}
+		Let $u=xy, v=y/x$, then we have
+		\[
+			x = \sqrt{\frac{u}{v}}, y = \sqrt{uv}
+		\] 
+		then we have
+		\[
+			J = 		\begin{vmatrix}
+				\frac{1}{2\sqrt{uv}} & -\frac{\sqrt{u}}{2v^{3/2}} \\
+				\frac{\sqrt{v}}{2\sqrt{u}} & \frac{\sqrt{u}}{2\sqrt{v}}
+			\end{vmatrix} = \frac{1}{2v}
+		\] 
+		The new domain $D'$ is bounded by the curves $u=1, u=2, v=1, v=4$, so we have
+		\[
+			I = \iint_{D'} u \left| \frac{1}{2v} \right| \dd u \dd v
+			= \int_1^2 \dd u \int_1^4 \frac{u}{2v} \dd v
+			= \frac{3}{2} \ln 2
+		\]
+		
+	\end{answer}
+	
+\end{example}
+
+\begin{lemma}
+	Jacobian determinant has the following properties
+	\[
+		J(x, y) =	\frac{\partial(x, y)}{\partial(u, v)} =
+		\left( \frac{\partial(u, v)}{\partial(x, y)}\right)^{-1} = 1 / J(u, v)
+	\] 
+\end{lemma}
+
+\begin{example}
+	Use last example's transformation, we can calculate the Jacobian determinant by
+	\[
+		J(u, v) = \begin{vmatrix}
+			u_x & u_y \\
+			v_x & v_y
+		\end{vmatrix} = \begin{vmatrix}
+			y & x \\
+			-y/x^2 & 1/x
+		\end{vmatrix} = \frac{2y}{x} = 2v = 1 / J(x, y)
+	\] 
+\end{example}
+
 \section{View another variable as a constant}
 
 Sometimes, inner integral with another variable as parameter is very confusing,
@@ -287,6 +758,53 @@ hide that it maybe just a simple integral with parameter becomes a variable.
 			= \frac{\pi}{20}
 		\] 
 	\end{answer}
+\end{example}
+
+\subsection{Integral of Periodic Function}
+
+When the integrand function is periodic, we can use the property of periodic function to simplify the integral.
+\begin{lemma}
+	Let $f(x)$ be a periodic function with period $T$, then we have
+	\[
+		\int_a^{a+T} f(x) \dd x = \int_0^T f(x) \dd x
+	\]
+	The integral of a periodic function over any interval of length equal to one period T is the same.
+\end{lemma}
+
+This is very useful when the integrand function is periodic and the limits of integration
+just happen to be a(or multiple of) period, we can use this property to simplify the integral.
+
+\begin{example}
+	Let $D:0 \leq x \leq \pi, 0 \leq y \leq \pi$, try to calculate the integral
+	\[
+	I = \iint_D |\cos(x-y)| \dd x \dd y
+	\] 
+	\begin{answer}
+		Notice that $|\cos(x-y)|$ is a periodic function with period $\pi$ regarding
+		$x$ or $y$ when considering the other variable as a constant, so we have
+		\[
+			I = \int_0^{\pi} \dd x \int_0^{\pi} |\cos(x-y)| \dd y
+			= \int_0^{\pi} \dd x \int_0^{\pi} |\cos y| \dd y
+			= 2\pi
+		\] 
+		Which is much easier than dividing the integral into several parts(to tackle the
+		absolute value) and then integrate.
+	\end{answer}
+\end{example}
+
+\begin{example}
+	Let $D:0 \leq x \leq y \leq 2\pi$, try to calculate the integral
+	\[
+	I = \iint_D |\sin(x-y)| \dd x \dd y
+	\] 
+	\begin{answer}
+		Notice that $|\sin(x-y)|$ is symmetric about $x=y$, so we have
+		\[
+			I = \frac{1}{2} \int_0^{2\pi} \dd x \int_0^{2\pi} |\sin(x-y)| \dd y
+			= \frac{1}{2}\cdot 2\pi\cdot 4 = 4\pi
+		\] 
+		
+	\end{answer}	
 \end{example}
 
 \section{Change order of Iterated Integral}
@@ -327,10 +845,10 @@ or very difficult to integrate functions
 	\]
 \begin{answer}
 	\begin{mathfig}
-		I &= \int_0^{\infty} \dd x \int_{\frac{x}{2}}^x e^{-x^2} \dd y \\
-			&= \int_0^{\infty} \frac{x}{2} e^{-x^2} \dd x \\
-			&= -\frac{1}{4} \int_0^{\infty} e^{-x^2} \dd (e^{-x^2})\
-			= \frac{1}{4} \\
+			I &= \int_0^{\infty} \dd x \int_{\frac{x}{2}}^x e^{-x^2} \dd y \\
+				&= \int_0^{\infty} \frac{x}{2} e^{-x^2} \dd x \\
+				&= -\frac{1}{4} \int_0^{\infty} e^{-x^2} \dd (e^{-x^2})
+				= \frac{1}{4} \\
 	\tikzfig
 		% axis
 		\draw[->] (-0.2,0) -- (3,0) node[right] {$x$};
@@ -365,7 +883,8 @@ to \textbf{make lower limit less than upper limit.}
 		I &= -\int_0^1 \frac{\tan y}{y}\dd y \int_0^y \dd x  \\
 			&= -\int_0^1 \tan y \dd y \\
 			&= \ln \cos 1
-	\tikzfig[scale=2]
+		\tikzfig
+		\begin{scope}[scale=2]
 	% axis
 	\draw[->] (-0.2,0) -- (1.5,0) node[right] {$x$};
 	\draw[->] (0,-0.2) -- (0,1.5) node[above] {$y$};
@@ -381,9 +900,10 @@ to \textbf{make lower limit less than upper limit.}
 	\fill[blue!20] (0,0) -- (1,1) -- (0,1) -- cycle;
 	\node[blue] at (.33,.66) {$D$};
 
-	% fix y to get the limits of x
-	\draw[->, red] (0, .8) -- (.8, .8) node[right] {$x \in [0, y]$};
-	\end{mathfig}
+		% fix y to get the limits of x
+		\draw[->, red] (0, .8) -- (.8, .8) node[right] {$x \in [0, y]$};
+		\end{scope}
+		\end{mathfig}
 \end{answer}
 \end{example}
 
@@ -465,6 +985,41 @@ For inverse trigonometric functions, $\asin$ and $\acos$ has principal value ran
 To find actual inverse value, we first find the principal pos, then use
 the symmetry of the function to find the actual value.
 
+\begin{example}
+	Change the order of integration
+	\[
+		I = \int_{\pi / 2}^{\pi} \dd x \int_{\sin x}^{1} f(x, y) \dd y
+	\] 
+	\begin{answer}
+	\begin{mathfig}
+		I=\int_0^1 \dd y \int_{\pi-\asin y}^{\pi} f(x, y) \dd x
+		\tikzfig
+	% axis
+	\draw[->] (-0.2,0) -- (3.5,0) node[right] {$x$};
+	\draw[->] (0,-0.2) -- (0,1.5) node[above] {$y$};
+	% y=1
+	\draw[dashed] (0,1) -- (pi/2,1) node[pos=0, left] {$1$};
+	% x=pi/2
+	\draw[dashed] (pi/2,0) -- (pi/2,1) node[pos=0, below] {$\pi/2$};
+	% upper boundary
+	\draw[blue] (pi/2, 1) -- (pi, 1) -- (pi, 0) node[below] {$\pi$};
+	% lower boundary
+	\draw[blue, samples=100, dashed] plot[domain=0:pi/2] (\x, {sin(\x r)});
+	\draw[blue, samples=100] plot[domain=pi/2:pi] (\x, {sin(\x r)});
+	% domain
+	\fill[blue!20, opacity=.8, domain=pi/2:pi, samples=100, variable=\x]
+		plot (\x, {sin(\x r)}) -- (pi, 1) -- (pi/2, 1) -- cycle;
+	% fix y to get the limits of x
+	\draw[->, red] (2*pi/3, {sqrt(3)/2}) -- (pi, {sqrt(3)/2}) 
+		node[right] {$x \in [\pi-\arcsin y, \pi]$};
+	% y=sqrt(3)/2
+	\draw[green!60!black] (pi/3, {sqrt(3)/2}) -- (2*pi/3, {sqrt(3)/2});
+	\draw[dashed, green!60!black] (pi/3, {sqrt(3)/2}) -- (pi/3, 0) node[above left] {\tiny$\asin y$};
+	\draw[dashed, green!60!black] (2*pi/3, {sqrt(3)/2}) -- (2*pi/3, 0) node[above right] {\tiny$\pi-\asin y$};
+	\end{mathfig}
+	\end{answer}
+\end{example}
+
 \subsection{Change of order in polar coordinates}
 
 When changing the order of integration in polar coordinates, in order to determine
@@ -490,9 +1045,8 @@ which is similar to the $xOy$ plane.
 			I &= \int_0^{\pi} \dd r \int_0^{2r} \theta^2 e^{r^2} \dd \theta
 			 = \int_0^{\pi} e^{r^2} \dd r \frac{1}{3} (2r)^3
 			 = \frac{8}{3} \int_0^{\pi} r^3 e^{r^2} \dd r
-			  = \frac{4}{3} e^{\pi^2} (\pi^2 - 1) + \frac{4}{3}
-			 
-		\end{aligned}
+				  = \frac{4}{3} e^{\pi^2} (\pi^2 - 1) + \frac{4}{3}
+			\end{aligned}
 	\] 
 \begin{center}
 %Method 1
@@ -536,5 +1090,8 @@ which is similar to the $xOy$ plane.
 \end{answer}
 \end{example}
 	
+\begin{tikzpicture}
+	
+\end{tikzpicture}
 
 \end{document}
