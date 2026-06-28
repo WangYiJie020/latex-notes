@@ -11,7 +11,8 @@
 \ifoverview@aiv
   \RequirePackage[a4paper, margin={.5in,1in}]{geometry}
 \else
-  \RequirePackage[paperwidth=190mm,paperheight=330mm, margin={.5in,.6in}]{geometry}
+  \RequirePackage[a4paper, margin={.5in,1in}]{geometry}
+  % \RequirePackage[paperwidth=190mm,paperheight=330mm, margin={.5in,.6in}]{geometry}
 \fi
 
 \RequirePackage{amsmath}
