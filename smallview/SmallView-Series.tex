@@ -1,0 +1,287 @@
+\documentclass{overview}
+\title{Calculus Overview - Series}
+
+\newcommand{\sumOInf}{\sum_{n=0}^{\infty}}
+
+\begin{document}
+\maketitle
+
+\section{Convergence}
+
+\begin{lemma}[Abel Transformation]
+	Let $\{a_n\}$ and $\{b_n\}$ be two sequences, and $A_n = \sum_{k=0}^{n} a_k$, then
+	\[
+		\sum_{n=0}^{N} a_n b_n = A_N b_N - \sum_{n=0}^{N-1} A_n (b_{n+1} - b_n),
+	\]
+	\begin{remark}
+		A simple way to remember this is to think of the summation as a discrete version
+		of integration by parts.
+		\[
+		\sum b_n \Delta A_n = A_n b_n - \sum A_n \Delta b_n
+		\] 
+	\end{remark}
+\end{lemma}
+\begin{theorem}[Abel's Theorem for power series]
+	If the power series $\sum_{n=0}^{\infty} a_n x^n$ converges at $x = x_0$, then
+	it absolutely converges for all $x$ such that $|x| < |x_0|$.
+	and if it diverges at $x = x_0$, then it diverges for all $x$ such that $|x| > |x_0|$.
+\end{theorem}
+\begin{proof}
+	We first prove the first part. Let $b_n=a_nx_0^n$ then $\sum_{n=0}^{\infty} b_n$ converges,
+		implying that $\{b_n\}$ is bounded, i.e. there exists $M>0$ such that $|b_n|\leq M$ for all $n$.
+	Let $x=tx_0$, then $|t|<1$ and we have
+	\[
+		\sum_{n=0}^{\infty} |a_n x^n| = \sum_{n=0}^{\infty} |b_n| |t|^n 
+		\leq M \sum_{n=0}^{\infty} |t|^n
+	\]
+	which is a convergent geometric series since $|t|<1$. 
+	Hence $\sum_{n=0}^{\infty} a_n x^n$ converges absolutely for $|x|<|x_0|$.
+	
+	The second part can be easily proved by contraposition.
+\end{proof}
+
+\begin{theorem}[Inference]
+	If a power series $\sum_{n=0}^{\infty} a_n x^n$
+	\begin{itemize}
+	\item converges at some point $x_0$, but
+	diverges at $-x_0$ then the radius of convergence is exactly $|x_0|$.
+	\item conditionally converges at some point
+	$x_0$, then the radius of convergence is exactly $|x_0|$.
+	\end{itemize}
+	\begin{remark}
+		For general power series $\sum_{n=0}^{\infty} a_n (x-x_0)^n$, the conclusion
+		is become the end points of the convergence interval instead of directly the radius.
+	\end{remark}
+\end{theorem}
+
+\begin{example}
+	If the series $\sum_{n=0}^{\infty} a_n (x+2)^n$ converges at $x=0$ and diverges at
+	 $x=-4$, then the radius of convergence is $2$.
+\end{example}
+
+\begin{example}
+	If the series $\sum_{n=0}^{\infty} a_n$ is conditionally convergent, try to 
+	determine $x=\sqrt{3}$ and $x=-\sqrt{3}$ are in the interval of convergence for
+	$\sum_{n=0}^{\infty} a_n (x-1)^n$ or not.
+	\begin{answer}
+		The conditional convergence tells us that the series $\sum_{n=0}^{\infty} a_nx^n$
+		has radius of convergence $1$, so the series $\sum_{n=0}^{\infty} a_n (x-1)^n$ has
+		convergence interval $[0,2]$. Hence $x=\sqrt{3}$ is in the interval of convergence, but
+		$x=-\sqrt{3}$ is not.
+	\end{answer}
+\end{example}
+
+
+\begin{theorem}[d'Alembert's Ratio Test]
+	Given a series $\sum_{n=0}^{\infty} a_n$, if the limit
+	\[
+		L=\lim_{n\to\infty} \left| \frac{a_{n+1}}{a_n} \right|
+	\] 
+	exists, then
+	\begin{itemize}
+		\item If $L<1$, then the series converges absolutely.
+		\item If $L>1$, then the series diverges.
+		\item If $L=1$, then the test is inconclusive.
+	\end{itemize}
+\end{theorem}
+\begin{remark}
+	Usually used for series with factorials $n!$ or exponentials $a^n$.
+\end{remark}
+\begin{theorem}[Cauchy's Root Test]
+	Given a series $\sum_{n=0}^{\infty} a_n$, if the limit
+	\[
+		L=\lim_{n\to\infty} \sqrt[n]{|a_n|}
+	\] 
+	exists, then
+	\begin{itemize}
+		\item If $L<1$, then the series converges absolutely.
+		\item If $L>1$, then the series diverges.
+		\item If $L=1$, then the test is inconclusive.
+	\end{itemize}
+\end{theorem}
+\begin{remark}
+	Usually used for complex power with $n$ in the exponent like $(n / n+1)^n$.
+\end{remark}
+
+\subsection{Properties of Convergent Sets}
+The convergent set of linear combinations of convergent series is the intersection
+of the convergent sets of the individual series.
+
+\begin{theorem}[Cauchy-Hadamard]
+	\label{thm:cauchy-hadamard}
+	The radius of convergence $R$ of the power series $\sum_{n=0}^{\infty} a_n x^n$ is given by
+	\[
+		\frac{1}{R} = \limsup_{n\to\infty} \sqrt[n]{|a_n|}
+	\] 
+\end{theorem}
+\begin{theorem}
+	Given a power series $\sum_{n=0}^{\infty} a_n x^n$ with radius of convergence $R$, then
+	muplying the series coefficient by any polynomial $P(n)$ does not change the radius of convergence.
+\end{theorem}
+\begin{proof}
+	In fact multiplying the series coefficient by
+	any good function $f(n) = \exp(o(n))$ will not change the radius of convergence,
+	since
+	\[
+		\limsup_{n\to\infty} \sqrt[n]{|f(n)|} = \limsup_{n\to\infty} \exp(o(n)/n) = 1
+	\] 
+	by \ref{thm:cauchy-hadamard}, we have new radius of convergence $R'$ given by
+	\[
+		\frac{1}{R'} = \limsup_{n\to\infty} \sqrt[n]{|P(n) a_n|} 
+		= \limsup_{n\to\infty} \sqrt[n]{|P(n)|} \cdot \limsup_{n\to\infty} \sqrt[n]{|a_n|}
+		= \frac{1}{R}
+	\] 
+\end{proof}
+\begin{remark}
+	That means when determining the radius of convergence for power series, we can
+	ignore any $\exp(o(n))$ factors.
+\end{remark}
+\begin{example}
+	Knowning that the series $\sumOInf a_n x^n$ has radius of convergence $3$ then
+	the series $\sumOInf n a_n (x-1)^{n+1}$ has radius of convergence $3$ as well.
+\end{example}
+
+\begin{theorem}[Subsequence Convergence]
+	If a series $\sumOInf a_n x^n$ has radius of convergence $R$, then any subsequence
+	power series $\sumOInf a_{n_k} x^{n_k}$ has radius of convergence at least $R$.
+\begin{proof}
+	For any subsequence $\{n_k\}$, we have (by the definition of $\limsup$)
+	\[
+		\limsup_{k\to\infty} |a_{n_k}|^{1/n_k} \leq \limsup_{n\to\infty} |a_n|^{1/n}
+	\] 
+	then \ref{thm:cauchy-hadamard} finishes the proof.
+\end{proof}
+\end{theorem}
+\begin{remark}
+	Be careful that this theorem requires the exponents of $x$ has the same
+	subsequence as the coefficients.
+\end{remark}
+
+\section{Taylor Series}
+
+\[
+	e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} 
+	= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+\] 
+\[
+	(1+x)^{\alpha} = \sum_{n=0}^{\infty} \binom{\alpha}{n} x^n
+	= \sum_{n=0}^{\infty} \frac{\alpha(\alpha-1)\cdots(\alpha-n+1)}{n!} x^n
+	= 1 + \alpha x + \frac{\alpha(\alpha-1)}{2!} x^2 + \cdots
+\] 
+\[
+	\sin x = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} x^{2n+1}
+	= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots
+\] 
+\[
+	\cos x = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n}
+	= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots
+\] 
+\subsection{Convert Basic Series to Other Series}
+The basic series geometric series
+\begin{equation}\label{eq:geometric-series}
+	\frac{1}{1-x} = \sum_{n=0}^{\infty} x^n
+\end{equation}
+take the integral of both sides gives
+\begin{equation} \label{eq:log-series-neg}
+	-\ln(1-x) = \sum_{n=0}^{\infty} \frac{x^{n+1}}{n+1} =
+ \sum_{n=1}^{\infty} \frac{x^n}{n}
+\end{equation}
+\begin{equation} \label{eq:log-series}
+	\ln(1+x) = \sum_{n=1}^{\infty} \frac{(-1)^{\textcolor{red}{n-1}}}{n} x^n
+	= x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \cdots
+	\quad x \in (-1,1]
+\end{equation}
+calculating \eqref{eq:log-series} add \eqref{eq:log-series-neg} gives
+\begin{equation}
+	\sum_{n=1}^{\infty} \frac{x^{2n-1}}{2n-1} = \frac{1}{2}\left(
+		\sum_{n=1}^{\infty} \frac{x^n}{n} + \sum_{n=1}^{\infty} \frac{(-x)^{n-1}}{n}
+	\right) 
+	= \frac{-\ln(1-x) + \ln(1+x)}{2}
+	= \frac{1}{2} \ln\left(\frac{1+x}{1-x}\right)
+\end{equation}
+extract the even terms of \eqref{eq:log-series-neg} gives
+\begin{equation}
+	-\frac{1}{2} \ln(1-x^2) =
+	\frac{1}{2} \sum_{n=1}^{\infty} \frac{(x^2)^n}{n}
+	= \sum_{n=1}^{\infty} \frac{x^{2n}}{2n}
+\end{equation}
+substituting $x$ with $-x^2$ in \eqref{eq:geometric-series} gives
+\begin{equation}
+	\frac{1}{1+x^2} = \sum_{n=0}^{\infty} (-1)^n x^{2n}
+\end{equation}
+take the integral of both sides gives
+\begin{equation}
+	\atan x = \sum_{n=0}^{\infty} (-1)^n \frac{x^{2n+1}}{2n+1}
+	= \sum_{n=1}^{\infty}  (-1)^{n-1}\frac{x^{2n-1}}{2n-1}
+\end{equation}
+take the derivative of both sides of \eqref{eq:geometric-series} gives
+\begin{equation}
+	\frac{1}{(1-x)^2} = \sum_{n=0}^{\infty} (n+1) x^n = \sum_{n=1}^{\infty} n x^{n-1}
+\end{equation}
+take the derivative of both sides again gives
+\begin{equation}
+	\frac{2}{(1-x)^3} = \sum_{n=0}^{\infty} (n+1)(n+2) x^n = \sum_{n=2}^{\infty} n(n-1) x^{n-2}
+\end{equation}
+
+\subsection{Manipulate and complete series terms to get known series}
+
+In order to get a known series list above, we notice that most of the known series
+require the series terms has the form of
+\[
+	\frac{x^\square}{\square} \quad
+	\text{or} \quad
+	\frac{x^\square}{\square!}
+\] 
+which we call it the denominator form. Or another form
+\[
+	n^{\underline{k}} x^{n-k}
+\] 
+where $n^{\underline{k}} = n(n-1)(n-2)\cdots(n-k+1)$ is the falling factorial, 
+which we call it the numerator form.
+
+We want to manipulate the series terms to get close to the known series form.
+For example, like rearranging
+\[
+	\begin{aligned}
+		\sum (an^2 + bn + c) x^n 
+		&= \sum (a n(n-1) + (a+b)n + c) x^n\\
+		&= \frac{2ax^2}{(1-x)^3} + \frac{(a+b)x}{(1-x)^2} + \frac{c}{1-x}
+	\end{aligned}
+\] 
+\begin{example}
+	Find the sum function of the series
+	\[
+		\sum_{n=1}^{\infty} \frac{1}{n 2^n} x^{n+1}
+	\] 
+	\begin{answer}
+		\[
+			S(x) = x \sum_{n=1}^{\infty} \frac{1}{n} \left(\frac{x}{2}\right)^n
+			= -x \ln\left(1-\frac{x}{2}\right)
+		\] 
+	\end{answer}
+\end{example}
+\begin{example}
+	Find the value of the series
+	\[
+		\sum_{n=2}^{\infty} \frac{1}{(n^2-1) 2^n}
+	\]
+	\begin{answer}
+		\[
+			\begin{aligned}
+				S(x) &= \sum_{n=2}^{\infty} \frac{1}{n^2-1} x^n 
+				= \frac{1}{2} \sum_{n=2}^{\infty} \frac{1}{n-1} x^n
+				- \frac{1}{2} \sum_{n=2}^{\infty} \frac{1}{n+1} x^n\\
+						 &= \frac{x}{2} \sum_{n=1}^{\infty} \frac{x^{n}}{n}
+						 - \frac{1}{2x} \sum_{n=3}^{\infty} \frac{x^{n}}{n}\\
+						 &= -\frac{x}{2} \ln(1-x) - \frac{1}{2x} \left(-\ln(1-x) - x - \frac{x^2}{2}\right)\\
+						 &= \frac{1-x^2}{2x} \ln(1-x) + \frac{x}{4} + \frac{1}{2}
+			\end{aligned}
+		\] 
+		substituting $x=\frac{1}{2}$ gives
+		\[
+			S\left(\frac{1}{2}\right) = \frac{5}{8} -\frac{3}{4} \ln 2
+		\]
+	\end{answer}
+\end{example}
+
+\end{document}
