@@ -3,11 +3,192 @@
 
 \newcommand{\Poisson}{\text{Poisson}}
 \newcommand{\Binomial}{\text{Bin}}
+\newcommand{\ChiSquare}{\chi^2}
+\newcommand{\Exponential}{\text{Exp}}
 
 \begin{document}
 \maketitle
 
+\section{Probability}
+
+\subsection{Concepts}
+
+The probability of an certain event $A$ happened is $1$, but an
+event with probability $1$ does not necessarily mean that it will happen.
+The probability of an impossible event is $0$, but an event with probability $0$ does
+not necessarily mean that it will not happen.
+\begin{example}
+	Let $A$ be the event that a randomly chosen real number from the interval
+	$[0, 1]$ is irrational. Then $P(A) = 1$, but it is possible to choose a rational
+	number from the interval $[0, 1]$.
+	And let $B=\overline{A}$ be the event that a randomly chosen real number from the interval,
+	then $P(B) = 0$, but it is possible to choose a rational number from the interval $[0, 1]$.
+\end{example}
+
+The events set property can imply the Probability relationships, but
+the inverse is not true. We can not conclude events set property from the Probability
+relationships.
+
+\begin{example}
+	Knowing that events $A$ and $B$ satisfy $P(B|A)=1$, we can not conclude that
+	$A \subseteq B$. 
+
+	Let $\Omega=[0,1]$ and $A=[0,1], B=[0,1]\backslash \{.5\}$. Then we have $P(B|A)=1$, but
+	$A \not\subseteq B$.
+\end{example}
+
+\begin{theorem}
+0 Probability and 1 Probability events are independent of any other events.
+\begin{proof}
+	Let $A$ be an event with $P(A)=0$, then for any event $B$,
+	\[
+		P(A \cap B) \leq P(A) = 0 \implies P(A  B) = 0 = P(A)P(B)
+	\]
+	Let $A$ be an event with $P(A)=1$, then for any event $B$,
+	\[
+		B = (A \cap B) \cup (\overline{A} \cap B) \implies P(B) = P(A \cap B) + P(\overline{A} \cap B)
+	\]
+	since $P(\overline{A}) = 0$, we have
+	\[
+		P(A \cap B) = P(B) = P(A)P(B)
+	\] 
+\end{proof}
+\end{theorem}
+
+\begin{theorem}
+	If $A$ and $B$ are independent and exclusive events, then $P(A)=0$ or $P(B)=0$.
+	\begin{proof}
+		\[
+			P(AB)=P(A)P(B)=0 \implies P(A)=0 \text{ or } P(B)=0
+		\] 
+	\end{proof}
+\end{theorem}
+\begin{remark}
+	Inversely, if $P(A)>0$ and $P(B)>0$, then $A$ and $B$ can not be both independent and exclusive.
+\end{remark}
+
+
+\subsection{Equations}
+\begin{theorem}
+	\[
+		A B = \overline{A} \cap \overline{B} \iff B = \overline{A}
+	\] 
+	\begin{proof}
+		\[
+			\begin{aligned}
+				A B = \overline{A} \cap \overline{B} 
+				&\iff AB \cup A \overline{B} = (\overline{A} \cap \overline{B}) \cup A \overline{B} \\
+				&\iff A(B \cup \overline{B}) = (\overline{A} \cup A) \cap \overline{B} \\
+				&\iff A = \overline{B}
+			\end{aligned}
+		\]
+	\end{proof}
+\end{theorem}
+
+\subsection{Inequalities}
+
+\[
+P(A) \geq P(AB) \quad P(B) \geq P(AB)
+\] 
+or equivalently,
+\[
+	P(AB) \leq \min\{P(A), P(B)\}
+\] 
+\[
+	P(AB) \leq \frac{P(A) + P(B)}{2}
+\] 
+\[ P(AB) = P(A) + P(B) - P(A \cup B) \geq P(A) + P(B) - 1 \] 
+
 \section{Distributions}
+
+\subsection{Distribution Functions}
+
+Given a random variable \( X \) with PDF \( f(x) \), and CDF \( F(x) \) .
+\[
+	P(X<x) = F(x^{-}) \quad P(X=x) = F(x) - F(x^{-})
+\] 
+
+\subsubsection{Transformation of Distribution Functions}
+
+\begin{theorem}
+The linear combination of CDFs(or PDFs)
+\[ \sum_{i=1}^{n} a_i F_i(x) \]
+is also a CDF(or PDFs) if and only if 
+\[
+	\sum_{i=1}^{n} a_i = 1 \quad a_i \geq 0
+\]
+\end{theorem}
+
+\begin{theorem}
+The multiplication of CDFs $F_1F_2$ is also a CDF, while the multiplication of PDFs
+ $f_1f_2$ is not necessarily a PDF.
+\end{theorem}
+
+\begin{theorem}
+	Given a CDF \( F(x) ,  k \in \mathbb{Z}^{+}\) then
+	\[
+		F(ax^{2k-1}+b) \text{ is a CDF} \iff a>0
+	\] 
+	while
+	\[
+		F(ax^{2k}+b) \text{ never be a CDF for any } a
+	\] 
+	\begin{proof}
+		For the first case, when a is positive, the new function keeps the monotonicity
+		and right continuity of the original CDF, and the limits at infinity are preserved.
+		So the new function is also a CDF.
+		But when a is negative, the new function reverses the monotonicity of the original CDF,
+		violating the property of CDF.
+		For the second case, we have
+		\[
+			F(ax^{2k}+b) \to 1 \text{ as } x \to \infty, \quad F(ax^{2k}+b) \to 1 \text{ as } x \to -\infty
+		\] 
+		violating the property of CDF.
+	\end{proof}
+\end{theorem}
+\begin{theorem}
+	Given a PDF \( f(x) \) then
+	\[
+		f(ax+b) \text{ is also a PDF} \iff |a|=1
+	\] 
+\end{theorem}
+
+\begin{theorem}
+	Given a CDF \( F(x) \) then
+	\[
+		1-F(-x) \text{ is also a CDF} \iff X \text{ is continuous rv}
+	\] 
+\end{theorem}
+
+Given two pdf \( f_1 \) and \( f_2 \), and their corresponding CDFs \( F_1 \) and \( F_2 \), then
+\begin{theorem}
+	\[
+		f_1F_2 + f_2F_1 \text{ is also a PDF}
+	\] 
+	\begin{proof}
+		Here is a not rigorous proof using probability method.
+		Let  $X_1 \sim f_1, X_2 \sim f_2$ be two independent random variables, consider a new random variable
+		\[
+		Y = \max(X_1, X_2)
+		\] 
+		Calculate the CDF of $Y$
+		\[
+		F_Y(y) = P(Y \leq y) = P(X_1 \leq y, X_2 \leq y) = P(X_1 \leq y)P(X_2 \leq y) = F_1(y)F_2(y)
+		\] 
+		Take the derivative to get the PDF of $Y$
+		\[
+		f_Y(y) = \frac{\dd}{\dd y} F_Y(y) = f_1(y)F_2(y) + f_2(y)F_1(y)
+		\]
+		hence, $f_1F_2 + f_2F_1$ is also a PDF.
+	\end{proof}
+\end{theorem}
+\begin{theorem}
+	\[
+		2f_1F_1 \text{ and } 2f_2F_2 \text{ are also PDFs}
+	\] 
+	
+\end{theorem}
+
 
 \subsection{Concepts}
 
@@ -58,6 +239,14 @@ In other words, $z_\alpha$ is the $100(1-\alpha)$-th percentile of the standard 
 	\end{axis}
 \end{tikzpicture}
 \end{center}
+
+\subsubsection{Memoryless Property}
+A random variable \( X \) is said to have the memoryless property if for all \( s, t \geq 0 \),
+\[
+	P(X > s + t | X > s) = P(X > t)
+\]
+
+Typical examples of memoryless distributions are the geometric distribution and the exponential distribution.
 
 \subsection{Binomial Distribution}
 Binomial distribution is denoted by \( \Binomial(n, p) \), where \( n \) is the number of trials and \( p \) is the probability of success in each trial. The random variable \( X \) represents the number of successes in \( n \) independent Bernoulli trials.
@@ -164,6 +353,9 @@ probability of success \( p \). The PMF is given by
 \] 
 The expected value is \( \frac{r}{p} \)
 and the variance is \( \frac{r(1-p)}{p^2} \)
+
+Especially, when \( r=1 \), the negative binomial distribution reduces to the geometric distribution.
+
 \subsection{Normal Distribution}
 Normal distribution is denoted by \( N(\mu, \sigma^2) \), where \( \mu \) is the mean and \( \sigma^2 \) is the variance.
 The PDF is given by
@@ -185,10 +377,46 @@ The PDF is given by
 	\] 
 \end{proof}
 
+We define the standard normal distribution CDF as
+\[
+	\Phi(z) = \int_{-\infty}^{z} \frac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt
+\] 
+has the following properties:
+\begin{itemize}
+	\item $\Phi(-z) = 1 - \Phi(z)$ or equivalently, $\Phi(z) + \Phi(-z) = 1$. Besides,
+		\[
+			\Phi(a) + \Phi(b) 
+			\begin{cases}
+				=1 & a+b=0 \\
+				>1 & a+b>0 \\
+				<1 & a+b<0
+			\end{cases}
+		\] 
+	\item $\Phi(0) = 0.5$
+	\item $P(|X|\leq x) = 2\Phi(x) - 1$
+		\begin{proof}
+			\[
+			P(-x\leq X \leq x) = \Phi(x) - \Phi(-x) = \Phi(x) - (1-\Phi(x)) = 2\Phi(x) - 1
+			\] 
+		\end{proof}
+\end{itemize}
+
 \subsubsection{Linearity of Normal Distribution}
-Given two \textbf{independent} normal random variables \( X \sim N(\mu_1, \sigma_1^2) \) and 
-\( Y \sim N(\mu_2, \sigma_2^2) \), the linear combination \( Z = aX + bY + c \) is
-also normally distributed, with mean \( a\mu_1 + b\mu_2 + c \) and variance \( a^2\sigma_1^2 + b^2\sigma_2^2 \).
+If $X_1, X_2, \ldots, X_n$ are independent normal random variables (with possibly different means and variances), then
+any linear combination of them is also normally distributed.
+
+\subsection{Lognormal Distribution}
+The lognormal distribution rv \( X \) is defined as \( X = e^Y \), where \( Y \) is
+a normal distribution rv with mean \( \mu \) and variance \( \sigma^2 \). 
+
+The expected value and variance of lognormal distribution are given by
+\[
+	E[X] = e^{\mu + \frac{\sigma^2}{2}}, \quad V[X] = (e^{\sigma^2} - 1) e^{2\mu + \sigma^2}
+\] 
+and CDF is given by
+\[
+	F_X(x) = P(X \leq x) = P(Y \leq \ln x) = \Phi\left(\frac{\ln x - \mu}{\sigma}\right)
+\] 
 
 \subsection{Uniform Distribution}
 The uniform distribution rv \( X \) in the interval \( [A, B] \) 
@@ -235,6 +463,33 @@ Taking the derivative of the CDF, we get the PDF of $T$:
 	f_T(t) = \frac{d}{dt} F_T(t) = \lambda e^{-\lambda t}, \quad t \geq 0
 \] 
 
+\subsection{Chi-Square Distribution}
+The chi-square distribution rv \( X \) with \( k \) degrees of freedom is defined
+as the sum of the squares of \( k \) independent standard normal random variables:
+\[
+	X = \sum_{i=1}^{k} Z_i^2, \quad Z_i \sim N(0, 1)
+\] 
+
+\subsection{Superposition of Distributions Parameter}
+If $X$ and $Y$ are two independent random variables with the same distribution, then
+
+\begin{itemize}
+	\item $X\sim \Binomial(m, p), Y\sim \Binomial(n, p) \implies X+Y \sim \Binomial(m+n, p)$
+	\item $X\sim \Poisson(\mu_1), Y\sim \Poisson(\mu_2) \implies X+Y \sim \Poisson(\mu_1+\mu_2)$
+	\item $X\sim N(\mu_1, \sigma_1^2), Y\sim N(\mu_2, \sigma_2^2) \implies X+Y \sim N(\mu_1+\mu_2, \sigma_1^2+\sigma_2^2)$
+	\item $X\sim \ChiSquare(m), Y\sim \ChiSquare(n) \implies X+Y \sim \ChiSquare(m+n)$
+	\item $X\sim \Exponential(\lambda_1), Y\sim \Exponential(\lambda_2) \implies \min\{X, Y\} \sim \Exponential(\lambda_1+\lambda_2)$
+\end{itemize}
+
+\begin{proof}
+	Here we only prove the last one, the others is very easy to prove.
+	\[
+		F_{\min} = P(\min\{X, Y\} \leq t) 
+		= 1 - P(X>t, Y>t) = 1 - P(X>t)P(Y>t) = 1 - e^{-(\lambda_1 + \lambda_2)t}
+	\] 
+	compare to the CDF of exponential distribution finish the proof.
+\end{proof}
+
 \section{Transformations of Random Variables}
 
 Given a random variable \( X \) with PDF \( f_X(x) \), and a transformation
@@ -251,4 +506,35 @@ Jacobian/change of variable method. Let \( h = g^{-1} \) be the inverse function
 	f_Y(y) = f_X(h(y)) \left| \frac{dh(y)}{dy} \right|
 \] 
 
+\begin{theorem}[Probability Integral Transformation]
+	Given a continuous random variable \( X \) with CDF \( F(x) \), then the random variable
+	\[
+		Y = F(X)
+	\] 
+	has a uniform distribution on the interval \( [0, 1] \).
+	\begin{proof}
+		\[
+			F_Y(y) = P(Y \leq y) = P(F(X) \leq y) = P(X \leq F^{-1}(y)) = F(F^{-1}(y)) = y
+		\] 
+		for $0<y<1$, hence $Y$ has a uniform distribution on the interval $[0, 1]$.
+	\end{proof}
+\end{theorem}
+\begin{example}
+	Let $X$ be a continuous random variable with PDF
+	\[
+	f(x) = \begin{cases}
+		\frac{x}{2}, & 0<x<2 \\
+		0, & \text{otherwise}
+	\end{cases}
+	\] 
+	Try to find $P(F(X)>E(X)-1)$
+	\begin{answer}
+		Let $Y=F(X)$, then $Y$ has a uniform distribution on the interval $[0, 1]$.
+		Since $E(X)=\frac{4}{3}$, we have
+		\[
+		P(F(X)>E(X)-1) = P(Y>1/3) = 1-P(Y\leq 1/3) = 1-1/3 = 2/3
+		\]
+	\end{answer}
+	
+\end{example}
 \end{document}
