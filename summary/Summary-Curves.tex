@@ -1,0 +1,74 @@
+\documentclass{template}
+\title{Summary - Curves}
+
+\begin{document}
+\maketitle
+
+\section{Curvature}
+
+Given a curve $\gamma: I \to \mathbb{R}^n$, the curvature $\kappa$ at a point is defined as:
+\[
+	\kappa = \left\| \frac{\dd \boldsymbol{T}}{\dd s} \right\|
+\] 
+where $\boldsymbol{T}$ is the unit tangent vector and $s$ is the arc length parameter.
+
+\begin{theorem}
+	If $\gamma$ is a curve defined by a smooth function $\boldsymbol{r}(t)$, then
+	in 3D space, the curvature $\kappa$ can also be computed using the formula:
+	\[
+		\kappa = \frac{\|\boldsymbol{r}''(t) \times \boldsymbol{r}'(t)\|}{\|\boldsymbol{r}'(t)\|^3}
+	\] 
+	\begin{proof}
+		Here is a not rigorous proof, by the meaning of the curvature and physically.
+		\[
+			\boldsymbol{v} = \boldsymbol{r}'(t), \quad \boldsymbol{a} = \boldsymbol{r}''(t)
+		\] 
+		we can decompose the acceleration vector along the tangent and normal directions:
+		\[
+			\boldsymbol{a} = \boldsymbol{a}_n + \boldsymbol{a}_t
+			= a_n \hat{\boldsymbol{n}} + a_t \hat{\boldsymbol{\tau}}
+		\] 
+		hence
+		\[
+			a_n = \boldsymbol{a} \times \hat{\boldsymbol{\tau}}
+		\] 
+		since
+		\[
+			\hat{\boldsymbol{\tau}} = \frac{\boldsymbol{v}}{\|\boldsymbol{v}\|}
+		\] 
+		we have
+		\[
+			\rho = \frac{\|\boldsymbol{v}\|^2}{\|\boldsymbol{a} \times \hat{\boldsymbol{\tau}}\|}
+			= \frac{\|\boldsymbol{v}\|^3}{\|\boldsymbol{a} \times \boldsymbol{v}\|}
+		\] 
+		which is the reciprocal of the curvature $\kappa$.
+		
+	\end{proof}
+\end{theorem}
+
+\begin{theorem}[Curvature for Plane Cartesian Parameterized Curves]
+	\[
+		\kappa = \frac{|x'y'' - y'x''|}{(x'^2 + y'^2)^{3/2}}
+	\] 
+	\begin{proof}
+		\[
+		\|\langle x', y', 0 \rangle \times \langle x'', y'', 0 \rangle\|
+		= 
+		\begin{vmatrix} x' & y' \\ x'' & y'' \end{vmatrix}
+		\] 
+	\end{proof}
+\end{theorem}
+\begin{theorem}[Curvature for Plane Cartesian $y=f(x)$]
+	\[
+		\kappa = \frac{|y''|}{(1 + (y')^2)^{3/2}}
+	\] 
+\end{theorem}
+\begin{theorem}[Curvature for Plane Cartesian Implicit Curves $F(x,y)=0$]
+	\[
+		\kappa = \frac{|F_y^2 F_{xx} - 2 F_x F_y F_{xy} + F_x^2 F_{yy}|}{(F_x^2 + F_y^2)^{3/2}}
+	\]
+	
+\end{theorem}
+
+
+\end{document}
