@@ -1,0 +1,68 @@
+\documentclass{template}
+
+\usepackage[smartlabels]{circuitikz}
+
+\title{Summary - Electric Circuits}
+
+\begin{document}
+\maketitle
+
+\ctikzset{
+	resistors/scale=0.7,
+	bipoles/length=1.15cm
+}
+
+\begin{circuitikz}
+    % 各节点坐标
+    \coordinate (a) at (-3, 2.4);
+    \coordinate (b) at ( 3, 2.4);
+    \coordinate (c) at ( 0,-2.5);
+    \coordinate (n) at ( 0, 0.45);
+
+    % 外部三角形网络
+    \draw
+        (a) to[R, l^=$R_c$] (b)
+        (a) to[R, l^=$R_b$] (c)
+        (c) to[R, l^=$R_a$] (b);
+
+    % 内部星形网络
+    \draw
+        (a) to[R, l^=$R_1$] (n)
+        (n) to[R, l^=$R_2$] (b)
+        (n) to[R, l_=$R_3$] (c);
+
+    % 节点名称
+    \node[above left]  at (a) {$a$};
+    \node[above right] at (b) {$b$};
+    \node[below]       at (c) {$c$};
+    \node[above]       at (n) {$n$};
+\end{circuitikz}
+
+From Delta to Wye we have
+\[
+	R_{an} = \frac{R_b R_c}{R_a + R_b + R_c}
+\] 
+From Wye to Delta we have
+\[
+	R_a = R_{bn} + R_{cn} + \frac{R_{bn} R_{cn}}{R_{an}}
+\] 
+
+\section{Capacitors and Inductors}
+
+The energy stored in a capacitor is given by
+\[
+	w_C = \frac{1}{2} C V^2 = \frac{Q^2}{2C}
+\] 
+\subsection{Inductors}
+Solenoid has an inductance of
+\[
+	L=\mu \frac{N^2 A}{l}
+\] 
+where $N$ is the number of turns, $A$ is the cross-sectional area, and $l$ is
+the length of the solenoid. 
+
+\[
+	w_L = \frac{1}{2} L I^2
+\] 
+
+\end{document}
